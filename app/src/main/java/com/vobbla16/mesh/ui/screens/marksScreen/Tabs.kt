@@ -2,12 +2,13 @@ package com.vobbla16.mesh.ui.screens.marksScreen
 
 import android.annotation.SuppressLint
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import com.vobbla16.mesh.ui.screens.marksScreen.subscreens.ShowByDate
 import com.vobbla16.mesh.ui.screens.marksScreen.subscreens.ShowBySubject
+import com.vobbla16.mesh.R
+import androidx.compose.ui.res.painterResource
 
 enum class Tabs(
     val title: String,
@@ -26,7 +27,7 @@ enum class Tabs(
     @SuppressLint("NewApi")
     ShowBySubject("By subject", {
         Icon(
-            imageVector = Icons.Default.Build,
+            painter = painterResource(id = R.drawable.subject_24dp),
             contentDescription = "subject icon"
         )
     }, { ShowBySubject(it) })
