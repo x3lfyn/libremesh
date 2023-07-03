@@ -65,9 +65,9 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                 topBar = {
                     TopAppBar(title = {
                         Text(
-                            text = state.schedule?.date?.toHumanStr(
+                            text = (state.schedule?.date ?: localDateTimeNow().date).toHumanStr(
                                 LocalConfiguration.current
-                            ) ?: ""
+                            )
                         )
                     }, actions = {
                         IconButton(onClick = { vm.updateDatePickerOpened(true) }) {

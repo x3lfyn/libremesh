@@ -16,7 +16,7 @@ class LoginScreenViewModel(
     BaseViewModel<LoginScreenState, LoginScreenAction>() {
 
     override fun setInitialState() =
-        LoginScreenState(processingState = ProcessingState.WebViewStep)
+        LoginScreenState(processingState = ProcessingState.WelcomeStep)
 
     fun processCode(code: String) {
         viewModelScope.launch {
@@ -38,5 +38,13 @@ class LoginScreenViewModel(
                 }
             }.collect()
         }
+    }
+
+    fun toWebViewStep() {
+        setState { copy(processingState = ProcessingState.WebViewStep) }
+    }
+
+    fun backFromWebViewStep() {
+        setState { copy(processingState = ProcessingState.WelcomeStep) }
     }
 }

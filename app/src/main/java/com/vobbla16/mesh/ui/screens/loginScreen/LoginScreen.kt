@@ -7,9 +7,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -27,21 +34,12 @@ import com.vobbla16.mesh.common.Constants
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun LoginScreen(navController: NavController, mainVM: MainActivityViewModel) {
     val vm: LoginScreenViewModel = koinViewModel()
     val state = vm.viewState.value
-
-    LaunchedEffect(key1 = null) {
-        mainVM.updateState {
-            copy(
-                topBar = null,
-                showBottomBar = false,
-                fab = null
-            )
-        }
-    }
 
     val vmActionsScope = rememberCoroutineScope()
     LaunchedEffect(key1 = vm.action) {
@@ -69,9 +67,63 @@ fun LoginScreen(navController: NavController, mainVM: MainActivityViewModel) {
 
     Column {
         when (state.processingState) {
+            is ProcessingState.WelcomeStep -> {
+                LaunchedEffect(key1 = null) {
+                    mainVM.updateState {
+                        copy(topBar = null, showBottomBar = false, fab = null)
+                    }
+                }
+
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Welcome to libremesh",
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                    Button(onClick = { vm.toWebViewStep() }) {
+                        Text(text = "Login")
+                    }
+                }
+            }
+
             is ProcessingState.WebViewStep -> {
                 val wvState =
                     rememberWebViewState(url = Constants.MOSRU_OAUTH_URL)
+
+                LaunchedEffect(key1 = wvState) {
+                    mainVM.updateState {
+                        copy(
+                            topBar = {
+                                TopAppBar(
+                                    title = {
+                                        Column {
+                                            Text(text = wvState.pageTitle ?: "Loading...", maxLines = 1)
+                                            Text(
+                                                text = wvState.lastLoadedUrl ?: "Loading...",
+                                                style = MaterialTheme.typography.titleMedium,
+                                                maxLines = 1
+                                            )
+                                        }
+                                    },
+                                    navigationIcon = {
+                                        IconButton(onClick = { vm.backFromWebViewStep() }) {
+                                            Icon(
+                                                imageVector = Icons.Default.ArrowBack,
+                                                contentDescription = "go back icon"
+                                            )
+                                        }
+                                    }
+                                )
+                            },
+                            showBottomBar = false,
+                            fab = null
+                        )
+                    }
+                }
 
                 val webViewClient = remember {
                     object : AccompanistWebViewClient() {
@@ -94,6 +146,12 @@ fun LoginScreen(navController: NavController, mainVM: MainActivityViewModel) {
             }
 
             is ProcessingState.ProcessingStep -> {
+                LaunchedEffect(key1 = null) {
+                    mainVM.updateState {
+                        copy(topBar = null, showBottomBar = false, fab = null)
+                    }
+                }
+
                 Column(
                     Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
@@ -109,6 +167,12 @@ fun LoginScreen(navController: NavController, mainVM: MainActivityViewModel) {
             }
 
             is ProcessingState.Error -> {
+                LaunchedEffect(key1 = null) {
+                    mainVM.updateState {
+                        copy(topBar = null, showBottomBar = false, fab = null)
+                    }
+                }
+
                 Text(
                     text = "Error occurred: ${state.processingState.message}",
                     modifier = Modifier
