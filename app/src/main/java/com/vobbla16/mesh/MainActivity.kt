@@ -10,7 +10,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.vobbla16.mesh.ui.MainScaffold
 import com.vobbla16.mesh.ui.Screens
 import com.vobbla16.mesh.ui.screens.homeworkScreen.HomeworkScreen
 import com.vobbla16.mesh.ui.screens.loginScreen.LoginScreen
@@ -18,6 +17,7 @@ import com.vobbla16.mesh.ui.screens.marksScreen.MarksScreen
 import com.vobbla16.mesh.ui.screens.profileScreen.ProfileScreen
 import com.vobbla16.mesh.ui.screens.scheduleScreen.ScheduleScreen
 import com.vobbla16.mesh.ui.theme.MeshTheme
+import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -27,7 +27,9 @@ class MainActivity : ComponentActivity() {
             MeshTheme {
                 val navController = rememberNavController()
 
-                MainScaffold(navController) { scaffoldController ->
+                val vm: MainActivityViewModel = koinViewModel()
+
+                MainScaffold(navController, vm) {
                     SideEffect {
                         Log.d("RECOMPS", "MainActivity recomposition occurred")
                     }
@@ -36,19 +38,19 @@ class MainActivity : ComponentActivity() {
                         startDestination = Screens.Schedule.route
                     ) {
                         composable(Screens.Schedule.route) {
-                            ScheduleScreen(navController, scaffoldController)
+                            ScheduleScreen(navController, vm)
                         }
                         composable(Screens.Marks.route) {
-                            MarksScreen(navController, scaffoldController)
+                            MarksScreen(navController, vm)
                         }
                         composable(Screens.Login.route) {
-                            LoginScreen(navController, scaffoldController)
+                            LoginScreen(navController, vm)
                         }
                         composable(Screens.Profile.route) {
-                            ProfileScreen(navController, scaffoldController)
+                            ProfileScreen(navController, vm)
                         }
                         composable(Screens.Homework.route) {
-                            HomeworkScreen(navController, scaffoldController)
+                            HomeworkScreen(navController, vm)
                         }
                     }
                 }

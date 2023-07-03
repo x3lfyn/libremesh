@@ -28,7 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
-import com.vobbla16.mesh.ui.MainScaffoldController
+import com.vobbla16.mesh.MainActivityViewModel
 import com.vobbla16.mesh.ui.Screens
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -37,28 +37,36 @@ import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(navController: NavController, scaffoldController: MainScaffoldController) {
+fun ProfileScreen(navController: NavController, mainVM: MainActivityViewModel) {
     val vm: ProfileScreenViewModel = koinViewModel()
     val state = vm.viewState.value
 
-    scaffoldController.uiState.value = scaffoldController.uiState.value.copy(topBar = {
-        TopAppBar(
-            title = { Text(text = "Profile screen") },
-            actions = {
-                IconButton(
-                    onClick = {
-                        vm.updatedDialogOpened(true)
-                    }
-                )
-                {
-                    Icon(
-                        imageVector = Icons.Default.ExitToApp,
-                        contentDescription = "log out"
+    LaunchedEffect(key1 = null) {
+        mainVM.updateState {
+            copy(
+                topBar = {
+                    TopAppBar(
+                        title = { Text(text = "Profile screen") },
+                        actions = {
+                            IconButton(
+                                onClick = {
+                                    vm.updatedDialogOpened(true)
+                                }
+                            )
+                            {
+                                Icon(
+                                    imageVector = Icons.Default.ExitToApp,
+                                    contentDescription = "log out"
+                                )
+                            }
+                        }
                     )
-                }
-            }
-        )
-    })
+                },
+                showBottomBar = true,
+                fab = null
+            )
+        }
+    }
 
     if (state.dialogOpened) {
         AlertDialog(
@@ -105,7 +113,8 @@ fun ProfileScreen(navController: NavController, scaffoldController: MainScaffold
                     is ProfileScreenAction.NavigateToLoginScreen -> {
                         navController.navigate(Screens.Login.route)
                     }
-                    is ProfileScreenAction.RestartAfterTokenReset ->{
+
+                    is ProfileScreenAction.RestartAfterTokenReset -> {
                         navController.navigate(Screens.Login.route) {
                             popUpTo(Screens.Schedule.route)
                         }

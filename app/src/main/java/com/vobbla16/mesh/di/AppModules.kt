@@ -1,5 +1,6 @@
 package com.vobbla16.mesh.di
 
+import com.vobbla16.mesh.MainActivityViewModel
 import com.vobbla16.mesh.data.repository.MeshRepositoryImpl
 import com.vobbla16.mesh.data.settingsStore.SettingsRepositoryImpl
 import com.vobbla16.mesh.domain.repository.MeshRepository
@@ -60,5 +61,8 @@ val appModule = module {
     }
     viewModel {
         HomeworkScreenViewModel(get())
+    }
+    viewModel {
+        MainActivityViewModel()
     }
 }

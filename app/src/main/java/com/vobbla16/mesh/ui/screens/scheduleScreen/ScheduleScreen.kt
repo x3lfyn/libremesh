@@ -34,12 +34,12 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.vobbla16.mesh.MainActivityViewModel
 import com.vobbla16.mesh.R
 import com.vobbla16.mesh.common.localDateTimeNow
 import com.vobbla16.mesh.common.msToLocalDate
 import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.schedule.Activity
-import com.vobbla16.mesh.ui.MainScaffoldController
 import com.vobbla16.mesh.ui.Screens
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.ScheduleBreakItem
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.ScheduleLessonItem
@@ -51,7 +51,7 @@ import org.koin.androidx.compose.koinViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScheduleScreen(navController: NavController, scaffoldController: MainScaffoldController) {
+fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) {
     val vm: ScheduleScreenViewModel = koinViewModel()
     val state = vm.viewState.value
 
@@ -59,22 +59,30 @@ fun ScheduleScreen(navController: NavController, scaffoldController: MainScaffol
         Log.d("RECOMPS", "SchedScreen recomposition occurred")
     }
 
-    scaffoldController.uiState.value = scaffoldController.uiState.value.copy(topBar = {
-        TopAppBar(title = {
-            Text(
-                text = state.schedule?.date?.toHumanStr(
-                    LocalConfiguration.current
-                ) ?: ""
+    LaunchedEffect(key1 = state.schedule?.date) {
+        mainVM.updateState {
+            copy(
+                topBar = {
+                    TopAppBar(title = {
+                        Text(
+                            text = state.schedule?.date?.toHumanStr(
+                                LocalConfiguration.current
+                            ) ?: ""
+                        )
+                    }, actions = {
+                        IconButton(onClick = { vm.updateDatePickerOpened(true) }) {
+                            Icon(
+                                imageVector = Icons.Filled.DateRange,
+                                contentDescription = "calendar icon"
+                            )
+                        }
+                    })
+                },
+                showBottomBar = true,
+                fab = null
             )
-        }, actions = {
-            IconButton(onClick = { vm.updateDatePickerOpened(true) }) {
-                Icon(
-                    imageVector = Icons.Filled.DateRange,
-                    contentDescription = "calendar icon"
-                )
-            }
-        })
-    }, showBottomBar = true, fab = {})
+        }
+    }
 
     val vmActionsScope = rememberCoroutineScope()
     LaunchedEffect(key1 = vm.action) {
@@ -114,10 +122,11 @@ fun ScheduleScreen(navController: NavController, scaffoldController: MainScaffol
             )
         }
 
+        val datePickerState = rememberDatePickerState()
+        val confirmEnabled =
+            remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
+
         if (state.datePickerOpened) {
-            val datePickerState = rememberDatePickerState()
-            val confirmEnabled =
-                remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
             DatePickerDialog(onDismissRequest = {
                 vm.updateDatePickerOpened(false)
             }, confirmButton = {

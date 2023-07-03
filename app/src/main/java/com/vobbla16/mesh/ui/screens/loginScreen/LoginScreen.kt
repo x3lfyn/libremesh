@@ -22,22 +22,26 @@ import androidx.navigation.NavController
 import com.google.accompanist.web.AccompanistWebViewClient
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
+import com.vobbla16.mesh.MainActivityViewModel
 import com.vobbla16.mesh.common.Constants
-import com.vobbla16.mesh.ui.MainScaffoldController
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun LoginScreen(navController: NavController, scaffoldController: MainScaffoldController) {
+fun LoginScreen(navController: NavController, mainVM: MainActivityViewModel) {
     val vm: LoginScreenViewModel = koinViewModel()
     val state = vm.viewState.value
 
-    scaffoldController.uiState.value = scaffoldController.uiState.value.copy(
-        topBar = null,
-        showBottomBar = false,
-        fab = {}
-    )
+    LaunchedEffect(key1 = null) {
+        mainVM.updateState {
+            copy(
+                topBar = null,
+                showBottomBar = false,
+                fab = null
+            )
+        }
+    }
 
     val vmActionsScope = rememberCoroutineScope()
     LaunchedEffect(key1 = vm.action) {

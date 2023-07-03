@@ -1,59 +1,33 @@
-package com.vobbla16.mesh.ui
+package com.vobbla16.mesh
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.FabPosition
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
-
-//data class MainScaffoldState(
-//    val topBar: MutableState<@Composable () -> Unit> = mutableStateOf({}),
-//    val showBottomBar: MutableState<Boolean> = mutableStateOf(false),
-//    val fab: MutableState<@Composable () -> Unit> = mutableStateOf({}),
-//    val fabPosition: MutableState<FabPosition> = mutableStateOf(FabPosition.End),
-//
-//    val snackbarHostState: SnackbarHostState = SnackbarHostState(),
-//)
-data class MainScaffoldState(
-    val topBar: (@Composable () -> Unit)? = null,
-    val showBottomBar: Boolean = false,
-    val fab: @Composable () -> Unit = {},
-    val fabPosition: FabPosition = FabPosition.End
-)
-
-data class MainScaffoldController(
-    val uiState: MutableState<MainScaffoldState>,
-    val snackbarHostState: SnackbarHostState = SnackbarHostState()
-)
+import com.vobbla16.mesh.ui.NavBarItems
 
 @Composable
 fun MainScaffold(
     navController: NavController,
-    content: @Composable (MainScaffoldController) -> Unit
+    vm: MainActivityViewModel,
+    content: @Composable () -> Unit
 ) {
-    val scaffoldState = remember {
-        mutableStateOf(MainScaffoldState())
-    }
-    val scaffoldController = MainScaffoldController(scaffoldState)
+    val state = vm.viewState.value
 
     Scaffold(
-        topBar = { scaffoldState.value.topBar?.invoke() },
+        topBar = { state.topBar?.invoke() },
         bottomBar = {
-            if (scaffoldState.value.showBottomBar) {
+            if (state.showBottomBar) {
                 NavigationBar {
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val currentDestination = navBackStackEntry?.destination
@@ -76,10 +50,10 @@ fun MainScaffold(
                 }
             }
         },
-        snackbarHost = { SnackbarHost(scaffoldController.snackbarHostState) },
-        floatingActionButton = scaffoldState.value.fab,
-        floatingActionButtonPosition = scaffoldState.value.fabPosition
+        snackbarHost = { SnackbarHost(state.snackbarHostState) },
+        floatingActionButton = { state.fab?.invoke() },
+        floatingActionButtonPosition = state.fabPosition
     ) {
-        Box(modifier = Modifier.padding(it)) { content(scaffoldController) }
+        Box(modifier = Modifier.padding(it)) { content() }
     }
 }

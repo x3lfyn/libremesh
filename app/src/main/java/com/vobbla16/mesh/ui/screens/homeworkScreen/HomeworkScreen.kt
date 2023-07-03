@@ -6,10 +6,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,20 +22,31 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.vobbla16.mesh.MainActivityViewModel
 import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.domain.model.homework.HomeworkItem
 import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDate
-import com.vobbla16.mesh.ui.MainScaffoldController
 import com.vobbla16.mesh.ui.screens.homeworkScreen.components.HomeworkItemsForDateCard
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.compose.koinViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeworkScreen(navController: NavController, scaffoldController: MainScaffoldController) {
+fun HomeworkScreen(navController: NavController, mainVM: MainActivityViewModel) {
     val vm: HomeworkScreenViewModel = koinViewModel()
     val state = vm.viewState.value
+
+    LaunchedEffect(key1 = null) {
+        mainVM.updateState {
+            copy(
+                topBar = { CenterAlignedTopAppBar(title = { Text(text = "Homework screen") }) },
+                showBottomBar = true,
+                fab = null
+            )
+        }
+    }
 
     HomeworkScreenUI(state = state)
 }

@@ -17,7 +17,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.vobbla16.mesh.ui.MainScaffoldController
+import com.vobbla16.mesh.MainActivityViewModel
 import com.vobbla16.mesh.ui.Screens
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -26,13 +26,19 @@ import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MarksScreen(navController: NavController, scaffoldController: MainScaffoldController) {
+fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
     val vm: MarksScreenViewModel = koinViewModel()
     val state = vm.viewState.value
 
-    scaffoldController.uiState.value = scaffoldController.uiState.value.copy(topBar = {
-        CenterAlignedTopAppBar(title = { Text(text = "Marks screen") })
-    })
+    LaunchedEffect(key1 = null) {
+        mainVM.updateState {
+            copy(
+                topBar = null,
+                showBottomBar = true,
+                fab = null
+            )
+        }
+    }
 
     SideEffect {
         Log.d("RECOMPS", "MarksScreen recomposition occurred")
