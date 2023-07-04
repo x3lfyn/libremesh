@@ -5,6 +5,10 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.Create
+import androidx.compose.material.icons.outlined.List
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 
@@ -17,25 +21,34 @@ enum class Screens(val route: String) {
 }
 
 
-enum class NavBarItems(val screen: Screens, val label: String, val icon: @Composable () -> Unit) {
+enum class NavBarItems(
+    val screen: Screens,
+    val label: String,
+    val inactiveIcon: @Composable () -> Unit,
+    val activeIcon: @Composable () -> Unit
+) {
     Schedule(
         Screens.Schedule,
         "Schedule",
-        { Icon(imageVector = Icons.Default.List, contentDescription = "list icon") }
+        { Icon(imageVector = Icons.Outlined.List, contentDescription = "list outlined icon") },
+        { Icon(imageVector = Icons.Filled.List, contentDescription = "list filled icon") }
     ),
     Marks(
         Screens.Marks,
         "Marks",
-        { Icon(imageVector = Icons.Default.CheckCircle, contentDescription = "marks icon") }
+        { Icon(imageVector = Icons.Outlined.CheckCircle, contentDescription = "marks outlined icon") },
+        { Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = "marks filled icon") }
     ),
     Homework(
         Screens.Homework,
         "Homework",
-        { Icon(imageVector = Icons.Default.Create, contentDescription = "homework icon") }
+        { Icon(imageVector = Icons.Outlined.Create, contentDescription = "homework outlined icon") },
+        { Icon(imageVector = Icons.Filled.Create, contentDescription = "homework filled icon") }
     ),
     Profile(
         Screens.Profile,
         "Profile",
-        { Icon(imageVector = Icons.Default.Person, contentDescription = "profile icon") }
+        { Icon(imageVector = Icons.Outlined.Person, contentDescription = "profile outlined icon") },
+        { Icon(imageVector = Icons.Filled.Person, contentDescription = "profile filled icon") }
     )
 }

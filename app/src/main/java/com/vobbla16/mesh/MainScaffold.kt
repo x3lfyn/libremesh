@@ -32,8 +32,9 @@ fun MainScaffold(
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val currentDestination = navBackStackEntry?.destination
                     NavBarItems.values().forEach { item ->
+                        val selected = currentDestination?.hierarchy?.any { it.route == item.screen.route } == true
                         NavigationBarItem(
-                            selected = currentDestination?.hierarchy?.any { it.route == item.screen.route } == true,
+                            selected = selected,
                             label = { Text(text = item.label) },
                             onClick = {
                                 navController.navigate(item.screen.route) {
@@ -44,7 +45,7 @@ fun MainScaffold(
                                     restoreState = true
                                 }
                             },
-                            icon = item.icon
+                            icon = if(selected) { item.activeIcon } else { item.inactiveIcon }
                         )
                     }
                 }
