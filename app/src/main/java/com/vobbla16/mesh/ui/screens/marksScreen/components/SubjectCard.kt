@@ -42,7 +42,7 @@ fun SubjectCard(
     OutlinedCard(modifier = modifier.fillMaxWidth(), onClick = onClick) {
         FlowRow(
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+            verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(6.dp)

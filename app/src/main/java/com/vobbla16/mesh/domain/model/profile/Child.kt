@@ -25,6 +25,6 @@ data class Child(
     val sudirAccountExists: Boolean,
     val sudirLogin: String?,
     val isLegalRepresentative: Boolean,
-    val parallelCurriculumId: Int,
+    val parallelCurriculumId: Int?,
     val contingentGuid: String
 )
