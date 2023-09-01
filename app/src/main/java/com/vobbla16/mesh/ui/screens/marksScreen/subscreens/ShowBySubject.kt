@@ -25,7 +25,7 @@ fun ShowBySubject(vm: MarksScreenViewModel) {
                     onClick = {
                         vm.toggleSubject(index)
                     },
-                    modifier = Modifier.padding(4.dp)
+                    modifier = Modifier.padding(4.dp, 2.dp)
                 )
             }
         }

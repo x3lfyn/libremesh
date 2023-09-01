@@ -33,11 +33,11 @@ data class Lesson(
     @SerialName("lesson_type")
     val lessonType: String, // NORMAL
     @SerialName("link_types")
-    val linkTypes: List<String>,
+    val linkTypes: List<String>? = null,
     @SerialName("marks")
     val marks: List<Mark>,
     @SerialName("materials_count")
-    val materialsCount: MaterialsCount?,
+    val materialsCount: MaterialsCount? = null,
     @SerialName("replaced")
     val replaced: Boolean, // false
     @SerialName("schedule_item_id")
@@ -47,5 +47,9 @@ data class Lesson(
     @SerialName("subject_name")
     val subjectName: String, // Немецкий язык
     @SerialName("teacher")
-    val teacher: Teacher
+    val teacher: Teacher,
+    @SerialName("nonattendance_reason_id")
+    val nonAttendanceReasonId: Int? = null,
+    @SerialName("disease_status_type")
+    val diseaseStatusType: String? = null,
 )

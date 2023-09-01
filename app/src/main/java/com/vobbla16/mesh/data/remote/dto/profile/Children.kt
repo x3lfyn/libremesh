@@ -17,7 +17,7 @@ data class Children(
     @SerialName("contingent_guid")
     val contingentGuid: String,
     @SerialName("contract_id")
-    val contractId: Int,
+    val contractId: Int? = null,
     @SerialName("email")
     val email: String,
     @SerialName("first_name")
@@ -53,5 +53,7 @@ data class Children(
     @SerialName("type")
     val type: String?,
     @SerialName("user_id")
-    val userId: Int
+    val userId: Int,
+    @SerialName("enrollment_date")
+    val enrollmentDate: String
 )

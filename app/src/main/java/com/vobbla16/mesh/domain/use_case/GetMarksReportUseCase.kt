@@ -25,7 +25,7 @@ class GetMarksReportUseCase(
         when (val student = getStudent(token)) {
             is DataOrError.Success -> {
                 try {
-                    val academicYears = meshRepository.getAcademicYears()
+                    val academicYears = meshRepository.getAcademicYears(token)
                     val currentYear = academicYears.find { it.isCurrentYear }!!
                     val data = meshRepository.getMarksReport(token, student.data.id, currentYear)
                     emit(ResourceOrNotLoggedIn.Success(data))

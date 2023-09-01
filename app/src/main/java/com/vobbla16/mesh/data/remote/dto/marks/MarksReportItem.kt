@@ -18,6 +18,8 @@ data class MarksReportItem(
     val periods: List<Period>,
     @SerialName("subject_name")
     val subjectName: String,
+    @SerialName("subject_id")
+    val subjectId: Int,
     @SerialName("year_mark")
-    val yearMark: String?
+    val yearMark: String? = null
 )

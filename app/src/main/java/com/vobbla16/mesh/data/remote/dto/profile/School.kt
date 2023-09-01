@@ -17,5 +17,7 @@ data class School(
     @SerialName("principal")
     val principal: String,
     @SerialName("short_name")
-    val shortName: String
+    val shortName: String,
+    @SerialName("global_school_id")
+    val globalSchoolId: Int
 )

@@ -25,8 +25,8 @@ class MeshRepositoryImpl : MeshRepository {
     override suspend fun getSchedule(token: String, studentId: Int, date: LocalDate) =
         meshApi.getSchedule(token, studentId.toString(), date.toString()).toDomain()
 
-    override suspend fun getAcademicYears(): List<AcademicYear> =
-        meshApi.getAcademicYears().toDomain()
+    override suspend fun getAcademicYears(token: String): List<AcademicYear> =
+        meshApi.getAcademicYears(token).toDomain()
 
     override suspend fun getMarksReport(
         token: String,

@@ -14,7 +14,7 @@ interface MeshRepository {
 
     suspend fun getSchedule(token: String, studentId: Int, date: LocalDate): Schedule
 
-    suspend fun getAcademicYears(): List<AcademicYear>
+    suspend fun getAcademicYears(token: String): List<AcademicYear>
 
     suspend fun getMarksReport(
         token: String,

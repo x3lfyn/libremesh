@@ -77,15 +77,17 @@ fun SubjectCard(
                 }
             }
 
-            val rotationDegree: Float by animateFloatAsState(
-                if (opened) 90f else 0f, label = "is opened indicator"
-            )
+            if (subject.periods.isNotEmpty()) {
+                val rotationDegree: Float by animateFloatAsState(
+                    if (opened) 90f else 0f, label = "is opened indicator"
+                )
 
-            Icon(
-                imageVector = Icons.Default.KeyboardArrowRight,
-                contentDescription = "arrow icon",
-                modifier = Modifier.rotate(rotationDegree)
-            )
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowRight,
+                    contentDescription = "arrow icon",
+                    modifier = Modifier.rotate(rotationDegree)
+                )
+            }
         }
 
         AnimatedVisibility(visible = opened) {
@@ -368,6 +370,21 @@ fun SubjectCardPreview2() {
                 )
             )
         )
+    )
+    SubjectCard(subject = subj, opened = true, onClick = {}, modifier = Modifier.padding(8.dp))
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Preview(showBackground = true)
+@Composable
+fun SubjectCardPreview3() {
+    val subj = MarksSubject(
+        subjectName = "Основы духовно-нравственной культуры народов России",
+        average = MarkValue(fiveScale = 4.51f, hundredScale = 90.0f),
+        yearMark = 4,
+        examMark = 5,
+        attestationMark = 5,
+        periods = emptyList()
     )
     SubjectCard(subject = subj, opened = true, onClick = {}, modifier = Modifier.padding(8.dp))
 }
