@@ -2,6 +2,7 @@ package com.vobbla16.mesh.ui.screens.marksScreen
 
 import androidx.lifecycle.viewModelScope
 import com.vobbla16.mesh.common.ResourceOrNotLoggedIn
+import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.domain.use_case.GetMarksReportUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
 import kotlinx.coroutines.flow.collect
@@ -59,7 +60,7 @@ class MarksScreenViewModel(
                 }
 
                 is ResourceOrNotLoggedIn.Error -> {
-                    setState { copy(error = it.message, isLoading = false) }
+                    setState { copy(error = it.e.toText(), isLoading = false) }
                 }
 
                 is ResourceOrNotLoggedIn.NotLoggedIn -> {

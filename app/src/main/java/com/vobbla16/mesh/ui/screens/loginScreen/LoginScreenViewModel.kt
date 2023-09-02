@@ -2,6 +2,7 @@ package com.vobbla16.mesh.ui.screens.loginScreen
 
 import androidx.lifecycle.viewModelScope
 import com.vobbla16.mesh.common.Resource
+import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.domain.repository.SettingsRepository
 import com.vobbla16.mesh.domain.use_case.OauthCodeToTokenUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
@@ -33,7 +34,7 @@ class LoginScreenViewModel(
                     }
 
                     is Resource.Error -> {
-                        setState { copy(processingState = ProcessingState.Error(it.message)) }
+                        setState { copy(processingState = ProcessingState.Error(it.e.toText())) }
                     }
                 }
             }.collect()

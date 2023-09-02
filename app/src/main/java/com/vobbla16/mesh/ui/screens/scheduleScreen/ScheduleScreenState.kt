@@ -6,6 +6,7 @@ import com.vobbla16.mesh.ui.ViewState
 data class ScheduleScreenState(
     val schedule: Schedule?,
     val isLoading: Boolean,
-    val error: String?,
+    val isRefreshing: Boolean,
+    val error: Throwable?,
     val datePickerOpened: Boolean
 ) : ViewState

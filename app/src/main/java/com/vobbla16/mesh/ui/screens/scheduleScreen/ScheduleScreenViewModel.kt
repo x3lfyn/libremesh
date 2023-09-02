@@ -16,32 +16,38 @@ class ScheduleScreenViewModel(private val getScheduleUseCase: GetScheduleUseCase
     override fun setInitialState() = ScheduleScreenState(
         schedule = null,
         isLoading = true,
+        isRefreshing = false,
         error = null,
         datePickerOpened = false
     )
 
-    fun updateDate(date: LocalDate) = getSchedule(date)
+    fun updateDate(date: LocalDate) = getSchedule(date, false)
     fun updateDatePickerOpened(opened: Boolean) = setState { copy(datePickerOpened = opened) }
-    fun afterLoggingIn() = getSchedule(localDateTimeNow().date)
+    fun afterLoggingIn() = getSchedule(localDateTimeNow().date, false)
+    fun updateData(refresh: Boolean) =
+        getSchedule(viewState.value.schedule?.date ?: localDateTimeNow().date, refresh)
 
     init {
-        getSchedule(localDateTimeNow().date)
+        getSchedule(localDateTimeNow().date, false)
     }
 
-    private fun getSchedule(date: LocalDate) = viewModelScope.launch {
+    private fun getSchedule(date: LocalDate, refresh: Boolean) = viewModelScope.launch {
         getScheduleUseCase(date)
             .onEach {
                 when (it) {
                     is ResourceOrNotLoggedIn.Success -> {
-                        setState { copy(schedule = it.data, isLoading = false, error = null) }
+                        if (refresh) setState { copy(schedule = it.data, isRefreshing = false, error = null) }
+                        else setState { copy(schedule = it.data, isLoading = false, error = null) }
                     }
 
                     is ResourceOrNotLoggedIn.Loading -> {
-                        setState { copy(isLoading = true) }
+                        if (refresh) setState { copy(isRefreshing = true, error = null) }
+                        else setState { copy(isLoading = true, error = null) }
                     }
 
                     is ResourceOrNotLoggedIn.Error -> {
-                        setState { copy(error = it.message, isLoading = false) }
+                        if (refresh) setState { copy(error = it.e, isRefreshing = false) }
+                        else setState { copy(error = it.e, isLoading = false) }
                     }
 
                     is ResourceOrNotLoggedIn.NotLoggedIn -> {

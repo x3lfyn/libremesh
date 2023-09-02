@@ -22,7 +22,7 @@ class OauthCodeToTokenUseCase(private val httpClient: HttpClient) {
 
         val setCookieHeader = aupdRequest.headers["set-cookie"]
         if (setCookieHeader == null) {
-            emit(Resource.Error("Header doesn't contain new cookie"))
+            emit(Resource.Error(Error("Header doesn't contain new cookie")))
             return@flow
         }
 

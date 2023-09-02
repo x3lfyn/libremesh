@@ -30,15 +30,13 @@ class GetScheduleUseCase(
                     emit(ResourceOrNotLoggedIn.Success(data))
                 } catch (e: Exception) {
                     emit(
-                        ResourceOrNotLoggedIn.Error(
-                            e.localizedMessage ?: Constants.DEFAULT_ERROR_MESSAGE
-                        )
+                        ResourceOrNotLoggedIn.Error(e)
                     )
                 }
             }
 
             is DataOrError.Error -> {
-                emit(ResourceOrNotLoggedIn.Error(student.message))
+                emit(ResourceOrNotLoggedIn.Error(student.e))
             }
         }
     }

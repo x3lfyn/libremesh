@@ -3,6 +3,7 @@ package com.vobbla16.mesh.ui.screens.homeworkScreen
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.vobbla16.mesh.common.DataOrErrorOrNotLoggedIn
+import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.domain.use_case.GetHomeworkUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
 import kotlinx.coroutines.launch
@@ -35,7 +36,7 @@ class HomeworkScreenViewModel(
             }
 
             is DataOrErrorOrNotLoggedIn.Err -> {
-                setState { copy(isLoading = false, error = data.msg) }
+                setState { copy(isLoading = false, error = data.e.toText()) }
             }
 
             is DataOrErrorOrNotLoggedIn.NotLoggedIn -> {

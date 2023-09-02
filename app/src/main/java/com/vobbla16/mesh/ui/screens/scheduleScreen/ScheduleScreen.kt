@@ -3,12 +3,16 @@ package com.vobbla16.mesh.ui.screens.scheduleScreen
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.CircularProgressIndicator
@@ -41,6 +45,10 @@ import com.vobbla16.mesh.common.msToLocalDate
 import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.schedule.Activity
 import com.vobbla16.mesh.ui.Screens
+import com.vobbla16.mesh.ui.commonComponents.ErrorComponent
+import com.vobbla16.mesh.ui.commonComponents.pullrefresh.PullRefreshIndicator
+import com.vobbla16.mesh.ui.commonComponents.pullrefresh.pullRefresh
+import com.vobbla16.mesh.ui.commonComponents.pullrefresh.rememberPullRefreshState
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.ScheduleBreakItem
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.ScheduleLessonItem
 import kotlinx.coroutines.flow.collect
@@ -105,87 +113,92 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
         }
     }
 
-    Column {
-        if (state.isLoading) {
-            CircularProgressIndicator(
-                Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(8.dp)
-            )
-        }
-
-        state.error?.let { err ->
-            Text(
-                err,
-                color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-        }
-
-        val datePickerState = rememberDatePickerState()
-        val confirmEnabled =
-            remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
-
-        if (state.datePickerOpened) {
-            DatePickerDialog(onDismissRequest = {
-                vm.updateDatePickerOpened(false)
-            }, confirmButton = {
-                TextButton(
-                    onClick = {
-                        vm.updateDate(
-                            datePickerState.selectedDateMillis!!.msToLocalDate()
-                        )
-                        vm.updateDatePickerOpened(false)
-                    }, enabled = confirmEnabled.value
-                ) {
-                    Text("OK")
-                }
-            }, dismissButton = {
-                TextButton(onClick = {
-                    vm.updateDatePickerOpened(false)
-                }) {
-                    Text("Cancel")
-                }
-            }) {
-                DatePicker(state = datePickerState)
+    val refreshState = rememberPullRefreshState(state.isRefreshing, { vm.updateData(true) })
+    Box(Modifier.pullRefresh(refreshState).fillMaxSize()) {
+        Column {
+            if (state.isLoading) {
+                CircularProgressIndicator(
+                    Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(8.dp)
+                )
             }
-        }
 
-        state.schedule?.let {
-            if (it.activities.isNotEmpty()) {
-                LazyColumn {
-                    items(it.activities) { activity ->
-                        when (activity) {
-                            is Activity.Lesson -> {
-                                ScheduleLessonItem(activity)
-                            }
+            state.error?.let { err ->
+                ErrorComponent(err, { vm.updateData(false) })
+            }
 
-                            is Activity.Break -> {
-                                ScheduleBreakItem(activity)
+            val datePickerState = rememberDatePickerState()
+            val confirmEnabled =
+                remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
+
+            if (state.datePickerOpened) {
+                DatePickerDialog(onDismissRequest = {
+                    vm.updateDatePickerOpened(false)
+                }, confirmButton = {
+                    TextButton(
+                        onClick = {
+                            vm.updateDate(
+                                datePickerState.selectedDateMillis!!.msToLocalDate()
+                            )
+                            vm.updateDatePickerOpened(false)
+                        }, enabled = confirmEnabled.value
+                    ) {
+                        Text("OK")
+                    }
+                }, dismissButton = {
+                    TextButton(onClick = {
+                        vm.updateDatePickerOpened(false)
+                    }) {
+                        Text("Cancel")
+                    }
+                }) {
+                    DatePicker(state = datePickerState)
+                }
+            }
+
+            state.schedule?.let {
+                if (it.activities.isNotEmpty()) {
+                    LazyColumn {
+                        items(it.activities) { activity ->
+                            when (activity) {
+                                is Activity.Lesson -> {
+                                    ScheduleLessonItem(activity)
+                                }
+
+                                is Activity.Break -> {
+                                    ScheduleBreakItem(activity)
+                                }
                             }
                         }
+                        item {
+                            Text(
+                                text = it.summary,
+                                style = MaterialTheme.typography.titleMedium,
+                                modifier = Modifier.padding(4.dp)
+                            )
+                        }
                     }
-                    item {
+                } else {
+                    Column(
+                        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()), // need scroll so pull to refresh can function correctly
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         Text(
-                            text = it.summary,
-                            style = MaterialTheme.typography.titleMedium,
-                            modifier = Modifier.padding(4.dp)
+                            text = if (it.date == localDateTimeNow().date) stringResource(R.string.no_lessons_today)
+                            else stringResource(R.string.no_lessons_that_day),
+                            style = MaterialTheme.typography.headlineSmall
                         )
                     }
                 }
-            } else {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = if (it.date == localDateTimeNow().date) stringResource(R.string.no_lessons_today)
-                        else stringResource(R.string.no_lessons_that_day),
-                        style = MaterialTheme.typography.headlineSmall
-                    )
-                }
             }
         }
+
+        PullRefreshIndicator(
+            state.isRefreshing,
+            refreshState,
+            Modifier.align(Alignment.TopCenter)
+        )
     }
 }

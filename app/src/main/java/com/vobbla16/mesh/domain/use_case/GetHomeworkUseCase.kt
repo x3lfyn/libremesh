@@ -1,7 +1,6 @@
 package com.vobbla16.mesh.domain.use_case
 
 import androidx.paging.PagingData
-import com.vobbla16.mesh.common.Constants
 import com.vobbla16.mesh.common.DataOrError
 import com.vobbla16.mesh.common.DataOrErrorOrNotLoggedIn
 import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDate
@@ -22,14 +21,12 @@ class GetHomeworkUseCase(
                     val data = meshRepository.getHomework(token, student.data.id)
                     DataOrErrorOrNotLoggedIn.Ok(data)
                 } catch (e: Exception) {
-                    DataOrErrorOrNotLoggedIn.Err(
-                        e.localizedMessage ?: Constants.DEFAULT_ERROR_MESSAGE
-                    )
+                    DataOrErrorOrNotLoggedIn.Err(e)
                 }
             }
 
             is DataOrError.Error -> {
-                return DataOrErrorOrNotLoggedIn.Err(student.message)
+                return DataOrErrorOrNotLoggedIn.Err(student.e)
             }
         }
     }

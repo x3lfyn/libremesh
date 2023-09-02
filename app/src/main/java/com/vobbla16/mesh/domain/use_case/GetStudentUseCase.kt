@@ -24,7 +24,7 @@ class GetStudentUseCase(
                 emit(ResourceOrNotLoggedIn.Success(student.data))
             }
             is DataOrError.Error -> {
-                emit(ResourceOrNotLoggedIn.Error(student.message))
+                emit(ResourceOrNotLoggedIn.Error(student.e))
             }
         }
     }

@@ -13,7 +13,7 @@ class GetStudentIntUseCase(
             val id = meshRepository.getProfile(token).children[0]
             DataOrError.Success(id)
         } catch (e: Exception) {
-            DataOrError.Error(e.localizedMessage ?: Constants.DEFAULT_ERROR_MESSAGE)
+            DataOrError.Error(e)
         }
     }
 }
