@@ -25,7 +25,6 @@ fun MainScaffold(
     val state = vm.viewState.value
 
     Scaffold(
-        topBar = { state.topBar?.invoke() },
         bottomBar = {
             if (state.showBottomBar) {
                 NavigationBar {
@@ -51,9 +50,7 @@ fun MainScaffold(
                 }
             }
         },
-        snackbarHost = { SnackbarHost(state.snackbarHostState) },
-        floatingActionButton = { state.fab?.invoke() },
-        floatingActionButtonPosition = state.fabPosition
+        snackbarHost = { SnackbarHost(state.snackbarHostState) }
     ) {
         Box(modifier = Modifier.padding(it)) { content() }
     }

@@ -5,6 +5,7 @@ import android.util.Log
 import android.webkit.WebView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -15,6 +16,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -61,118 +63,100 @@ fun LoginScreen(navController: NavController, mainVM: MainActivityViewModel) {
         }
     }
 
+    LaunchedEffect(null) {
+        mainVM.hideBottomBar()
+    }
+
     SideEffect {
         Log.d("RECOMPS", "LoginScreen recomposition occurred")
     }
 
-    Column {
-        when (state.processingState) {
-            is ProcessingState.WelcomeStep -> {
-                LaunchedEffect(key1 = null) {
-                    mainVM.updateState {
-                        copy(topBar = null, showBottomBar = false, fab = null)
-                    }
-                }
-
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "Welcome to libremesh",
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(8.dp)
-                    )
-                    Button(onClick = { vm.toWebViewStep() }) {
-                        Text(text = "Login")
-                    }
+    when (state.processingState) {
+        is ProcessingState.WelcomeStep -> {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Welcome to libremesh",
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.padding(8.dp)
+                )
+                Button(onClick = { vm.toWebViewStep() }) {
+                    Text(text = "Login")
                 }
             }
+        }
 
-            is ProcessingState.WebViewStep -> {
-                val wvState =
-                    rememberWebViewState(url = Constants.MOSRU_OAUTH_URL)
+        is ProcessingState.WebViewStep -> {
+            val wvState =
+                rememberWebViewState(url = Constants.MOSRU_OAUTH_URL)
 
-                LaunchedEffect(key1 = wvState) {
-                    mainVM.updateState {
-                        copy(
-                            topBar = {
-                                TopAppBar(
-                                    title = {
-                                        Column {
-                                            Text(text = wvState.pageTitle ?: "Loading...", maxLines = 1)
-                                            Text(
-                                                text = wvState.lastLoadedUrl ?: "Loading...",
-                                                style = MaterialTheme.typography.titleMedium,
-                                                maxLines = 1
-                                            )
-                                        }
-                                    },
-                                    navigationIcon = {
-                                        IconButton(onClick = { vm.backFromWebViewStep() }) {
-                                            Icon(
-                                                imageVector = Icons.Default.ArrowBack,
-                                                contentDescription = "go back icon"
-                                            )
-                                        }
-                                    }
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Column {
+                                Text(text = wvState.pageTitle ?: "Loading...", maxLines = 1)
+                                Text(
+                                    text = wvState.lastLoadedUrl ?: "Loading...",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    maxLines = 1
                                 )
-                            },
-                            showBottomBar = false,
-                            fab = null
-                        )
-                    }
-                }
-
-                val webViewClient = remember {
-                    object : AccompanistWebViewClient() {
-                        override fun shouldOverrideUrlLoading(
-                            view: WebView?,
-                            url: String?
-                        ): Boolean {
-                            if (url != null && url.startsWith(Constants.OAUTH_CALLBACK_PREFIX)) {
-                                vm.processCode(url.removePrefix(Constants.OAUTH_CALLBACK_PREFIX))
-                                return true
                             }
-                            return false
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = { vm.backFromWebViewStep() }) {
+                                Icon(
+                                    imageVector = Icons.Default.ArrowBack,
+                                    contentDescription = "go back icon"
+                                )
+                            }
+                        }
+                    )
+                }
+            ) { paddingValues ->
+                Column(Modifier.padding(paddingValues)) {
+                    val webViewClient = remember {
+                        object : AccompanistWebViewClient() {
+                            override fun shouldOverrideUrlLoading(
+                                view: WebView?,
+                                url: String?
+                            ): Boolean {
+                                if (url != null && url.startsWith(Constants.OAUTH_CALLBACK_PREFIX)) {
+                                    vm.processCode(url.removePrefix(Constants.OAUTH_CALLBACK_PREFIX))
+                                    return true
+                                }
+                                return false
+                            }
                         }
                     }
-                }
 
-                WebView(state = wvState, modifier = Modifier.fillMaxSize(), onCreated = {
-                    it.settings.javaScriptEnabled = true
-                }, client = webViewClient)
-            }
-
-            is ProcessingState.ProcessingStep -> {
-                LaunchedEffect(key1 = null) {
-                    mainVM.updateState {
-                        copy(topBar = null, showBottomBar = false, fab = null)
-                    }
-                }
-
-                Column(
-                    Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    CircularProgressIndicator()
-                    Text(
-                        text = "Processing oauth code",
-                        style = MaterialTheme.typography.headlineSmall,
-                        modifier = Modifier.padding(6.dp)
-                    )
+                    WebView(state = wvState, modifier = Modifier.fillMaxSize(), onCreated = {
+                        it.settings.javaScriptEnabled = true
+                    }, client = webViewClient)
                 }
             }
+        }
 
-            is ProcessingState.Error -> {
-                LaunchedEffect(key1 = null) {
-                    mainVM.updateState {
-                        copy(topBar = null, showBottomBar = false, fab = null)
-                    }
-                }
+        is ProcessingState.ProcessingStep -> {
+            Column(
+                Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator()
+                Text(
+                    text = "Processing oauth code",
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.padding(6.dp)
+                )
+            }
+        }
 
+        is ProcessingState.Error -> {
+            Column {
                 Text(
                     text = "Error occurred: ${state.processingState.message}",
                     modifier = Modifier

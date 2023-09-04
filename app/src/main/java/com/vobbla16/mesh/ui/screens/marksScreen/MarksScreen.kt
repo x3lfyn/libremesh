@@ -23,20 +23,13 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
     val vm: MarksScreenViewModel = koinViewModel()
     val state = vm.viewState.value
 
     LaunchedEffect(key1 = null) {
-        mainVM.updateState {
-            copy(
-                topBar = null,
-                showBottomBar = true,
-                fab = null
-            )
-        }
+        mainVM.showBottomBar()
     }
 
     SideEffect {

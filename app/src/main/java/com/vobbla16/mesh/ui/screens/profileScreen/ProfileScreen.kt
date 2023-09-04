@@ -18,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -44,30 +45,7 @@ fun ProfileScreen(navController: NavController, mainVM: MainActivityViewModel) {
     val state = vm.viewState.value
 
     LaunchedEffect(key1 = null) {
-        mainVM.updateState {
-            copy(
-                topBar = {
-                    TopAppBar(
-                        title = { Text(text = "Profile screen") },
-                        actions = {
-                            IconButton(
-                                onClick = {
-                                    vm.updatedDialogOpened(true)
-                                }
-                            )
-                            {
-                                Icon(
-                                    imageVector = Icons.Default.ExitToApp,
-                                    contentDescription = "log out"
-                                )
-                            }
-                        }
-                    )
-                },
-                showBottomBar = true,
-                fab = null
-            )
-        }
+        mainVM.showBottomBar()
     }
 
     if (state.dialogOpened) {
@@ -126,109 +104,127 @@ fun ProfileScreen(navController: NavController, mainVM: MainActivityViewModel) {
         }
     }
 
-    Column(
-        Modifier
-            .padding(6.dp)
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-    ) {
-        if (state.isLoading) {
-            CircularProgressIndicator()
-        }
-
-        state.error?.let { err ->
-            Text(text = err)
-        }
-
-        state.profile?.let { profile ->
-            Text(
-                text = "${profile.firstName} ${profile.middleName} ${profile.lastName}",
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(6.dp)
-            )
-
-            @Composable
-            fun OneLineData(first: String, second: String) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = first,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(4.dp, 1.dp)
-                    )
-                    Text(
-                        text = second,
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(4.dp, 1.dp)
+    Scaffold(topBar = {
+        TopAppBar(
+            title = { Text(text = "Profile screen") },
+            actions = {
+                IconButton(
+                    onClick = {
+                        vm.updatedDialogOpened(true)
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ExitToApp,
+                        contentDescription = "log out"
                     )
                 }
             }
-
-            Card(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 4.dp)
-            ) {
-                Text(
-                    text = "Общая информация",
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(4.dp, 2.dp)
-                )
-                Column(Modifier.padding(4.dp, 1.dp, 2.dp, 4.dp)) {
-                    OneLineData(first = "Класс:", second = profile.className)
-                    OneLineData(first = "Электропочта:", second = profile.email)
-                    OneLineData(first = "Телефон:", second = profile.phone)
-                    OneLineData(first = "СНИЛС:", second = profile.snils)
-                }
+        )
+    }) { paddingValues ->
+        Column(
+            Modifier
+                .padding(paddingValues)
+                .padding(6.dp)
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+        ) {
+            if (state.isLoading) {
+                CircularProgressIndicator()
             }
 
-            Card(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 4.dp)
-            ) {
-                Text(
-                    text = "Школа",
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(4.dp, 2.dp)
-                )
-                Column(Modifier.padding(4.dp, 1.dp, 2.dp, 4.dp)) {
-                    Text(
-                        text = profile.school.shortName,
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(4.dp, 1.dp)
-                    )
-                    Text(
-                        text = profile.school.name,
-                        style = MaterialTheme.typography.labelSmall,
-                        maxLines = 2,
-                        modifier = Modifier.padding(4.dp, 1.dp)
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-                    OneLineData(first = "Директор:", second = profile.school.principal)
-                    OneLineData(first = "Телефон:", second = profile.school.phone)
-                }
+            state.error?.let { err ->
+                Text(text = err)
             }
 
-            Card(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 4.dp)
-            ) {
+            state.profile?.let { profile ->
                 Text(
-                    text = "Секции",
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(4.dp, 2.dp)
+                    text = "${profile.firstName} ${profile.middleName} ${profile.lastName}",
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(6.dp)
                 )
-                Column(Modifier.padding(4.dp, 1.dp, 2.dp, 4.dp)) {
-                    profile.sections.forEach { section ->
 
+                @Composable
+                fun OneLineData(first: String, second: String) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = "· " + section.name,
+                            text = first,
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(4.dp, 1.dp)
+                        )
+                        Text(
+                            text = second,
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(4.dp, 1.dp)
                         )
+                    }
+                }
+
+                Card(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 4.dp)
+                ) {
+                    Text(
+                        text = "Общая информация",
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(4.dp, 2.dp)
+                    )
+                    Column(Modifier.padding(4.dp, 1.dp, 2.dp, 4.dp)) {
+                        OneLineData(first = "Класс:", second = profile.className)
+                        OneLineData(first = "Электропочта:", second = profile.email)
+                        OneLineData(first = "Телефон:", second = profile.phone)
+                        OneLineData(first = "СНИЛС:", second = profile.snils)
+                    }
+                }
+
+                Card(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 4.dp)
+                ) {
+                    Text(
+                        text = "Школа",
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(4.dp, 2.dp)
+                    )
+                    Column(Modifier.padding(4.dp, 1.dp, 2.dp, 4.dp)) {
+                        Text(
+                            text = profile.school.shortName,
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(4.dp, 1.dp)
+                        )
+                        Text(
+                            text = profile.school.name,
+                            style = MaterialTheme.typography.labelSmall,
+                            maxLines = 2,
+                            modifier = Modifier.padding(4.dp, 1.dp)
+                        )
+                        Spacer(modifier = Modifier.height(2.dp))
+                        OneLineData(first = "Директор:", second = profile.school.principal)
+                        OneLineData(first = "Телефон:", second = profile.school.phone)
+                    }
+                }
+
+                Card(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 4.dp)
+                ) {
+                    Text(
+                        text = "Секции",
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(4.dp, 2.dp)
+                    )
+                    Column(Modifier.padding(4.dp, 1.dp, 2.dp, 4.dp)) {
+                        profile.sections.forEach { section ->
+                            Text(
+                                text = "· " + section.name,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(4.dp, 1.dp)
+                            )
+                        }
                     }
                 }
             }
