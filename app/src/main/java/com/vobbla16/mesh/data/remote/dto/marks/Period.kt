@@ -15,9 +15,9 @@ data class Period(
     @SerialName("end_iso")
     val endIso: String,
     @SerialName("final_mark")
-    val finalMark: String?,
+    val finalMark: String? = null,
     @SerialName("is_year_mark")
-    val isYearMark: Boolean,
+    val isYearMark: Boolean = false,
     @SerialName("marks")
     val marks: List<Mark>,
     @SerialName("name")
