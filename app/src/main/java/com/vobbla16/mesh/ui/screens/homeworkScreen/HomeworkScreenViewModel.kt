@@ -2,7 +2,7 @@ package com.vobbla16.mesh.ui.screens.homeworkScreen
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.vobbla16.mesh.common.DataOrErrorOrNotLoggedIn
+import com.vobbla16.mesh.common.Resource
 import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.domain.use_case.GetHomeworkUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
@@ -25,7 +25,7 @@ class HomeworkScreenViewModel(
         setState { copy(isLoading = true) }
 
         when (val data = getHomeworkUseCase()) {
-            is DataOrErrorOrNotLoggedIn.Ok -> {
+            is Resource.Ok -> {
                 setState {
                     copy(
                         pagingFlow = data.data.cachedIn(viewModelScope),
@@ -35,11 +35,11 @@ class HomeworkScreenViewModel(
                 }
             }
 
-            is DataOrErrorOrNotLoggedIn.Err -> {
+            is Resource.Err -> {
                 setState { copy(isLoading = false, error = data.e.toText()) }
             }
 
-            is DataOrErrorOrNotLoggedIn.NotLoggedIn -> {
+            is Resource.NotLoggedIn -> {
                 setAction { HomeworkScreenAction.NavigateToLoginScreen }
             }
         }

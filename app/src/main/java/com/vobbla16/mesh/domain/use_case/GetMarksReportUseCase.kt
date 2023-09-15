@@ -1,9 +1,8 @@
 package com.vobbla16.mesh.domain.use_case
 
-import com.vobbla16.mesh.common.Constants
 import com.vobbla16.mesh.common.DataOrError
 import com.vobbla16.mesh.common.ResourceOrNotLoggedIn
-import com.vobbla16.mesh.domain.model.marks.MarksSubject
+import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel
 import com.vobbla16.mesh.domain.repository.MeshRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -13,7 +12,7 @@ class GetMarksReportUseCase(
     private val getStudent: GetStudentIntUseCase,
     private val getTokenUseCase: GetTokenUseCase
 ) {
-    operator fun invoke(): Flow<ResourceOrNotLoggedIn<List<MarksSubject>>> = flow {
+    operator fun invoke(): Flow<ResourceOrNotLoggedIn<List<MarksSubjectModel>>> = flow {
         emit(ResourceOrNotLoggedIn.Loading)
 
         val token = getTokenUseCase()

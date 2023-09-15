@@ -14,7 +14,7 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 @Serializable
-data class Schedule(
+data class ScheduleDto(
     @SerialName("activities")
     val activities: List<Activity>,
     @SerialName("date")
@@ -25,8 +25,8 @@ data class Schedule(
     val summary: String // 11 уроков
 )
 
-fun Schedule.toDomain(): com.vobbla16.mesh.domain.model.schedule.Schedule {
-    return com.vobbla16.mesh.domain.model.schedule.Schedule(
+fun ScheduleDto.toDomain(): com.vobbla16.mesh.domain.model.schedule.ScheduleModel {
+    return com.vobbla16.mesh.domain.model.schedule.ScheduleModel(
         date = this.date.toLocalDate(),
         summary = this.summary,
         activities = this.activities.map { act ->

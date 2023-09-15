@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AcademicYearsItem(
+data class AcademicYearsItemDto(
     @SerialName("begin_date")
     val beginDate: String,
     @SerialName("calendar_id")

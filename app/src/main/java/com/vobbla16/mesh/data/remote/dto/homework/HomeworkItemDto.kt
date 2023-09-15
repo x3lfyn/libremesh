@@ -4,11 +4,12 @@ package com.vobbla16.mesh.data.remote.dto.homework
 import com.vobbla16.mesh.common.fromMeshStr2LocalDT
 import com.vobbla16.mesh.common.fromMeshStr2LocalDate
 import com.vobbla16.mesh.domain.model.homework.HomeworkItem
+import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class HomeworkDtoItem(
+data class HomeworkItemDto(
     @SerialName("attachment_ids")
     val attachmentIds: List<Int>,
     @SerialName("attachments")
@@ -39,7 +40,7 @@ data class HomeworkDtoItem(
     val updatedAt: String
 )
 
-fun HomeworkDtoItem.toDomain() = HomeworkItem(
+fun HomeworkItemDto.toDomain() = HomeworkItem(
     isReady = this.isReady,
     createdAt = fromMeshStr2LocalDT(this.createdAt),
     updatedAt = fromMeshStr2LocalDT(this.updatedAt),
@@ -50,3 +51,10 @@ fun HomeworkDtoItem.toDomain() = HomeworkItem(
     dateAssignedOn = fromMeshStr2LocalDate(this.homeworkEntry.homework.dateAssignedOn),
     datePreparedFor = fromMeshStr2LocalDate(this.homeworkEntry.homework.datePreparedFor)
 )
+
+fun List<HomeworkItemDto>.toDomain(): List<HomeworkItemsForDateModel> =
+    this.map { it.toDomain() }
+        .groupBy { it.datePreparedFor }
+        .map { HomeworkItemsForDateModel(it.key, it.value) }
+        .sortedBy { it.date }
+        .reversed()

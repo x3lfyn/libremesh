@@ -1,7 +1,7 @@
 package com.vobbla16.mesh.ui.screens.marksScreen.localState
 
 import com.vobbla16.mesh.domain.model.marks.Mark
-import com.vobbla16.mesh.domain.model.marks.MarksSubject
+import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel
 import kotlinx.datetime.LocalDate
 
 data class SingleDayReport(
@@ -14,7 +14,7 @@ data class MarkWithSubject(
     val mark: Mark
 )
 
-fun List<MarksSubject>.toSingleDayReports(): List<SingleDayReport> {
+fun List<MarksSubjectModel>.toSingleDayReports(): List<SingleDayReport> {
     val marks: MutableList<MarkWithSubject> = mutableListOf()
 
     this.forEach { subj ->

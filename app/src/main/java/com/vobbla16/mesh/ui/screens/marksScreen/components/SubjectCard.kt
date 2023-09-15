@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.vobbla16.mesh.domain.model.marks.GradeType
 import com.vobbla16.mesh.domain.model.marks.Mark
 import com.vobbla16.mesh.domain.model.marks.MarkValue
-import com.vobbla16.mesh.domain.model.marks.MarksSubject
+import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel
 import com.vobbla16.mesh.domain.model.marks.Period
 import kotlinx.datetime.LocalDate
 
@@ -37,7 +37,7 @@ import kotlinx.datetime.LocalDate
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SubjectCard(
-    subject: MarksSubject, opened: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier
+    subject: MarksSubjectModel, opened: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier
 ) {
     OutlinedCard(modifier = modifier.fillMaxWidth(), onClick = onClick) {
         FlowRow(
@@ -104,7 +104,7 @@ fun SubjectCard(
 @Preview(showBackground = true)
 @Composable
 fun SubjectCardPreview1() {
-    val subj = MarksSubject(
+    val subj = MarksSubjectModel(
         subjectName = "Физика",
         average = MarkValue(fiveScale = 4.51f, hundredScale = 90.0f),
         yearMark = 4,
@@ -241,7 +241,7 @@ fun SubjectCardPreview1() {
 @Preview(showBackground = true)
 @Composable
 fun SubjectCardPreview2() {
-    val subj = MarksSubject(
+    val subj = MarksSubjectModel(
         subjectName = "Основы духовно-нравственной культуры народов России",
         average = MarkValue(fiveScale = 4.51f, hundredScale = 90.0f),
         yearMark = 4,
@@ -378,7 +378,7 @@ fun SubjectCardPreview2() {
 @Preview(showBackground = true)
 @Composable
 fun SubjectCardPreview3() {
-    val subj = MarksSubject(
+    val subj = MarksSubjectModel(
         subjectName = "Основы духовно-нравственной культуры народов России",
         average = MarkValue(fiveScale = 4.51f, hundredScale = 90.0f),
         yearMark = 4,

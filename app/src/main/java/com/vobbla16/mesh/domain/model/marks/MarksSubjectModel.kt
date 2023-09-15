@@ -1,6 +1,6 @@
 package com.vobbla16.mesh.domain.model.marks
 
-data class MarksSubject(
+data class MarksSubjectModel(
     val subjectName: String,
 
     val average: MarkValue,

@@ -1,12 +1,12 @@
 package com.vobbla16.mesh.data.remote.dto.acadYears
 
 
-import com.vobbla16.mesh.domain.model.acadYears.AcademicYear
+import com.vobbla16.mesh.domain.model.acadYears.AcademicYearItemModel
 import kotlinx.datetime.toLocalDate
 
 
-fun List<AcademicYearsItem>.toDomain(): List<AcademicYear> = this.map { item ->
-    AcademicYear(
+fun List<AcademicYearsItemDto>.toDomain(): List<AcademicYearItemModel> = this.map { item ->
+    AcademicYearItemModel(
         id = item.id,
         startDate = item.beginDate.toLocalDate(),
         endDate = item.endDate.toLocalDate(),

@@ -26,7 +26,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.vobbla16.mesh.MainActivityViewModel
 import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.domain.model.homework.HomeworkItem
-import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDate
+import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
 import com.vobbla16.mesh.ui.screens.homeworkScreen.components.HomeworkItemsForDateCard
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.datetime.LocalDate
@@ -235,7 +235,7 @@ fun HomeworkScreenUIPreview5() {
             pagingFlow = flowOf(
                 PagingData.from(
                     data = listOf(
-                        HomeworkItemsForDate(
+                        HomeworkItemsForDateModel(
                             LocalDate(2022, 5, 11),
                             listOf(
                                 HomeworkItem(
@@ -273,7 +273,7 @@ fun HomeworkScreenUIPreview5() {
                                 )
                             )
                         ),
-                        HomeworkItemsForDate(
+                        HomeworkItemsForDateModel(
                             LocalDate(2022, 5, 15),
                             listOf(
                                 HomeworkItem(
@@ -333,7 +333,7 @@ fun HomeworkScreenUIPreview6() {
             pagingFlow = flowOf(
                 PagingData.from(
                     data = listOf(
-                        HomeworkItemsForDate(
+                        HomeworkItemsForDateModel(
                             LocalDate(2022, 5, 11),
                             listOf(
                                 HomeworkItem(
@@ -371,7 +371,7 @@ fun HomeworkScreenUIPreview6() {
                                 )
                             )
                         ),
-                        HomeworkItemsForDate(
+                        HomeworkItemsForDateModel(
                             LocalDate(2022, 5, 15),
                             listOf(
                                 HomeworkItem(
@@ -431,7 +431,7 @@ fun HomeworkScreenUIPreview7() {
             pagingFlow = flowOf(
                 PagingData.from(
                     data = listOf(
-                        HomeworkItemsForDate(
+                        HomeworkItemsForDateModel(
                             LocalDate(2022, 5, 11),
                             listOf(
                                 HomeworkItem(
@@ -469,7 +469,7 @@ fun HomeworkScreenUIPreview7() {
                                 )
                             )
                         ),
-                        HomeworkItemsForDate(
+                        HomeworkItemsForDateModel(
                             LocalDate(2022, 5, 15),
                             listOf(
                                 HomeworkItem(
@@ -529,7 +529,7 @@ fun HomeworkScreenUIPreview8() {
             pagingFlow = flowOf(
                 PagingData.from(
                     data = listOf(
-                        HomeworkItemsForDate(
+                        HomeworkItemsForDateModel(
                             LocalDate(2022, 5, 11),
                             listOf(
                                 HomeworkItem(
@@ -567,7 +567,7 @@ fun HomeworkScreenUIPreview8() {
                                 )
                             )
                         ),
-                        HomeworkItemsForDate(
+                        HomeworkItemsForDateModel(
                             LocalDate(2022, 5, 15),
                             listOf(
                                 HomeworkItem(
@@ -627,7 +627,7 @@ fun HomeworkScreenUIPreview9() {
             pagingFlow = flowOf(
                 PagingData.from(
                     data = listOf(
-                        HomeworkItemsForDate(
+                        HomeworkItemsForDateModel(
                             LocalDate(2022, 5, 11),
                             listOf(
                                 HomeworkItem(
@@ -665,7 +665,7 @@ fun HomeworkScreenUIPreview9() {
                                 )
                             )
                         ),
-                        HomeworkItemsForDate(
+                        HomeworkItemsForDateModel(
                             LocalDate(2022, 5, 15),
                             listOf(
                                 HomeworkItem(

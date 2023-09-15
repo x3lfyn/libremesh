@@ -20,13 +20,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.homework.HomeworkItem
-import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDate
+import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 
 @SuppressLint("NewApi")
 @Composable
-fun HomeworkItemsForDateCard(data: HomeworkItemsForDate, modifier: Modifier = Modifier) {
+fun HomeworkItemsForDateCard(data: HomeworkItemsForDateModel, modifier: Modifier = Modifier) {
     val config = LocalConfiguration.current
 
     Card(modifier) {
@@ -65,7 +65,7 @@ fun HomeworkItemsForDateCard(data: HomeworkItemsForDate, modifier: Modifier = Mo
 @Composable
 fun HomeworkItemsForDateCardPreview1() {
     HomeworkItemsForDateCard(
-        data = HomeworkItemsForDate(
+        data = HomeworkItemsForDateModel(
             date = LocalDate(2022, 10, 7),
             items = listOf(
                 HomeworkItem(

@@ -1,9 +1,8 @@
 package com.vobbla16.mesh.domain.use_case
 
-import com.vobbla16.mesh.common.Constants
 import com.vobbla16.mesh.common.DataOrError
 import com.vobbla16.mesh.common.ResourceOrNotLoggedIn
-import com.vobbla16.mesh.domain.model.schedule.Schedule
+import com.vobbla16.mesh.domain.model.schedule.ScheduleModel
 import com.vobbla16.mesh.domain.repository.MeshRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,7 +13,7 @@ class GetScheduleUseCase(
     private val getTokenUseCase: GetTokenUseCase,
     private val getStudent: GetStudentIntUseCase
 ) {
-    operator fun invoke(date: LocalDate): Flow<ResourceOrNotLoggedIn<Schedule>> = flow {
+    operator fun invoke(date: LocalDate): Flow<ResourceOrNotLoggedIn<ScheduleModel>> = flow {
         emit(ResourceOrNotLoggedIn.Loading)
 
         val token = getTokenUseCase()

@@ -5,13 +5,13 @@ import com.vobbla16.mesh.common.nonIsoToLocalDate
 import com.vobbla16.mesh.domain.model.marks.GradeType
 import com.vobbla16.mesh.domain.model.marks.Mark
 import com.vobbla16.mesh.domain.model.marks.MarkValue
-import com.vobbla16.mesh.domain.model.marks.MarksSubject
+import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel
 import com.vobbla16.mesh.domain.model.marks.Period
 import kotlinx.datetime.toLocalDate
 
 
-fun List<MarksReportItem>.toDomain(): List<MarksSubject> = this.map { subj ->
-    MarksSubject(
+fun List<MarksReportItemDto>.toDomain(): List<MarksSubjectModel> = this.map { subj ->
+    MarksSubjectModel(
         subjectName = subj.subjectName,
         average = MarkValue(subj.avgFive.toFloat(), subj.avgHundred.toFloat()),
         yearMark = subj.yearMark?.toInt(),

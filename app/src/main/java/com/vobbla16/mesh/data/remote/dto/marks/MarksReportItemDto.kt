@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MarksReportItem(
+data class MarksReportItemDto(
     @SerialName("attestation_mark")
     val attestationMark: String? = null,
     @SerialName("avg_five")

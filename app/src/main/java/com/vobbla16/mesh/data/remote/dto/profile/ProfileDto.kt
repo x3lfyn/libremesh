@@ -11,7 +11,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Profile(
+data class ProfileDto(
     @SerialName("children")
     val children: List<Children>,
     @SerialName("hash")
@@ -20,7 +20,7 @@ data class Profile(
     val profile: ProfileX
 )
 
-fun Profile.toDomain() = ProfileModel(
+fun ProfileDto.toDomain() = ProfileModel(
     profile = com.vobbla16.mesh.domain.model.profile.Profile(
         lastName = this.profile.lastName,
         firstName = this.profile.firstName,
