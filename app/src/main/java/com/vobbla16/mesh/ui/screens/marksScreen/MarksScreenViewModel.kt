@@ -1,7 +1,8 @@
 package com.vobbla16.mesh.ui.screens.marksScreen
 
 import androidx.lifecycle.viewModelScope
-import com.vobbla16.mesh.common.ResourceOrNotLoggedIn
+import com.vobbla16.mesh.common.OrLoading
+import com.vobbla16.mesh.common.Resource
 import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.domain.use_case.GetMarksReportUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
@@ -51,20 +52,30 @@ class MarksScreenViewModel(
     private fun getMarksReport() = viewModelScope.launch {
         getMarksReportUseCase().onEach {
             when (it) {
-                is ResourceOrNotLoggedIn.Success -> {
-                    setState { copy(dataGroupedBySubject = it.data, isLoading = false, error = null) }
-                }
-
-                is ResourceOrNotLoggedIn.Loading -> {
+                is OrLoading.Loading -> {
                     setState { copy(isLoading = true) }
                 }
 
-                is ResourceOrNotLoggedIn.Error -> {
-                    setState { copy(error = it.e.toText(), isLoading = false) }
-                }
+                is OrLoading.Data -> {
+                    when (it.res) {
+                        is Resource.Ok -> {
+                            setState {
+                                copy(
+                                    dataGroupedBySubject = it.res.data,
+                                    isLoading = false,
+                                    error = null
+                                )
+                            }
+                        }
 
-                is ResourceOrNotLoggedIn.NotLoggedIn -> {
-                    setAction { MarksScreenAction.NavigateToLoginScreen }
+                        is Resource.Err -> {
+                            setState { copy(error = it.res.e.toText(), isLoading = false) }
+                        }
+
+                        is Resource.NotLoggedIn -> {
+                            setAction { MarksScreenAction.NavigateToLoginScreen }
+                        }
+                    }
                 }
             }
         }.collect()

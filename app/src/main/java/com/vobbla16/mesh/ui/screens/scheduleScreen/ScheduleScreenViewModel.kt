@@ -1,7 +1,8 @@
 package com.vobbla16.mesh.ui.screens.scheduleScreen
 
 import androidx.lifecycle.viewModelScope
-import com.vobbla16.mesh.common.ResourceOrNotLoggedIn
+import com.vobbla16.mesh.common.OrLoading
+import com.vobbla16.mesh.common.Resource
 import com.vobbla16.mesh.common.localDateTimeNow
 import com.vobbla16.mesh.domain.use_case.GetScheduleUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
@@ -35,23 +36,44 @@ class ScheduleScreenViewModel(private val getScheduleUseCase: GetScheduleUseCase
         getScheduleUseCase(date)
             .onEach {
                 when (it) {
-                    is ResourceOrNotLoggedIn.Success -> {
-                        if (refresh) setState { copy(schedule = it.data, isRefreshing = false, error = null) }
-                        else setState { copy(schedule = it.data, isLoading = false, error = null) }
-                    }
-
-                    is ResourceOrNotLoggedIn.Loading -> {
+                    is OrLoading.Loading -> {
                         if (refresh) setState { copy(isRefreshing = true, error = null) }
                         else setState { copy(isLoading = true, error = null) }
                     }
 
-                    is ResourceOrNotLoggedIn.Error -> {
-                        if (refresh) setState { copy(error = it.e, isRefreshing = false) }
-                        else setState { copy(error = it.e, isLoading = false) }
-                    }
+                    is OrLoading.Data -> {
+                        when (it.res) {
+                            is Resource.Ok -> {
+                                if (refresh) setState {
+                                    copy(
+                                        schedule = it.res.data,
+                                        isRefreshing = false,
+                                        error = null
+                                    )
+                                }
+                                else setState {
+                                    copy(
+                                        schedule = it.res.data,
+                                        isLoading = false,
+                                        error = null
+                                    )
+                                }
+                            }
 
-                    is ResourceOrNotLoggedIn.NotLoggedIn -> {
-                        setAction { ScheduleScreenAction.NavigateToLoginScreen }
+                            is Resource.Err -> {
+                                if (refresh) setState {
+                                    copy(
+                                        error = it.res.e,
+                                        isRefreshing = false
+                                    )
+                                }
+                                else setState { copy(error = it.res.e, isLoading = false) }
+                            }
+
+                            is Resource.NotLoggedIn -> {
+                                setAction { ScheduleScreenAction.NavigateToLoginScreen }
+                            }
+                        }
                     }
                 }
             }.collect()

@@ -3,6 +3,7 @@ package com.vobbla16.mesh.domain.use_case
 import com.vobbla16.mesh.common.Constants
 import com.vobbla16.mesh.common.DataOrError
 import com.vobbla16.mesh.common.OrLoading
+import com.vobbla16.mesh.data.remote.InsertAuthAttrs
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.cookie
@@ -19,6 +20,7 @@ class OauthCodeToTokenUseCase(private val httpClient: HttpClient) {
             url {
                 parameters.append("code", code)
             }
+            attributes.put(InsertAuthAttrs.DontInsert, true)
         }
 
         val setCookieHeader = aupdRequest.headers["set-cookie"]
@@ -31,6 +33,7 @@ class OauthCodeToTokenUseCase(private val httpClient: HttpClient) {
 
         val tokenRequest = httpClient.get(Constants.AUPD_TO_TOKEN_URL) {
             cookie("aupd_token", aupdToken)
+            attributes.put(InsertAuthAttrs.DontInsert, true)
         }
 
         val token = tokenRequest.body<String>()

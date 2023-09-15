@@ -3,7 +3,8 @@ package com.vobbla16.mesh.ui.screens.profileScreen
 import android.webkit.CookieManager
 import androidx.lifecycle.viewModelScope
 import com.vobbla16.mesh.common.LoadingOrDone
-import com.vobbla16.mesh.common.ResourceOrNotLoggedIn
+import com.vobbla16.mesh.common.OrLoading
+import com.vobbla16.mesh.common.Resource
 import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.domain.use_case.GetStudentUseCase
 import com.vobbla16.mesh.domain.use_case.LogOutUseCase
@@ -30,21 +31,22 @@ class ProfileScreenViewModel(
 
     private fun getProfile() = viewModelScope.launch {
         getStudentUseCase().onEach {
-            when (it) {
-                is ResourceOrNotLoggedIn.Success -> {
-                    setState { copy(profile = it.data, isLoading = false, error = null) }
-                }
-
-                is ResourceOrNotLoggedIn.Loading -> {
+            when(it) {
+                is OrLoading.Loading -> {
                     setState { copy(isLoading = true) }
                 }
-
-                is ResourceOrNotLoggedIn.Error -> {
-                    setState { copy(error = it.e.toText(), isLoading = false) }
-                }
-
-                is ResourceOrNotLoggedIn.NotLoggedIn -> {
-                    setAction { ProfileScreenAction.NavigateToLoginScreen }
+                is OrLoading.Data -> {
+                    when(it.res) {
+                        is Resource.Ok -> {
+                            setState { copy(profile = it.res.data.children[0], isLoading = false, error = null) }
+                        }
+                        is Resource.Err -> {
+                            setState { copy(error = it.res.e.toText(), isLoading = false) }
+                        }
+                        is Resource.NotLoggedIn -> {
+                            setAction { ProfileScreenAction.NavigateToLoginScreen }
+                        }
+                    }
                 }
             }
         }.collect()

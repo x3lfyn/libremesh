@@ -6,7 +6,7 @@ import com.vobbla16.mesh.ui.ViewState
 import kotlinx.coroutines.flow.Flow
 
 data class HomeworkScreenState(
-    val pagingFlow: Flow<PagingData<HomeworkItemsForDateModel>>?,
+    val data: List<HomeworkItemsForDateModel>?,
     val isLoading: Boolean,
     val error: String?
 ): ViewState

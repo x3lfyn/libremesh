@@ -1,7 +1,8 @@
 package com.vobbla16.mesh.ui.screens.loginScreen
 
 import androidx.lifecycle.viewModelScope
-import com.vobbla16.mesh.common.Resource
+import com.vobbla16.mesh.common.DataOrError
+import com.vobbla16.mesh.common.OrLoading
 import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.domain.repository.SettingsRepository
 import com.vobbla16.mesh.domain.use_case.OauthCodeToTokenUseCase
@@ -23,18 +24,22 @@ class LoginScreenViewModel(
         viewModelScope.launch {
             oauthCodeToTokenUseCase(code).onEach {
                 when (it) {
-                    is Resource.Success -> {
-                        settingsRepository.setToken(it.data)
-                        setAction { LoginScreenAction.SetSavedStateFlag }
-                        setAction { LoginScreenAction.GoBack }
-                    }
-
-                    is Resource.Loading -> {
+                    is OrLoading.Loading -> {
                         setState { copy(processingState = ProcessingState.ProcessingStep) }
                     }
 
-                    is Resource.Error -> {
-                        setState { copy(processingState = ProcessingState.Error(it.e.toText())) }
+                    is OrLoading.Data -> {
+                        when (it.res) {
+                            is DataOrError.Success -> {
+                                settingsRepository.setToken(it.res.data)
+                                setAction { LoginScreenAction.SetSavedStateFlag }
+                                setAction { LoginScreenAction.GoBack }
+                            }
+
+                            is DataOrError.Error -> {
+                                setState { copy(processingState = ProcessingState.Error(it.res.e.toText())) }
+                            }
+                        }
                     }
                 }
             }.collect()

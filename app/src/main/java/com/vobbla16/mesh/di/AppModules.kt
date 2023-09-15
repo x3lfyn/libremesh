@@ -9,6 +9,7 @@ import com.vobbla16.mesh.domain.repository.SettingsRepository
 import com.vobbla16.mesh.domain.use_case.GetHomeworkUseCase
 import com.vobbla16.mesh.domain.use_case.GetMarksReportUseCase
 import com.vobbla16.mesh.domain.use_case.GetScheduleUseCase
+import com.vobbla16.mesh.domain.use_case.GetStudentUseCase
 import com.vobbla16.mesh.domain.use_case.GetTokenUseCase
 import com.vobbla16.mesh.domain.use_case.LogOutUseCase
 import com.vobbla16.mesh.domain.use_case.OauthCodeToTokenUseCase
@@ -50,6 +51,7 @@ val appModule = module {
     single { GetMarksReportUseCase(get()) }
     single { LogOutUseCase(get()) }
     single { GetHomeworkUseCase(get()) }
+    single { GetStudentUseCase(get()) }
 
     viewModel {
         ScheduleScreenViewModel(get())
