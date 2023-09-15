@@ -1,7 +1,8 @@
 package com.vobbla16.mesh.domain.use_case
 
 import com.vobbla16.mesh.common.Constants
-import com.vobbla16.mesh.common.Resource
+import com.vobbla16.mesh.common.DataOrError
+import com.vobbla16.mesh.common.OrLoading
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.cookie
@@ -11,8 +12,8 @@ import kotlinx.coroutines.flow.flow
 
 class OauthCodeToTokenUseCase(private val httpClient: HttpClient) {
 
-    suspend operator fun invoke(code: String): Flow<Resource<String>> = flow {
-        emit(Resource.Loading)
+    suspend operator fun invoke(code: String): Flow<OrLoading<DataOrError<String>>> = flow {
+        emit(OrLoading.Loading)
 
         val aupdRequest = httpClient.get(Constants.OAUTH_CODE_TO_AUPD_URL) {
             url {
@@ -22,7 +23,7 @@ class OauthCodeToTokenUseCase(private val httpClient: HttpClient) {
 
         val setCookieHeader = aupdRequest.headers["set-cookie"]
         if (setCookieHeader == null) {
-            emit(Resource.Error(Error("Header doesn't contain new cookie")))
+            emit(OrLoading.Data(DataOrError.Error(Error("Header doesn't contain new cookie"))))
             return@flow
         }
 
@@ -33,6 +34,6 @@ class OauthCodeToTokenUseCase(private val httpClient: HttpClient) {
         }
 
         val token = tokenRequest.body<String>()
-        emit(Resource.Success(token))
+        emit(OrLoading.Data(DataOrError.Success(token)))
     }
 }

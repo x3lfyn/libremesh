@@ -13,26 +13,23 @@ class MeshRepositoryImpl : MeshRepository {
         private val meshApi = MeshApi()
     }
 
-    override suspend fun getProfile(token: String) = meshApi.getProfile(token)
+    override suspend fun getProfile() = meshApi.getProfile()
 
-    override suspend fun getSchedule(token: String, studentId: Int, date: LocalDate) =
-        meshApi.getSchedule(token, studentId.toString(), date.toString())
+    override suspend fun getSchedule(studentId: Int, date: LocalDate) =
+        meshApi.getSchedule(studentId.toString(), date.toString())
 
-    override suspend fun getAcademicYears(token: String) =
-        meshApi.getAcademicYears(token)
+    override suspend fun getAcademicYears() =
+        meshApi.getAcademicYears()
 
     override suspend fun getMarksReport(
-        token: String,
         studentId: Int,
         academicYear: AcademicYearItemModel
-    ) = meshApi.getMarksReport(token, studentId.toString(), academicYear.id.toString())
+    ) = meshApi.getMarksReport(studentId.toString(), academicYear.id.toString())
 
     override suspend fun getHomework(
-        token: String,
         studentId: Int,
         week: LocalDate
     ) = meshApi.getHomework(
-        token,
         studentId,
         week.toStr(),
         (week.plus(DatePeriod(days = 7))).toStr()

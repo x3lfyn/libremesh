@@ -11,24 +11,21 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDate
 
 interface MeshRepository {
-    suspend fun getProfile(token: String): Flow<OrLoading<Resource<ProfileModel>>>
+    suspend fun getProfile(): Flow<OrLoading<Resource<ProfileModel>>>
 
     suspend fun getSchedule(
-        token: String,
         studentId: Int,
         date: LocalDate
     ): Flow<OrLoading<Resource<ScheduleModel>>>
 
-    suspend fun getAcademicYears(token: String): Flow<OrLoading<Resource<List<AcademicYearItemModel>>>>
+    suspend fun getAcademicYears(): Flow<OrLoading<Resource<List<AcademicYearItemModel>>>>
 
     suspend fun getMarksReport(
-        token: String,
         studentId: Int,
         academicYear: AcademicYearItemModel
     ): Flow<OrLoading<Resource<List<MarksSubjectModel>>>>
 
     suspend fun getHomework(
-        token: String,
         studentId: Int,
         week: LocalDate
     ): Flow<OrLoading<Resource<List<HomeworkItemsForDateModel>>>>

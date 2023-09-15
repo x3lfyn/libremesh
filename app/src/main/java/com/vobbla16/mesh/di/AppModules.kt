@@ -1,6 +1,7 @@
 package com.vobbla16.mesh.di
 
 import com.vobbla16.mesh.MainActivityViewModel
+import com.vobbla16.mesh.data.remote.InsertAuthKtorPlugin
 import com.vobbla16.mesh.data.repository.MeshRepositoryImpl
 import com.vobbla16.mesh.data.settingsStore.SettingsRepositoryImpl
 import com.vobbla16.mesh.domain.repository.MeshRepository
@@ -8,8 +9,6 @@ import com.vobbla16.mesh.domain.repository.SettingsRepository
 import com.vobbla16.mesh.domain.use_case.GetHomeworkUseCase
 import com.vobbla16.mesh.domain.use_case.GetMarksReportUseCase
 import com.vobbla16.mesh.domain.use_case.GetScheduleUseCase
-import com.vobbla16.mesh.domain.use_case.GetStudentIntUseCase
-import com.vobbla16.mesh.domain.use_case.GetStudentUseCase
 import com.vobbla16.mesh.domain.use_case.GetTokenUseCase
 import com.vobbla16.mesh.domain.use_case.LogOutUseCase
 import com.vobbla16.mesh.domain.use_case.OauthCodeToTokenUseCase
@@ -22,6 +21,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -35,6 +35,9 @@ val appModule = module {
                     ignoreUnknownKeys = true
                 })
             }
+            install(InsertAuthKtorPlugin) {
+                token = runBlocking { get<GetTokenUseCase>().invoke() }
+            }
         }
     }
 
@@ -43,12 +46,10 @@ val appModule = module {
 
     single { OauthCodeToTokenUseCase(get()) }
     single { GetTokenUseCase(get()) }
-    single { GetScheduleUseCase(get(), get(), get()) }
-    single { GetStudentIntUseCase(get()) }
-    single { GetMarksReportUseCase(get(), get(), get()) }
-    single { GetStudentUseCase(get(), get()) }
+    single { GetScheduleUseCase(get()) }
+    single { GetMarksReportUseCase(get()) }
     single { LogOutUseCase(get()) }
-    single { GetHomeworkUseCase(get(), get(), get()) }
+    single { GetHomeworkUseCase(get()) }
 
     viewModel {
         ScheduleScreenViewModel(get())

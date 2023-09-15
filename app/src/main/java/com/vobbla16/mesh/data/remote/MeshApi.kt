@@ -27,7 +27,6 @@ import org.koin.core.component.inject
 class MeshApi : KoinComponent {
     private val httpClient: HttpClient by inject()
     suspend fun getSchedule(
-        token: String,
         studentId: String,
         date: String
     ) = wrapToResourceOrLoading<ScheduleDto, ScheduleModel>({ it.toDomain() }) {
@@ -36,32 +35,20 @@ class MeshApi : KoinComponent {
                 parameter("student_id", studentId)
                 parameter("date", date)
             }
-            header("Auth-Token", token)
-            header("Authorization", token)
-            header("X-mes-subsystem", "familyweb")
         }
     }
 
-    suspend fun getProfile(token: String) =
+    suspend fun getProfile() =
         wrapToResourceOrLoading<ProfileDto, ProfileModel>({ it.toDomain() }) {
-            httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.PROFILE_ENDPOINT) {
-                header("Auth-Token", token)
-                header("Authorization", token)
-                header("X-mes-subsystem", "familyweb")
-            }
+            httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.PROFILE_ENDPOINT)
         }
 
-    suspend fun getAcademicYears(token: String) =
+    suspend fun getAcademicYears() =
         wrapToResourceOrLoading<List<AcademicYearsItemDto>, List<AcademicYearItemModel>>({ it.toDomain() }) {
-            httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.ACADEMIC_YEARS_ENDPOINT) {
-                header("Auth-Token", token)
-                header("Authorization", token)
-                header("X-mes-subsystem", "familyweb")
-            }
+            httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.ACADEMIC_YEARS_ENDPOINT)
         }
 
     suspend fun getMarksReport(
-        token: String,
         studentId: String,
         academicYearId: String
     ) =
@@ -71,14 +58,10 @@ class MeshApi : KoinComponent {
                     parameter("academic_year_id", academicYearId)
                     parameter("student_profile_id", studentId)
                 }
-                header("Auth-Token", token)
-                header("Authorization", token)
-                header("X-mes-subsystem", "familyweb")
             }
         }
 
     suspend fun getHomework(
-        token: String,
         studentId: Int,
         beginDate: String,
         endDate: String
@@ -90,8 +73,6 @@ class MeshApi : KoinComponent {
                     parameter("begin_prepared_date", beginDate)
                     parameter("end_prepared_date", endDate)
                 }
-                header("Auth-Token", token)
-                header("Authorization", token)
             }
         }
 }
