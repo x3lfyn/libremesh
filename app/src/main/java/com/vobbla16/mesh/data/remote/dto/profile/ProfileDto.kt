@@ -1,6 +1,7 @@
 package com.vobbla16.mesh.data.remote.dto.profile
 
 
+import com.vobbla16.mesh.common.Constants
 import com.vobbla16.mesh.domain.model.profile.Child
 import com.vobbla16.mesh.domain.model.profile.Group
 import com.vobbla16.mesh.domain.model.profile.ProfileModel
@@ -30,9 +31,9 @@ fun ProfileDto.toDomain() = ProfileModel(
         userId = this.profile.userId,
         id = this.profile.id,
         contractId = this.profile.contractId,
-        phone = this.profile.phone,
-        email = this.profile.email,
-        snils = this.profile.snils,
+        phone = this.profile.phone ?: Constants.DEFAULT_STRING,
+        email = this.profile.email ?: Constants.DEFAULT_STRING,
+        snils = this.profile.snils ?: Constants.DEFAULT_STRING,
         type = this.profile.type
     ),
     children = this.children.map { child ->
@@ -45,9 +46,9 @@ fun ProfileDto.toDomain() = ProfileModel(
             userId = child.userId,
             id = child.id,
             contractId = child.contractId,
-            phone = child.phone,
-            email = child.email,
-            snils = child.snils,
+            phone = child.phone ?: Constants.DEFAULT_STRING,
+            email = child.email ?: Constants.DEFAULT_STRING,
+            snils = child.snils ?: Constants.DEFAULT_STRING,
             type = child.type,
             school = School(
                 id = child.school.id,
