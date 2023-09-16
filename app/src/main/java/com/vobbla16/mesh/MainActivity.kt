@@ -6,10 +6,13 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.SideEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.vobbla16.mesh.ui.Screens
 import com.vobbla16.mesh.ui.screens.homeworkScreen.HomeworkScreen
 import com.vobbla16.mesh.ui.screens.loginScreen.LoginScreen
@@ -28,6 +31,16 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 val vm: MainActivityViewModel = koinViewModel()
+
+                val systemUiController = rememberSystemUiController()
+                val useDarkIcons = !isSystemInDarkTheme()
+                val backgroundColor = MaterialTheme.colorScheme.background
+                SideEffect {
+                    systemUiController.setStatusBarColor(
+                        backgroundColor,
+                        darkIcons = useDarkIcons
+                    )
+                }
 
                 MainScaffold(navController, vm) {
                     SideEffect {
