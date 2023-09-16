@@ -22,7 +22,6 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -37,7 +36,7 @@ val appModule = module {
                 })
             }
             install(InsertAuthKtorPlugin) {
-                token = runBlocking { get<GetTokenUseCase>().invoke() }
+                getTokenUseCase = get<GetTokenUseCase>()
             }
         }
     }

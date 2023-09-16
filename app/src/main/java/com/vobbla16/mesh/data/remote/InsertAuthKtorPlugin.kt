@@ -1,19 +1,18 @@
 package com.vobbla16.mesh.data.remote
 
-import android.util.Log
+import com.vobbla16.mesh.domain.use_case.GetTokenUseCase
 import io.ktor.client.plugins.api.createClientPlugin
 import io.ktor.util.AttributeKey
-import kotlin.coroutines.cancellation.CancellationException
 
 class InsertAuthKtorPluginConfig {
-    var token: String? = null
+    var getTokenUseCase: GetTokenUseCase? = null
 }
 
 val InsertAuthKtorPlugin =
     createClientPlugin("InsertAuthKtorPlugin", ::InsertAuthKtorPluginConfig) {
-        val token = pluginConfig.token
-
         onRequest { request, _ ->
+            val token = this@createClientPlugin.pluginConfig.getTokenUseCase?.invoke()
+
             if (!request.attributes.contains(InsertAuthAttrs.DontInsert)) {
                 token?.let {
                     request.headers.apply {
@@ -32,4 +31,4 @@ val InsertAuthKtorPlugin =
 object InsertAuthAttrs {
     val DontInsert = AttributeKey<Boolean>("DontInsert")
 }
-class NoTokenException() : Exception("No token provided")
+class NoTokenException : Exception("No token provided")

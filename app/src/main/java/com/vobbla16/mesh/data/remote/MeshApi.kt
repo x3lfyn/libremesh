@@ -19,7 +19,6 @@ import com.vobbla16.mesh.domain.model.profile.ProfileModel
 import com.vobbla16.mesh.domain.model.schedule.ScheduleModel
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
-import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject

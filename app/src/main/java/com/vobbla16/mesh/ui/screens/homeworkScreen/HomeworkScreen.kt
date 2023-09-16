@@ -16,19 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.paging.LoadState
-import androidx.paging.LoadStates
-import androidx.paging.PagingData
 import com.vobbla16.mesh.MainActivityViewModel
-import com.vobbla16.mesh.domain.model.homework.HomeworkItem
-import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
 import com.vobbla16.mesh.ui.screens.homeworkScreen.components.HomeworkItemsForDateCard
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

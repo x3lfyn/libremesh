@@ -1,14 +1,12 @@
 package com.vobbla16.mesh.ui.screens.homeworkScreen
 
 import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
 import com.vobbla16.mesh.common.OrLoading
 import com.vobbla16.mesh.common.Resource
 import com.vobbla16.mesh.common.localDateTimeNow
 import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.domain.use_case.GetHomeworkUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
-import com.vobbla16.mesh.ui.screens.profileScreen.ProfileScreenAction
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
