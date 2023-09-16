@@ -15,11 +15,10 @@ ktor = "2.3.4"
 koin = "3.5.0"
 koin-compose = "3.5.0"
 kotlinx-datetime = "0.4.1"
-accompanist-webview = "0.32.0"
+accompanist = "0.33.1-alpha"
 datastore = "1.0.0"
 paging = "3.2.1"
 paging-compose = "3.2.1"
-systemUiController = "0.33.1-alpha"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -52,14 +51,14 @@ koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", versi
 
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-datetime" }
 
-accompanist-webview = { group = "com.google.accompanist", name = "accompanist-webview", version.ref = "accompanist-webview" }
+accompanist-webview = { group = "com.google.accompanist", name = "accompanist-webview", version.ref = "accompanist" }
 
 datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging-compose" }
 
-systemUiController = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "systemUiController" }
+systemUiController = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
