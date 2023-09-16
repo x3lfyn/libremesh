@@ -33,7 +33,7 @@ fun List<MarksReportItemDto>.toDomain(): List<MarksSubjectModel> = this.map { su
                         gradeType = GradeType.values().find { it.text == mark.gradeSystemType }!!,
                         isPoint = mark.isPoint,
                         pointDate = mark.pointDate?.nonIsoToLocalDate(),
-                        topic = mark.topicName,
+                        topic = mark.topicName ?: "Нет темы",
                         value = MarkValue(
                             mark.values[0].five.toFloat(),
                             mark.values[0].hundred.toFloat()

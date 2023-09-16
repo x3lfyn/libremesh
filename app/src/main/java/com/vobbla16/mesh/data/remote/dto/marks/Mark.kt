@@ -27,7 +27,7 @@ data class Mark(
     @SerialName("topic_id")
     val topicId: Int? = null,
     @SerialName("topic_name")
-    val topicName: String,
+    val topicName: String? = null,
     @SerialName("values")
     val values: List<Value>,
     @SerialName("weight")

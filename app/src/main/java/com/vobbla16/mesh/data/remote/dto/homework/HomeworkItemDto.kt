@@ -57,4 +57,3 @@ fun List<HomeworkItemDto>.toDomain(): List<HomeworkItemsForDateModel> =
         .groupBy { it.datePreparedFor }
         .map { HomeworkItemsForDateModel(it.key, it.value) }
         .sortedBy { it.date }
-        .reversed()
