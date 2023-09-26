@@ -22,7 +22,7 @@ class ScheduleScreenViewModel(private val getScheduleUseCase: GetScheduleUseCase
         datePickerOpened = false
     )
 
-    fun updateDate(date: LocalDate) = getSchedule(date, false)
+    fun updateDate(date: LocalDate) = getSchedule(date, true)
     fun updateDatePickerOpened(opened: Boolean) = setState { copy(datePickerOpened = opened) }
     fun afterLoggingIn() = getSchedule(localDateTimeNow().date, false)
     fun updateData(refresh: Boolean) =
@@ -38,7 +38,7 @@ class ScheduleScreenViewModel(private val getScheduleUseCase: GetScheduleUseCase
                 when (it) {
                     is OrLoading.Loading -> {
                         if (refresh) setState { copy(isRefreshing = true, error = null) }
-                        else setState { copy(isLoading = true, error = null) }
+                        else setState { copy(isLoading = true, error = null, schedule = null) }
                     }
 
                     is OrLoading.Data -> {

@@ -25,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -92,6 +94,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
         }
     }
 
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(
@@ -106,8 +109,8 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                     contentDescription = "calendar icon"
                 )
             }
-        })
-    }) { paddingValues ->
+        }, scrollBehavior = scrollBehavior)
+    }, modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)) { paddingValues ->
         val refreshState = rememberPullRefreshState(state.isRefreshing, { vm.updateData(true) })
 
         Box(
