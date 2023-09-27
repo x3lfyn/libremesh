@@ -51,6 +51,7 @@ import com.vobbla16.mesh.ui.commonComponents.ErrorComponent
 import com.vobbla16.mesh.ui.commonComponents.pullrefresh.PullRefreshIndicator
 import com.vobbla16.mesh.ui.commonComponents.pullrefresh.pullRefresh
 import com.vobbla16.mesh.ui.commonComponents.pullrefresh.rememberPullRefreshState
+import com.vobbla16.mesh.ui.genericHolder.LoadingState
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.ScheduleBreakItem
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.ScheduleLessonItem
 import kotlinx.coroutines.flow.collect
@@ -69,7 +70,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
         Log.d("RECOMPS", "SchedScreen recomposition occurred")
     }
 
-    LaunchedEffect(key1 = state.schedule?.date) {
+    LaunchedEffect(key1 = state.data?.date) {
         mainVM.showBottomBar()
     }
 
@@ -98,7 +99,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(
-                text = (state.schedule?.date ?: localDateTimeNow().date).toHumanStr(
+                text = (state.data?.date ?: localDateTimeNow().date).toHumanStr(
                     LocalConfiguration.current
                 )
             )
@@ -111,7 +112,9 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
             }
         }, scrollBehavior = scrollBehavior)
     }, modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)) { paddingValues ->
-        val refreshState = rememberPullRefreshState(state.isRefreshing, { vm.updateData(true) })
+        val refreshState = rememberPullRefreshState(
+            state.dataState.loading == LoadingState.Refresh,
+            { vm.updateData(true) })
 
         Box(
             Modifier
@@ -120,7 +123,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                 .fillMaxSize()
         ) {
             Column {
-                if (state.isLoading) {
+                if (state.dataState.loading == LoadingState.Load) {
                     CircularProgressIndicator(
                         Modifier
                             .align(Alignment.CenterHorizontally)
@@ -128,7 +131,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                     )
                 }
 
-                state.error?.let { err ->
+                state.dataState.error?.let { err ->
                     ErrorComponent(err, { vm.updateData(false) })
                 }
 
@@ -136,7 +139,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                 val confirmEnabled =
                     remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
 
-                if (state.datePickerOpened) {
+                if (state.otherState.datePickerOpened) {
                     DatePickerDialog(onDismissRequest = {
                         vm.updateDatePickerOpened(false)
                     }, confirmButton = {
@@ -161,7 +164,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                     }
                 }
 
-                state.schedule?.let {
+                state.data?.let {
                     if (it.activities.isNotEmpty()) {
                         LazyColumn {
                             items(it.activities) { activity ->
@@ -202,7 +205,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
             }
 
             PullRefreshIndicator(
-                state.isRefreshing,
+                state.dataState.loading == LoadingState.Refresh,
                 refreshState,
                 Modifier.align(Alignment.TopCenter)
             )

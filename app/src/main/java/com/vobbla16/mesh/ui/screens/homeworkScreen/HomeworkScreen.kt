@@ -19,6 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.vobbla16.mesh.MainActivityViewModel
+import com.vobbla16.mesh.common.toText
+import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
+import com.vobbla16.mesh.ui.genericHolder.GenericHolder
 import com.vobbla16.mesh.ui.screens.homeworkScreen.components.HomeworkItemsForDateCard
 import org.koin.androidx.compose.koinViewModel
 
@@ -35,12 +38,12 @@ fun HomeworkScreen(navController: NavController, mainVM: MainActivityViewModel) 
     Scaffold(topBar = {
         CenterAlignedTopAppBar(title = { Text(text = "Homework screen") })
     }) {
-        Box(Modifier.padding(it)) { HomeworkScreenUI(state = state) }
+        Box(Modifier.padding(it)) { HomeworkScreenUI(state = state.dataState) }
     }
 }
 
 @Composable
-fun HomeworkScreenUI(state: HomeworkScreenState) {
+fun HomeworkScreenUI(state: GenericHolder<List<HomeworkItemsForDateModel>>) {
     Column(Modifier.fillMaxSize()) {
         if (state.isLoading) {
             Box(modifier = Modifier.fillMaxSize()) {
@@ -51,7 +54,7 @@ fun HomeworkScreenUI(state: HomeworkScreenState) {
         state.error?.let { err ->
             Box(modifier = Modifier.fillMaxSize()) {
                 Text(
-                    text = err,
+                    text = err.toText(),
                     color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.align(Alignment.Center)
                 )
@@ -65,96 +68,6 @@ fun HomeworkScreenUI(state: HomeworkScreenState) {
                 }
             }
         }
-
-//        state.pagingFlow?.let { f ->
-//            val lazyPagingItems = f.collectAsLazyPagingItems()
-//
-//            lazyPagingItems.loadState.refresh
-//                .takeIf { it !is LoadState.NotLoading }
-//                ?.let { loadState ->
-//                    Box(modifier = Modifier.fillMaxSize()) {
-//                        when (loadState) {
-//                            is LoadState.Error -> {
-//                                Text(
-//                                    text = loadState.error.toText(),
-//                                    color = MaterialTheme.colorScheme.error,
-//                                    style = MaterialTheme.typography.titleMedium,
-//                                    modifier = Modifier.align(Alignment.Center)
-//                                )
-//                            }
-//
-//                            is LoadState.Loading -> {
-//                                CircularProgressIndicator(Modifier.align(Alignment.Center))
-//                            }
-//
-//                            else -> {}
-//                        }
-//                    }
-//                }
-//
-//            LazyColumn(
-//                Modifier.fillMaxWidth(),
-//                horizontalAlignment = Alignment.CenterHorizontally
-//            ) {
-//                when (val loadState = lazyPagingItems.loadState.prepend) {
-//                    is LoadState.Error -> {
-//                        item {
-//                            Text(
-//                                text = loadState.error.toText(),
-//                                color = MaterialTheme.colorScheme.error,
-//                                style = MaterialTheme.typography.titleMedium,
-//                                modifier = Modifier.align(Alignment.CenterHorizontally)
-//                            )
-//                        }
-//                    }
-//
-//                    is LoadState.Loading -> {
-//                        item {
-//                            CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally))
-//                            Text(
-//                                text = "Loading previous items",
-//                                modifier = Modifier.align(Alignment.CenterHorizontally),
-//                                style = MaterialTheme.typography.labelLarge
-//                            )
-//                        }
-//                    }
-//
-//                    is LoadState.NotLoading -> {}
-//                }
-//
-//                items(lazyPagingItems.itemCount) { i ->
-//                    val item = lazyPagingItems[i]!!
-//
-//                    HomeworkItemsForDateCard(data = item, modifier = Modifier.padding(4.dp))
-//                }
-//
-//                when (val loadState = lazyPagingItems.loadState.append) {
-//                    is LoadState.Error -> {
-//                        item {
-//                            Text(
-//                                text = loadState.error.toText(),
-//                                color = MaterialTheme.colorScheme.error,
-//                                style = MaterialTheme.typography.titleMedium,
-//                                modifier = Modifier.align(Alignment.CenterHorizontally)
-//                            )
-//                        }
-//                    }
-//
-//                    is LoadState.Loading -> {
-//                        item {
-//                            CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally))
-//                            Text(
-//                                text = "Loading next items",
-//                                modifier = Modifier.align(Alignment.CenterHorizontally),
-//                                style = MaterialTheme.typography.labelLarge
-//                            )
-//                        }
-//                    }
-//
-//                    is LoadState.NotLoading -> {}
-//                }
-//            }
-//        }
     }
 }
 //

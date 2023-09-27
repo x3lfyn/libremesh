@@ -26,7 +26,7 @@ fun MainScaffold(
 
     Scaffold(
         bottomBar = {
-            if (state.showBottomBar) {
+            if (state.otherState.showBottomBar) {
                 NavigationBar {
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val currentDestination = navBackStackEntry?.destination
@@ -50,7 +50,7 @@ fun MainScaffold(
                 }
             }
         },
-        snackbarHost = { SnackbarHost(state.snackbarHostState) }
+        snackbarHost = { SnackbarHost(state.otherState.snackbarHostState) }
     ) {
         Box(modifier = Modifier.padding(it)) { content() }
     }

@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import com.vobbla16.mesh.MainActivityViewModel
+import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.ui.Screens
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -48,10 +49,10 @@ fun ProfileScreen(navController: NavController, mainVM: MainActivityViewModel) {
         mainVM.showBottomBar()
     }
 
-    if (state.dialogOpened) {
+    if (state.otherState.dialogOpened) {
         AlertDialog(
             onDismissRequest = {
-                if (!state.isLoggingOut) {
+                if (!state.otherState.isLoggingOut) {
                     vm.updatedDialogOpened(false)
                 }
             },
@@ -72,7 +73,7 @@ fun ProfileScreen(navController: NavController, mainVM: MainActivityViewModel) {
             dismissButton = {
                 TextButton(
                     onClick = { vm.updatedDialogOpened(false) },
-                    enabled = !state.isLoggingOut
+                    enabled = !state.otherState.isLoggingOut
                 ) {
                     Text(text = "Отклонить")
                 }
@@ -128,15 +129,15 @@ fun ProfileScreen(navController: NavController, mainVM: MainActivityViewModel) {
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
         ) {
-            if (state.isLoading) {
+            if (state.dataState.isLoading) {
                 CircularProgressIndicator()
             }
 
-            state.error?.let { err ->
-                Text(text = err)
+            state.dataState.error?.let { err ->
+                Text(text = err.toText())
             }
 
-            state.profile?.let { profile ->
+            state.data?.let { profile ->
                 Text(
                     text = "${profile.firstName} ${profile.middleName} ${profile.lastName}",
                     style = MaterialTheme.typography.headlineSmall,

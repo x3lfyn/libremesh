@@ -22,7 +22,7 @@ import com.vobbla16.mesh.ui.screens.marksScreen.components.SingleDayCard
 fun ShowByDate(vm: MarksScreenViewModel) {
     val state = vm.viewState.value
 
-    state.dataGroupedByDate?.let { data ->
+    state.otherState.dataGroupedByDate?.let { data ->
         if (data.isEmpty()) {
             Column(
                 modifier = Modifier.fillMaxSize(),

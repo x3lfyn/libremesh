@@ -1,48 +1,29 @@
 package com.vobbla16.mesh.ui.screens.homeworkScreen
 
 import androidx.lifecycle.viewModelScope
-import com.vobbla16.mesh.common.OrLoading
-import com.vobbla16.mesh.common.Resource
 import com.vobbla16.mesh.common.localDateTimeNow
-import com.vobbla16.mesh.common.toText
+import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
 import com.vobbla16.mesh.domain.use_case.GetHomeworkUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
+import com.vobbla16.mesh.ui.genericHolder.LoadingState
+import com.vobbla16.mesh.ui.genericHolder.processDataFromUseCase
 import kotlinx.coroutines.launch
 
 class HomeworkScreenViewModel(
     private val getHomeworkUseCase: GetHomeworkUseCase
-) : BaseViewModel<HomeworkScreenState, HomeworkScreenAction>() {
-    override fun setInitialState() = HomeworkScreenState(
-        data = null,
-        isLoading = true,
-        error = null
-    )
+) : BaseViewModel<List<HomeworkItemsForDateModel>, Unit, HomeworkScreenAction>() {
+    override fun setInitialState() = Unit
 
     init {
         getHomework()
     }
+
     private fun getHomework() = viewModelScope.launch {
-        getHomeworkUseCase(localDateTimeNow().date).onEach {
-            when(it) {
-                is OrLoading.Loading -> {
-                    setState { copy(isLoading = true) }
-                }
-                is OrLoading.Data -> {
-                    when(it.res) {
-                        is Resource.Ok -> {
-                            setState { copy(data = it.res.data, isLoading = false, error = null) }
-                        }
-                        is Resource.Err -> {
-                            setState { copy(error = it.res.e.toText(), isLoading = false) }
-                        }
-                        is Resource.NotLoggedIn -> {
-                            setAction { HomeworkScreenAction.NavigateToLoginScreen }
-                        }
-                    }
-                }
-            }
-        }.collect()
+        processDataFromUseCase(
+            useCase = getHomeworkUseCase(localDateTimeNow().date),
+            resultReducer = { this },
+            loadingType = LoadingState.Load,
+            onNotLoggedIn = { setAction { HomeworkScreenAction.NavigateToLoginScreen } }
+        )
     }
 }

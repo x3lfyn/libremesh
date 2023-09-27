@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.vobbla16.mesh.MainActivityViewModel
+import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.ui.Screens
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -49,10 +50,10 @@ fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
     }
 
     Column {
-        TabRow(selectedTabIndex = state.selectedTabIndex, tabs = {
+        TabRow(selectedTabIndex = state.otherState.selectedTabIndex, tabs = {
             Tabs.values().forEachIndexed { index, tab ->
                 Tab(
-                    selected = index == state.selectedTabIndex,
+                    selected = index == state.otherState.selectedTabIndex,
                     onClick = { vm.switchTab(index) },
                     icon = tab.icon,
                     text = { Text(text = tab.title) }
@@ -60,16 +61,16 @@ fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
             }
         })
 
-        if (state.isLoading) {
+        if (state.dataState.isLoading) {
             CircularProgressIndicator(
                 Modifier
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally)
             )
         }
-        state.error?.let {
+        state.dataState.error?.let {
             Text(
-                text = it,
+                text = it.toText(),
                 color = MaterialTheme.colorScheme.error,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -77,6 +78,6 @@ fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
             )
         }
 
-        Tabs.values()[state.selectedTabIndex].subscreen(vm)
+        Tabs.values()[state.otherState.selectedTabIndex].subscreen(vm)
     }
 }

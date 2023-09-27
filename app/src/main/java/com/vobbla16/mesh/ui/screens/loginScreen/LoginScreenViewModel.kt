@@ -7,6 +7,7 @@ import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.domain.repository.SettingsRepository
 import com.vobbla16.mesh.domain.use_case.OauthCodeToTokenUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
+import com.vobbla16.mesh.ui.reduceOtherState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -15,7 +16,7 @@ class LoginScreenViewModel(
     private val oauthCodeToTokenUseCase: OauthCodeToTokenUseCase,
     private val settingsRepository: SettingsRepository
 ) :
-    BaseViewModel<LoginScreenState, LoginScreenAction>() {
+    BaseViewModel<Nothing, LoginScreenState, LoginScreenAction>() {
 
     override fun setInitialState() =
         LoginScreenState(processingState = ProcessingState.WelcomeStep)
@@ -25,7 +26,7 @@ class LoginScreenViewModel(
             oauthCodeToTokenUseCase(code).onEach {
                 when (it) {
                     is OrLoading.Loading -> {
-                        setState { copy(processingState = ProcessingState.ProcessingStep) }
+                        setState { reduceOtherState { copy(processingState = ProcessingState.ProcessingStep) } }
                     }
 
                     is OrLoading.Data -> {
@@ -37,7 +38,11 @@ class LoginScreenViewModel(
                             }
 
                             is DataOrError.Error -> {
-                                setState { copy(processingState = ProcessingState.Error(it.res.e.toText())) }
+                                setState {
+                                    reduceOtherState {
+                                        copy(processingState = ProcessingState.Error(it.res.e.toText()))
+                                    }
+                                }
                             }
                         }
                     }
@@ -47,10 +52,10 @@ class LoginScreenViewModel(
     }
 
     fun toWebViewStep() {
-        setState { copy(processingState = ProcessingState.WebViewStep) }
+        setState { reduceOtherState { copy(processingState = ProcessingState.WebViewStep) } }
     }
 
     fun backFromWebViewStep() {
-        setState { copy(processingState = ProcessingState.WelcomeStep) }
+        setState { reduceOtherState { copy(processingState = ProcessingState.WelcomeStep) } }
     }
 }

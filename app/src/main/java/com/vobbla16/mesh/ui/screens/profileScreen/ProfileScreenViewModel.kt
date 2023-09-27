@@ -3,12 +3,13 @@ package com.vobbla16.mesh.ui.screens.profileScreen
 import android.webkit.CookieManager
 import androidx.lifecycle.viewModelScope
 import com.vobbla16.mesh.common.LoadingOrDone
-import com.vobbla16.mesh.common.OrLoading
-import com.vobbla16.mesh.common.Resource
-import com.vobbla16.mesh.common.toText
+import com.vobbla16.mesh.domain.model.profile.Child
 import com.vobbla16.mesh.domain.use_case.GetStudentUseCase
 import com.vobbla16.mesh.domain.use_case.LogOutUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
+import com.vobbla16.mesh.ui.genericHolder.LoadingState
+import com.vobbla16.mesh.ui.genericHolder.processDataFromUseCase
+import com.vobbla16.mesh.ui.reduceOtherState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -16,11 +17,8 @@ import kotlinx.coroutines.launch
 class ProfileScreenViewModel(
     private val getStudentUseCase: GetStudentUseCase,
     private val logOutUseCase: LogOutUseCase
-) : BaseViewModel<ProfileScreenState, ProfileScreenAction>() {
+) : BaseViewModel<Child, ProfileScreenState, ProfileScreenAction>() {
     override fun setInitialState() = ProfileScreenState(
-        profile = null,
-        isLoading = true,
-        error = null,
         dialogOpened = false,
         isLoggingOut = false
     )
@@ -30,26 +28,11 @@ class ProfileScreenViewModel(
     }
 
     private fun getProfile() = viewModelScope.launch {
-        getStudentUseCase().onEach {
-            when(it) {
-                is OrLoading.Loading -> {
-                    setState { copy(isLoading = true) }
-                }
-                is OrLoading.Data -> {
-                    when(it.res) {
-                        is Resource.Ok -> {
-                            setState { copy(profile = it.res.data.children[0], isLoading = false, error = null) }
-                        }
-                        is Resource.Err -> {
-                            setState { copy(error = it.res.e.toText(), isLoading = false) }
-                        }
-                        is Resource.NotLoggedIn -> {
-                            setAction { ProfileScreenAction.NavigateToLoginScreen }
-                        }
-                    }
-                }
-            }
-        }.collect()
+        processDataFromUseCase(
+            useCase = getStudentUseCase(),
+            resultReducer = { this.children[0] },
+            loadingType = LoadingState.Load,
+            onNotLoggedIn = { setAction { ProfileScreenAction.NavigateToLoginScreen } })
     }
 
     fun requestLogOut() = viewModelScope.launch {
@@ -57,16 +40,24 @@ class ProfileScreenViewModel(
         logOutUseCase().onEach {
             when (it) {
                 is LoadingOrDone.Loading -> {
-                    setState { copy(isLoggingOut = true) }
+                    setState { reduceOtherState { copy(isLoggingOut = true) } }
                 }
 
                 is LoadingOrDone.Done -> {
                     setAction { ProfileScreenAction.RestartAfterTokenReset }
-                    setState { copy(isLoggingOut = false, dialogOpened = false) }
+                    setState {
+                        reduceOtherState {
+                            copy(
+                                isLoggingOut = false,
+                                dialogOpened = false
+                            )
+                        }
+                    }
                 }
             }
         }.collect()
     }
 
-    fun updatedDialogOpened(isOpened: Boolean) = setState { copy(dialogOpened = isOpened) }
+    fun updatedDialogOpened(isOpened: Boolean) =
+        setState { reduceOtherState { copy(dialogOpened = isOpened) } }
 }
