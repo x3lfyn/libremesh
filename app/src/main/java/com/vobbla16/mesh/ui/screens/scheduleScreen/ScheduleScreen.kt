@@ -48,6 +48,7 @@ import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.schedule.Activity
 import com.vobbla16.mesh.ui.Screens
 import com.vobbla16.mesh.ui.commonComponents.ErrorComponent
+import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
 import com.vobbla16.mesh.ui.commonComponents.pullrefresh.PullRefreshIndicator
 import com.vobbla16.mesh.ui.commonComponents.pullrefresh.pullRefresh
 import com.vobbla16.mesh.ui.commonComponents.pullrefresh.rememberPullRefreshState
@@ -112,103 +113,79 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
             }
         }, scrollBehavior = scrollBehavior)
     }, modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)) { paddingValues ->
-        val refreshState = rememberPullRefreshState(
-            state.dataState.loading == LoadingState.Refresh,
-            { vm.updateData(true) })
+        GenericHolderContainer(
+            holder = state.dataState,
+            onRefresh = { vm.updateData(true) },
+            onRetry = { vm.updateData(false) },
+            modifier = Modifier.padding(paddingValues)
+        ) { data ->
+            val datePickerState = rememberDatePickerState()
+            val confirmEnabled =
+                remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
 
-        Box(
-            Modifier
-                .padding(paddingValues)
-                .pullRefresh(refreshState)
-                .fillMaxSize()
-        ) {
-            Column {
-                if (state.dataState.loading == LoadingState.Load) {
-                    CircularProgressIndicator(
-                        Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(8.dp)
-                    )
-                }
-
-                state.dataState.error?.let { err ->
-                    ErrorComponent(err, { vm.updateData(false) })
-                }
-
-                val datePickerState = rememberDatePickerState()
-                val confirmEnabled =
-                    remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
-
-                if (state.otherState.datePickerOpened) {
-                    DatePickerDialog(onDismissRequest = {
-                        vm.updateDatePickerOpened(false)
-                    }, confirmButton = {
-                        TextButton(
-                            onClick = {
-                                vm.updateDate(
-                                    datePickerState.selectedDateMillis!!.msToLocalDate()
-                                )
-                                vm.updateDatePickerOpened(false)
-                            }, enabled = confirmEnabled.value
-                        ) {
-                            Text("OK")
-                        }
-                    }, dismissButton = {
-                        TextButton(onClick = {
-                            vm.updateDatePickerOpened(false)
-                        }) {
-                            Text("Cancel")
-                        }
-                    }) {
-                        DatePicker(state = datePickerState)
-                    }
-                }
-
-                state.data?.let {
-                    if (it.activities.isNotEmpty()) {
-                        LazyColumn {
-                            items(it.activities) { activity ->
-                                when (activity) {
-                                    is Activity.Lesson -> {
-                                        ScheduleLessonItem(activity)
-                                    }
-
-                                    is Activity.Break -> {
-                                        ScheduleBreakItem(activity)
-                                    }
-                                }
-                            }
-                            item {
-                                Text(
-                                    text = it.summary,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    modifier = Modifier.padding(4.dp)
-                                )
-                            }
-                        }
-                    } else {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .verticalScroll(rememberScrollState()), // need scroll so pull to refresh can function correctly
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = if (it.date == localDateTimeNow().date) stringResource(R.string.no_lessons_today)
-                                else stringResource(R.string.no_lessons_that_day),
-                                style = MaterialTheme.typography.headlineSmall
+            if (state.otherState.datePickerOpened) {
+                DatePickerDialog(onDismissRequest = {
+                    vm.updateDatePickerOpened(false)
+                }, confirmButton = {
+                    TextButton(
+                        onClick = {
+                            vm.updateDate(
+                                datePickerState.selectedDateMillis!!.msToLocalDate()
                             )
-                        }
+                            vm.updateDatePickerOpened(false)
+                        }, enabled = confirmEnabled.value
+                    ) {
+                        Text("OK")
                     }
+                }, dismissButton = {
+                    TextButton(onClick = {
+                        vm.updateDatePickerOpened(false)
+                    }) {
+                        Text("Cancel")
+                    }
+                }) {
+                    DatePicker(state = datePickerState)
                 }
             }
 
-            PullRefreshIndicator(
-                state.dataState.loading == LoadingState.Refresh,
-                refreshState,
-                Modifier.align(Alignment.TopCenter)
-            )
+            if (data.activities.isNotEmpty()) {
+                LazyColumn {
+                    items(data.activities) { activity ->
+                        when (activity) {
+                            is Activity.Lesson -> {
+                                ScheduleLessonItem(activity)
+                            }
+
+                            is Activity.Break -> {
+                                ScheduleBreakItem(activity)
+                            }
+                        }
+                    }
+                    item {
+                        Text(
+                            text = data.summary,
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier = Modifier.padding(4.dp)
+                        )
+                    }
+                }
+            } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState()), // need scroll so pull to refresh can function correctly
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = if (data.date == localDateTimeNow().date) stringResource(R.string.no_lessons_today)
+                        else stringResource(R.string.no_lessons_that_day),
+                        style = MaterialTheme.typography.headlineSmall
+                    )
+
+                }
+            }
         }
+
     }
 }

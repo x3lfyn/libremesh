@@ -3,6 +3,7 @@ package com.vobbla16.mesh.ui.commonComponents
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -30,7 +31,7 @@ fun ErrorComponent(
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+        modifier = modifier.fillMaxSize()
     ) {
         Text(
             text = "Произошла ошибка",
