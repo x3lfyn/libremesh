@@ -1,5 +1,6 @@
 package com.vobbla16.mesh.data.remote
 
+import android.util.Log
 import com.vobbla16.mesh.domain.use_case.GetTokenUseCase
 import io.ktor.client.plugins.api.createClientPlugin
 import io.ktor.util.AttributeKey
@@ -25,6 +26,11 @@ val InsertAuthKtorPlugin =
                     throw NoTokenException()
                 }
             }
+        }
+        onResponse { response ->
+            Log.d("RESP", response.status.toString())
+            Log.d("RESP", response.toString())
+            Log.d("RESP", response.responseTime.toString())
         }
     }
 
