@@ -51,13 +51,13 @@ class MarksScreenViewModel(
         }
     }
 
-    public fun refreshData() = getMarksReport(true)
-    public fun retryOnError() = getMarksReport(false)
+    fun refreshData() = getMarksReport(true)
+    fun retryOnError() = getMarksReport(false)
     private fun getMarksReport(refresh: Boolean = false) = viewModelScope.launch {
         processDataFromUseCase(
             useCase = getMarksReportUseCase(),
             resultReducer = { this },
-            loadingType = if(refresh) LoadingState.Refresh else LoadingState.Load,
+            loadingType = LoadingState.fromBool(refresh),
             onNotLoggedIn = { setAction { MarksScreenAction.NavigateToLoginScreen } })
         setState { reduceOtherState { copy(dataGroupedByDate = viewState.value.data?.toSingleDayReports()) } }
     }

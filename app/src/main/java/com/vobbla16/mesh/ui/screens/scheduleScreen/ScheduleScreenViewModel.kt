@@ -34,7 +34,7 @@ class ScheduleScreenViewModel(private val getScheduleUseCase: GetScheduleUseCase
         processDataFromUseCase(
             useCase = getScheduleUseCase(date),
             resultReducer = { this },
-            loadingType = if (refresh) LoadingState.Refresh else LoadingState.Load,
+            loadingType = LoadingState.fromBool(refresh),
             onNotLoggedIn = { setAction { ScheduleScreenAction.NavigateToLoginScreen } })
     }
 }

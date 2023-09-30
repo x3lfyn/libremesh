@@ -1,8 +1,6 @@
 package com.vobbla16.mesh.ui.commonComponents.genericHolderContainer
 
-import android.view.animation.PathInterpolator
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -16,18 +14,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.vobbla16.mesh.ui.commonComponents.ErrorComponent
 import com.vobbla16.mesh.ui.commonComponents.pullrefresh.PullRefreshIndicator
 import com.vobbla16.mesh.ui.commonComponents.pullrefresh.pullRefresh
 import com.vobbla16.mesh.ui.commonComponents.pullrefresh.rememberPullRefreshState
 import com.vobbla16.mesh.ui.genericHolder.GenericHolder
-import com.vobbla16.mesh.ui.genericHolder.LoadingState
-import io.ktor.serialization.JsonConvertException
 
 @Composable
 fun <T> GenericHolderContainer(
