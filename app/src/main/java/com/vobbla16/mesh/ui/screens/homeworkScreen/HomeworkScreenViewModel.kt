@@ -15,14 +15,17 @@ class HomeworkScreenViewModel(
     override fun setInitialState() = Unit
 
     init {
-        getHomework()
+        getHomework(false)
     }
 
-    private fun getHomework() = viewModelScope.launch {
+    fun refreshData() = getHomework(true)
+    fun retryOnError() = getHomework(false)
+
+    private fun getHomework(refresh: Boolean) = viewModelScope.launch {
         processDataFromUseCase(
             useCase = getHomeworkUseCase(localDateTimeNow().date),
             resultReducer = { this },
-            loadingType = LoadingState.Load,
+            loadingType = LoadingState.fromBool(refresh),
             onNotLoggedIn = { setAction { HomeworkScreenAction.NavigateToLoginScreen } }
         )
     }

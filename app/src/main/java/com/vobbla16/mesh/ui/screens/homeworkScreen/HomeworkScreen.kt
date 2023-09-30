@@ -1,27 +1,20 @@
 package com.vobbla16.mesh.ui.screens.homeworkScreen
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.vobbla16.mesh.MainActivityViewModel
-import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
-import com.vobbla16.mesh.ui.genericHolder.GenericHolder
+import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
 import com.vobbla16.mesh.ui.screens.homeworkScreen.components.HomeworkItemsForDateCard
 import org.koin.androidx.compose.koinViewModel
 
@@ -37,36 +30,23 @@ fun HomeworkScreen(navController: NavController, mainVM: MainActivityViewModel) 
 
     Scaffold(topBar = {
         CenterAlignedTopAppBar(title = { Text(text = "Homework screen") })
-    }) {
-        Box(Modifier.padding(it)) { HomeworkScreenUI(state = state.dataState) }
+    }) { paddingValues ->
+        GenericHolderContainer(
+            holder = state.dataState,
+            onRefresh = { vm.refreshData() },
+            onRetry = { vm.retryOnError() },
+            modifier = Modifier.padding(paddingValues)
+        ) {
+            HomeworkScreenUI(it)
+        }
     }
 }
 
 @Composable
-fun HomeworkScreenUI(state: GenericHolder<List<HomeworkItemsForDateModel>>) {
-    Column(Modifier.fillMaxSize()) {
-        if (state.isLoading) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                CircularProgressIndicator(Modifier.align(Alignment.Center))
-            }
-        }
-
-        state.error?.let { err ->
-            Box(modifier = Modifier.fillMaxSize()) {
-                Text(
-                    text = err.toText(),
-                    color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        }
-
-        state.data?.let { data ->
-            LazyColumn {
-                items(data) { item ->
-                    HomeworkItemsForDateCard(data = item, modifier = Modifier.padding(4.dp))
-                }
-            }
+fun HomeworkScreenUI(data: List<HomeworkItemsForDateModel>) {
+    LazyColumn {
+        items(data) { item ->
+            HomeworkItemsForDateCard(data = item, modifier = Modifier.padding(4.dp))
         }
     }
 }
