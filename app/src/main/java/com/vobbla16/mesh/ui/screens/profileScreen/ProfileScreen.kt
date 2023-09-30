@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import com.vobbla16.mesh.MainActivityViewModel
 import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.ui.Screens
+import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -122,22 +123,14 @@ fun ProfileScreen(navController: NavController, mainVM: MainActivityViewModel) {
             }
         )
     }) { paddingValues ->
-        Column(
-            Modifier
+        GenericHolderContainer(
+            holder = state.dataState,
+            onRefresh = { vm.refreshData() },
+            onRetry = { vm.retryOnError() },
+            modifier = Modifier
                 .padding(paddingValues)
-                .padding(6.dp)
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
-        ) {
-            if (state.dataState.isLoading) {
-                CircularProgressIndicator()
-            }
-
-            state.dataState.error?.let { err ->
-                Text(text = err.toText())
-            }
-
-            state.data?.let { profile ->
+        ) { profile ->
+            Column(Modifier.verticalScroll(rememberScrollState())) {
                 Text(
                     text = "${profile.firstName} ${profile.middleName} ${profile.lastName}",
                     style = MaterialTheme.typography.headlineSmall,

@@ -27,11 +27,14 @@ class ProfileScreenViewModel(
         getProfile()
     }
 
-    private fun getProfile() = viewModelScope.launch {
+    fun refreshData() = getProfile(true)
+    fun retryOnError() = getProfile(false)
+
+    private fun getProfile(refresh: Boolean = false) = viewModelScope.launch {
         processDataFromUseCase(
             useCase = getStudentUseCase(),
             resultReducer = { this.children[0] },
-            loadingType = LoadingState.Load,
+            loadingType = LoadingState.fromBool(refresh),
             onNotLoggedIn = { setAction { ProfileScreenAction.NavigateToLoginScreen } })
     }
 

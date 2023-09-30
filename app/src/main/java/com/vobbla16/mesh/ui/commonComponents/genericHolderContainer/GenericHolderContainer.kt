@@ -13,6 +13,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -35,7 +36,7 @@ fun <T> GenericHolderContainer(
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
     useAnimations: Boolean = true,
-    content: @Composable (T) -> Unit
+    content: @Composable ColumnScope.(T) -> Unit
 ) {
     val pullRefreshState = rememberPullRefreshState(holder.isRefreshing, onRefresh)
 
@@ -87,7 +88,7 @@ fun <T> GenericHolderContainer(
                 } else {
                     holder.data?.let {
                         Column {
-                            content(holder.data)
+                            this.content(holder.data)
                         }
                     }
                 }
