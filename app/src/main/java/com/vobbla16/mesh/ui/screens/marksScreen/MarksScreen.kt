@@ -18,6 +18,7 @@ import androidx.navigation.NavController
 import com.vobbla16.mesh.MainActivityViewModel
 import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.ui.Screens
+import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -60,24 +61,12 @@ fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
                 )
             }
         })
-
-        if (state.dataState.isLoading) {
-            CircularProgressIndicator(
-                Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.CenterHorizontally)
-            )
+        GenericHolderContainer(
+            holder = state.dataState,
+            onRefresh = { vm.refreshData() },
+            onRetry = { vm.retryOnError() }
+        ) {
+            Tabs.values()[state.otherState.selectedTabIndex].subscreen(vm)
         }
-        state.dataState.error?.let {
-            Text(
-                text = it.toText(),
-                color = MaterialTheme.colorScheme.error,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.CenterHorizontally)
-            )
-        }
-
-        Tabs.values()[state.otherState.selectedTabIndex].subscreen(vm)
     }
 }

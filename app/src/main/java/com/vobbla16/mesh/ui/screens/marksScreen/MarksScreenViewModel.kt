@@ -20,7 +20,7 @@ class MarksScreenViewModel(
     )
 
     init {
-        getMarksReport()
+        getMarksReport(false)
     }
 
     fun switchTab(selectedTabIndex: Int) {
@@ -51,11 +51,13 @@ class MarksScreenViewModel(
         }
     }
 
-    private fun getMarksReport() = viewModelScope.launch {
+    public fun refreshData() = getMarksReport(true)
+    public fun retryOnError() = getMarksReport(false)
+    private fun getMarksReport(refresh: Boolean = false) = viewModelScope.launch {
         processDataFromUseCase(
             useCase = getMarksReportUseCase(),
             resultReducer = { this },
-            loadingType = LoadingState.Load,
+            loadingType = if(refresh) LoadingState.Refresh else LoadingState.Load,
             onNotLoggedIn = { setAction { MarksScreenAction.NavigateToLoginScreen } })
         setState { reduceOtherState { copy(dataGroupedByDate = viewState.value.data?.toSingleDayReports()) } }
     }
