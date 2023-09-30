@@ -1,5 +1,6 @@
 package com.vobbla16.mesh.ui.screens.marksScreen
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.lifecycle.viewModelScope
 import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel
 import com.vobbla16.mesh.domain.use_case.GetMarksReportUseCase
@@ -10,6 +11,7 @@ import com.vobbla16.mesh.ui.reduceOtherState
 import com.vobbla16.mesh.ui.screens.marksScreen.localState.toSingleDayReports
 import kotlinx.coroutines.launch
 
+@ExperimentalFoundationApi
 class MarksScreenViewModel(
     private val getMarksReportUseCase: GetMarksReportUseCase
 ) : BaseViewModel<List<MarksSubjectModel>, MarksScreenState, MarksScreenAction>() {
