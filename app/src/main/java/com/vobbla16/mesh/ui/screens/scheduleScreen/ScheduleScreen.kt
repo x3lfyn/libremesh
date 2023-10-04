@@ -54,6 +54,8 @@ import com.vobbla16.mesh.ui.screens.scheduleScreen.components.ScheduleLessonItem
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 import org.koin.androidx.compose.koinViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -112,6 +114,16 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                 )
             )
         }, actions = {
+            if (state.otherState.selectedDate != localDateTimeNow().date) {
+                TextButton(
+                    onClick = {
+                        datePickerState.setSelection(localDateTimeNow().toInstant(TimeZone.currentSystemDefault()).epochSeconds * 1000)
+                        vm.updateDate(localDateTimeNow().date)
+                    }
+                ) {
+                    Text("Сегодня")
+                }
+            }
             IconButton(onClick = { vm.updateDatePickerOpened(true) }) {
                 Icon(
                     imageVector = Icons.Filled.DateRange,
