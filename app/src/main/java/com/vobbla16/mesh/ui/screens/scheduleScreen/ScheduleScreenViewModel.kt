@@ -15,24 +15,28 @@ class ScheduleScreenViewModel(private val getScheduleUseCase: GetScheduleUseCase
     BaseViewModel<ScheduleModel, ScheduleScreenState, ScheduleScreenAction>() {
 
     override fun setInitialState() = ScheduleScreenState(
-        datePickerOpened = false
+        datePickerOpened = false,
+        selectedDate = localDateTimeNow().date
     )
 
-    fun updateDate(date: LocalDate) = getSchedule(date, true)
+    fun updateDate(date: LocalDate) {
+        setState { reduceOtherState { copy(selectedDate = date) } }
+        getSchedule(true)
+    }
     fun updateDatePickerOpened(opened: Boolean) =
         setState { reduceOtherState { copy(datePickerOpened = opened) } }
 
-    fun afterLoggingIn() = getSchedule(localDateTimeNow().date, false)
+    fun afterLoggingIn() = getSchedule(false)
     fun updateData(refresh: Boolean) =
-        getSchedule(viewState.value.data?.date ?: localDateTimeNow().date, refresh)
+        getSchedule(refresh)
 
     init {
-        getSchedule(localDateTimeNow().date, false)
+        getSchedule(false)
     }
 
-    private fun getSchedule(date: LocalDate, refresh: Boolean) = viewModelScope.launch {
+    private fun getSchedule(refresh: Boolean) = viewModelScope.launch {
         processDataFromUseCase(
-            useCase = getScheduleUseCase(date),
+            useCase = getScheduleUseCase(viewState.value.otherState.selectedDate),
             resultReducer = { this },
             loadingType = LoadingState.fromBool(refresh),
             onNotLoggedIn = { setAction { ScheduleScreenAction.NavigateToLoginScreen } })

@@ -4,7 +4,6 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,9 +13,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,13 +27,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -47,12 +48,7 @@ import com.vobbla16.mesh.common.msToLocalDate
 import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.schedule.Activity
 import com.vobbla16.mesh.ui.Screens
-import com.vobbla16.mesh.ui.commonComponents.ErrorComponent
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
-import com.vobbla16.mesh.ui.commonComponents.pullrefresh.PullRefreshIndicator
-import com.vobbla16.mesh.ui.commonComponents.pullrefresh.pullRefresh
-import com.vobbla16.mesh.ui.commonComponents.pullrefresh.rememberPullRefreshState
-import com.vobbla16.mesh.ui.genericHolder.LoadingState
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.ScheduleBreakItem
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.ScheduleLessonItem
 import kotlinx.coroutines.flow.collect
@@ -96,11 +92,22 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
         }
     }
 
+    val datePickerState = remember {
+        DatePickerState(
+            initialDisplayMode = DisplayMode.Picker,
+            yearRange = DatePickerDefaults.YearRange,
+            initialSelectedDateMillis = null,
+            initialDisplayedMonthMillis = null
+        )
+    }
+    val confirmEnabled =
+        remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
+
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(
-                text = (state.data?.date ?: localDateTimeNow().date).toHumanStr(
+                text = state.otherState.selectedDate.toHumanStr(
                     LocalConfiguration.current
                 )
             )
@@ -119,10 +126,6 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
             onRetry = { vm.updateData(false) },
             modifier = Modifier.padding(paddingValues)
         ) { data ->
-            val datePickerState = rememberDatePickerState()
-            val confirmEnabled =
-                remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
-
             if (state.otherState.datePickerOpened) {
                 DatePickerDialog(onDismissRequest = {
                     vm.updateDatePickerOpened(false)
