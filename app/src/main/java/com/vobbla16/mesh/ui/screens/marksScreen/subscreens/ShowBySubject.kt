@@ -2,6 +2,7 @@ package com.vobbla16.mesh.ui.screens.marksScreen.subscreens
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -11,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.vobbla16.mesh.ui.screens.marksScreen.MarksScreenViewModel
 import com.vobbla16.mesh.ui.screens.marksScreen.components.SubjectCard
 
+@OptIn(ExperimentalFoundationApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ShowBySubject(vm: MarksScreenViewModel) {

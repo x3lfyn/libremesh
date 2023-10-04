@@ -1,5 +1,6 @@
 package com.vobbla16.mesh.di
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import com.vobbla16.mesh.MainActivityViewModel
 import com.vobbla16.mesh.data.remote.InsertAuthKtorPlugin
 import com.vobbla16.mesh.data.repository.MeshRepositoryImpl
@@ -27,6 +28,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
+@OptIn(ExperimentalFoundationApi::class)
 val appModule = module {
     single {
         HttpClient(Android) {

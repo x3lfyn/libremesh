@@ -1,6 +1,7 @@
 package com.vobbla16.mesh.ui.screens.marksScreen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Icon
@@ -10,11 +11,12 @@ import com.vobbla16.mesh.ui.screens.marksScreen.subscreens.ShowBySubject
 import com.vobbla16.mesh.R
 import androidx.compose.ui.res.painterResource
 
-enum class Tabs(
+enum class Tabs @OptIn(ExperimentalFoundationApi::class) constructor(
     val title: String,
     val icon: @Composable () -> Unit,
     val subscreen: @Composable (MarksScreenViewModel) -> Unit
 ) {
+    @OptIn(ExperimentalFoundationApi::class)
     @SuppressLint("NewApi")
     ShowByDate("By date", {
         Icon(
@@ -24,6 +26,7 @@ enum class Tabs(
     }, { ShowByDate(it) }
     ),
 
+    @OptIn(ExperimentalFoundationApi::class)
     @SuppressLint("NewApi")
     ShowBySubject("By subject", {
         Icon(
