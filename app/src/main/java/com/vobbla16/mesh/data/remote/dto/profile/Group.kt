@@ -13,5 +13,5 @@ data class Group(
     @SerialName("name")
     val name: String,
     @SerialName("subject_id")
-    val subjectId: Int
+    val subjectId: Int? = null
 )
