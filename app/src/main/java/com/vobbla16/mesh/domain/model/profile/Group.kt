@@ -1,8 +1,8 @@
 package com.vobbla16.mesh.domain.model.profile
 
 data class Group(
-    val id: Int,
+    val id: Long,
     val name: String,
-    val subjectId: Int?,
+    val subjectId: Long?,
     val isFake: Boolean
 )

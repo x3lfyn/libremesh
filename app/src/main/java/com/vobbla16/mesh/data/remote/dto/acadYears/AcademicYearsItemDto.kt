@@ -9,13 +9,13 @@ data class AcademicYearsItemDto(
     @SerialName("begin_date")
     val beginDate: String,
     @SerialName("calendar_id")
-    val calendarId: Int,
+    val calendarId: Long,
     @SerialName("current_year")
     val currentYear: Boolean,
     @SerialName("end_date")
     val endDate: String,
     @SerialName("id")
-    val id: Int,
+    val id: Long,
     @SerialName("name")
     val name: String
 )

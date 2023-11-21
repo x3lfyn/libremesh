@@ -19,7 +19,7 @@ data class MarksReportItemDto(
     @SerialName("subject_name")
     val subjectName: String,
     @SerialName("subject_id")
-    val subjectId: Int,
+    val subjectId: Long,
     @SerialName("year_mark")
     val yearMark: String? = null
 )

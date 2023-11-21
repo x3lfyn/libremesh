@@ -9,9 +9,9 @@ data class HomeworkItem(
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime,
     val description: String,
-    val subjectId: Int,
+    val subjectId: Long,
     val subjectName: String,
-    val teacherId: Int,
+    val teacherId: Long,
     val dateAssignedOn: LocalDate,
     val datePreparedFor: LocalDate
 )

@@ -17,7 +17,7 @@ data class Mark(
     @SerialName("criteria")
     val criteria: List<String>,
     @SerialName("id")
-    val id: Int, // 2061863223
+    val id: Long, // 2061863223
     @SerialName("is_exam")
     val isExam: Boolean, // false
     @SerialName("is_point")

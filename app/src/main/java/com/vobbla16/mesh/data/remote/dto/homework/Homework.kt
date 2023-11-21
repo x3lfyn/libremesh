@@ -17,9 +17,9 @@ data class Homework(
     @SerialName("deleted_by")
     val deletedBy: String?,
     @SerialName("group_id")
-    val groupId: Int,
+    val groupId: Long,
     @SerialName("id")
-    val id: Int,
+    val id: Long,
     @SerialName("is_required")
     val isRequired: Boolean?,
     @SerialName("lesson_prepared_for")
@@ -29,9 +29,9 @@ data class Homework(
     @SerialName("subject")
     val subject: Subject,
     @SerialName("subject_id")
-    val subjectId: Int,
+    val subjectId: Long,
     @SerialName("teacher_id")
-    val teacherId: Int,
+    val teacherId: Long,
     @SerialName("updated_at")
     val updatedAt: String
 )

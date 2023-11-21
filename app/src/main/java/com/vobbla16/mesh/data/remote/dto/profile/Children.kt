@@ -9,15 +9,15 @@ data class Children(
     @SerialName("birth_date")
     val birthDate: String,
     @SerialName("class_level_id")
-    val classLevelId: Int,
+    val classLevelId: Long,
     @SerialName("class_name")
     val className: String,
     @SerialName("class_unit_id")
-    val classUnitId: Int,
+    val classUnitId: Long,
     @SerialName("contingent_guid")
     val contingentGuid: String,
     @SerialName("contract_id")
-    val contractId: Int? = null,
+    val contractId: Long? = null,
     @SerialName("email")
     val email: String? = null,
     @SerialName("first_name")
@@ -25,7 +25,7 @@ data class Children(
     @SerialName("groups")
     val groups: List<Group>,
     @SerialName("id")
-    val id: Int,
+    val id: Long,
     @SerialName("is_legal_representative")
     val isLegalRepresentative: Boolean,
     @SerialName("last_name")
@@ -33,7 +33,7 @@ data class Children(
     @SerialName("middle_name")
     val middleName: String,
     @SerialName("parallel_curriculum_id")
-    val parallelCurriculumId: Int? = null,
+    val parallelCurriculumId: Long? = null,
     @SerialName("phone")
     val phone: String? = null,
     @SerialName("representatives")
@@ -53,7 +53,7 @@ data class Children(
     @SerialName("type")
     val type: String? = null,
     @SerialName("user_id")
-    val userId: Int,
+    val userId: Long,
     @SerialName("enrollment_date")
     val enrollmentDate: String
 )

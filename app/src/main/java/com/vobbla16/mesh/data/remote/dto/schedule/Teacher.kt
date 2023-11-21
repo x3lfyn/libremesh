@@ -17,5 +17,5 @@ data class Teacher(
     @SerialName("sex")
     val sex: String?, // null
     @SerialName("user_id")
-    val userId: Int? // null
+    val userId: Long? // null
 )

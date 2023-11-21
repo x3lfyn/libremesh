@@ -15,19 +15,19 @@ class MeshRepositoryImpl : MeshRepository {
 
     override suspend fun getProfile() = meshApi.getProfile()
 
-    override suspend fun getSchedule(studentId: Int, date: LocalDate) =
+    override suspend fun getSchedule(studentId: Long, date: LocalDate) =
         meshApi.getSchedule(studentId.toString(), date.toString())
 
     override suspend fun getAcademicYears() =
         meshApi.getAcademicYears()
 
     override suspend fun getMarksReport(
-        studentId: Int,
+        studentId: Long,
         academicYear: AcademicYearItemModel
     ) = meshApi.getMarksReport(studentId.toString(), academicYear.id.toString())
 
     override suspend fun getHomework(
-        studentId: Int,
+        studentId: Long,
         week: LocalDate
     ) = meshApi.getHomework(
         studentId,

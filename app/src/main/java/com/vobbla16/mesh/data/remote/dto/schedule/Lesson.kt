@@ -7,11 +7,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Lesson(
     @SerialName("absence_reason_id")
-    val absenceReasonId: Int?, // null
+    val absenceReasonId: Long?, // null
     @SerialName("ae_fake_group")
     val aeFakeGroup: Boolean? = false, // false
     @SerialName("bell_id")
-    val bellId: Int?, // 16104756
+    val bellId: Long?, // 16104756
     @SerialName("course_lesson_type")
     val courseLessonType: String?, // null
     @SerialName("esz_field_id")
@@ -41,15 +41,15 @@ data class Lesson(
     @SerialName("replaced")
     val replaced: Boolean, // false
     @SerialName("schedule_item_id")
-    val scheduleItemId: Int, // 378977336
+    val scheduleItemId: Long, // 378977336
     @SerialName("subject_id")
-    val subjectId: Int, // 33623666
+    val subjectId: Long, // 33623666
     @SerialName("subject_name")
     val subjectName: String, // Немецкий язык
     @SerialName("teacher")
     val teacher: Teacher,
     @SerialName("nonattendance_reason_id")
-    val nonAttendanceReasonId: Int? = null,
+    val nonAttendanceReasonId: Long? = null,
     @SerialName("disease_status_type")
     val diseaseStatusType: String? = null,
 )

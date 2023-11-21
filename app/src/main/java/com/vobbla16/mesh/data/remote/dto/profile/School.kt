@@ -9,7 +9,7 @@ data class School(
     @SerialName("county")
     val county: String,
     @SerialName("id")
-    val id: Int,
+    val id: Long,
     @SerialName("name")
     val name: String,
     @SerialName("phone")
@@ -19,5 +19,5 @@ data class School(
     @SerialName("short_name")
     val shortName: String,
     @SerialName("global_school_id")
-    val globalSchoolId: Int
+    val globalSchoolId: Long
 )

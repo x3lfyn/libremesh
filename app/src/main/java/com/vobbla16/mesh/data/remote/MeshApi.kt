@@ -61,7 +61,7 @@ class MeshApi : KoinComponent {
         }
 
     suspend fun getHomework(
-        studentId: Int,
+        studentId: Long,
         beginDate: String,
         endDate: String
     ) =

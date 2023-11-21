@@ -8,7 +8,7 @@ sealed class Activity {
         val info: String,
         val beginTime: LocalTime,
         val endTime: LocalTime,
-        val scheduleItemId: Int,
+        val scheduleItemId: Long,
         val subject: String,
         val room: String,
         val teacher: String?,

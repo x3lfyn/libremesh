@@ -9,7 +9,7 @@ data class Value(
     @SerialName("grade")
     val grade: Grade,
     @SerialName("grade_system_id")
-    val gradeSystemId: Int, // 4180172
+    val gradeSystemId: Long, // 4180172
     @SerialName("grade_system_type")
     val gradeSystemType: String, // five
     @SerialName("name")

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 class GetStudentIdUseCase<T>(
     private val meshRepository: MeshRepository
 ) {
-    suspend operator fun invoke(mergeWith: suspend (Int) -> Flow<OrLoading<Resource<T>>>): Flow<OrLoading<Resource<T>>> =
+    suspend operator fun invoke(mergeWith: suspend (Long) -> Flow<OrLoading<Resource<T>>>): Flow<OrLoading<Resource<T>>> =
         mergeIfOk(meshRepository.getProfile()) {
             val id = it.children[0].id
             mergeWith(id)

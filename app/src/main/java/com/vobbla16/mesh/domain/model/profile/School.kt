@@ -1,7 +1,7 @@
 package com.vobbla16.mesh.domain.model.profile
 
 data class School(
-    val id: Int,
+    val id: Long,
     val name: String,
     val shortName: String,
     val county: String,

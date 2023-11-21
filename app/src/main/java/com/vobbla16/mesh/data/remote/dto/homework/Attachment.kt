@@ -15,7 +15,7 @@ data class Attachment(
     @SerialName("file_file_size")
     val fileFileSize: Int,
     @SerialName("id")
-    val id: Int,
+    val id: Long,
     @SerialName("path")
     val path: String
 )

@@ -9,7 +9,7 @@ data class Mark(
     @SerialName("comment")
     val comment: String? = null,
     @SerialName("control_form_id")
-    val controlFormId: Int,
+    val controlFormId: Long,
     @SerialName("control_form_name")
     val controlFormName: String,
     @SerialName("date")
@@ -17,7 +17,7 @@ data class Mark(
     @SerialName("grade_system_type")
     val gradeSystemType: String,
     @SerialName("id")
-    val id: Int,
+    val id: Long,
     @SerialName("is_exam")
     val isExam: Boolean,
     @SerialName("is_point")
@@ -25,7 +25,7 @@ data class Mark(
     @SerialName("point_date")
     val pointDate: String? = null,
     @SerialName("topic_id")
-    val topicId: Int? = null,
+    val topicId: Long? = null,
     @SerialName("topic_name")
     val topicName: String? = null,
     @SerialName("values")

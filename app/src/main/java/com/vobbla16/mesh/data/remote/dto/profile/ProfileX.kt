@@ -9,13 +9,13 @@ data class ProfileX(
     @SerialName("birth_date")
     val birthDate: String,
     @SerialName("contract_id")
-    val contractId: Int? = null, // null
+    val contractId: Long? = null, // null
     @SerialName("email")
     val email: String? = null,
     @SerialName("first_name")
     val firstName: String,
     @SerialName("id")
-    val id: Int,
+    val id: Long,
     @SerialName("last_name")
     val lastName: String,
     @SerialName("middle_name")
@@ -29,5 +29,5 @@ data class ProfileX(
     @SerialName("type")
     val type: String,
     @SerialName("user_id")
-    val userId: Int
+    val userId: Long
 )

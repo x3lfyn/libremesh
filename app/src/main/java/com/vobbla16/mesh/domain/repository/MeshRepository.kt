@@ -14,19 +14,19 @@ interface MeshRepository {
     suspend fun getProfile(): Flow<OrLoading<Resource<ProfileModel>>>
 
     suspend fun getSchedule(
-        studentId: Int,
+        studentId: Long,
         date: LocalDate
     ): Flow<OrLoading<Resource<ScheduleModel>>>
 
     suspend fun getAcademicYears(): Flow<OrLoading<Resource<List<AcademicYearItemModel>>>>
 
     suspend fun getMarksReport(
-        studentId: Int,
+        studentId: Long,
         academicYear: AcademicYearItemModel
     ): Flow<OrLoading<Resource<List<MarksSubjectModel>>>>
 
     suspend fun getHomework(
-        studentId: Int,
+        studentId: Long,
         week: LocalDate
     ): Flow<OrLoading<Resource<List<HomeworkItemsForDateModel>>>>
 }

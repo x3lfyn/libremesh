@@ -7,11 +7,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Group(
     @SerialName("id")
-    val id: Int,
+    val id: Long,
     @SerialName("is_fake")
     val isFake: Boolean,
     @SerialName("name")
     val name: String,
     @SerialName("subject_id")
-    val subjectId: Int? = null
+    val subjectId: Long? = null
 )

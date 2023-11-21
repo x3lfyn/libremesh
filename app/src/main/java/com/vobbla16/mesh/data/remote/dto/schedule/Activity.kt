@@ -18,11 +18,11 @@ class LessonActivity(
     @SerialName("begin_time")
     val beginTime: String,
     @SerialName("begin_utc")
-    val beginUtc: Int,
+    val beginUtc: Long,
     @SerialName("end_time")
     val endTime: String,
     @SerialName("end_utc")
-    val endUtc: Int,
+    val endUtc: Long,
     @SerialName("room_name")
     val roomName: String?,
     @SerialName("room_number")
@@ -42,9 +42,9 @@ class BreakActivity(
     @SerialName("info")
     val info: String?,
     @SerialName("begin_utc")
-    val beginUtc: Int,
+    val beginUtc: Long,
     @SerialName("end_utc")
-    val endUtc: Int,
+    val endUtc: Long,
     @SerialName("duration")
-    val duration: Int
+    val duration: Long
 ): Activity()
