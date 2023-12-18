@@ -25,6 +25,7 @@ class ScheduleScreenViewModel(private val getScheduleUseCase: GetScheduleUseCase
     )
 
     fun updateDate(date: LocalDate) {
+        setAction { ScheduleScreenAction.UpdateDataPickerState(date) }
         setState { reduceOtherState { copy(selectedDate = date) } }
         getSchedule(true)
     }
