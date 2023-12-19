@@ -35,7 +35,7 @@ abstract class BaseViewModel<Data, OtherState, Action : ViewAction> : ViewModel(
     val action = _action.receiveAsFlow()
 
 
-    public fun setState(reducer: ViewState<Data, OtherState>.() -> ViewState<Data, OtherState>) {
+    fun setState(reducer: ViewState<Data, OtherState>.() -> ViewState<Data, OtherState>) {
         val newState = viewState.value.reducer()
         _viewState.value = newState
     }
