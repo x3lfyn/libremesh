@@ -18,12 +18,12 @@ import com.vobbla16.mesh.ui.screens.marksScreen.components.SubjectCard
 fun ShowBySubject(vm: MarksScreenViewModel) {
     val state = vm.viewState.value
 
-    state.data?.let { subjects ->
+    state.marksData.data?.let { subjects ->
         LazyColumn {
             itemsIndexed(subjects) { index, subj ->
                 SubjectCard(
                     subject = subj,
-                    opened = index in state.otherState.openedSubjectsIndices,
+                    opened = index in state.openedSubjectsIndices,
                     onClick = {
                         vm.toggleSubject(index)
                     },

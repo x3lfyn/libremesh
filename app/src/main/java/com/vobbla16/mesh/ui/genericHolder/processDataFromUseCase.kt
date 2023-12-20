@@ -2,16 +2,20 @@ package com.vobbla16.mesh.ui.genericHolder
 
 import com.vobbla16.mesh.common.OrLoading
 import com.vobbla16.mesh.common.Resource
+import com.vobbla16.mesh.common.copyDynamic
 import com.vobbla16.mesh.ui.BaseViewModel
 import com.vobbla16.mesh.ui.ViewAction
+import com.vobbla16.mesh.ui.ViewState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
+import kotlin.reflect.KProperty1
 
-suspend fun <R, D, S, A : ViewAction> BaseViewModel<D, S, A>.processDataFromUseCase(
-    useCase: Flow<OrLoading<Resource<R>>>,
-    resultReducer: R.() -> D,
+suspend fun <UseCaseResult, VMState : ViewState, Data, VMAction : ViewAction> BaseViewModel<VMState, VMAction>.processDataFromUseCase(
+    useCase: Flow<OrLoading<Resource<UseCaseResult>>>,
+    resultReducer: UseCaseResult.() -> Data,
     loadingType: LoadingState,
+    stateProperty: KProperty1<VMState, GenericHolder<Data>>,
     onNotLoggedIn: () -> Unit
 ) {
     useCase.onEach {
@@ -20,8 +24,8 @@ suspend fun <R, D, S, A : ViewAction> BaseViewModel<D, S, A>.processDataFromUseC
                 when (loadingType) {
                     LoadingState.Load -> {
                         setState {
-                            copy(
-                                dataState = dataState.copy(
+                            copyDynamic(
+                                stateProperty, stateProperty.get(this).copy(
                                     data = null,
                                     loading = LoadingState.Load,
                                     error = null
@@ -32,8 +36,8 @@ suspend fun <R, D, S, A : ViewAction> BaseViewModel<D, S, A>.processDataFromUseC
 
                     LoadingState.Refresh -> {
                         setState {
-                            copy(
-                                dataState = dataState.copy(
+                            copyDynamic(
+                                stateProperty, stateProperty.get(this).copy(
                                     data = null,
                                     loading = LoadingState.Refresh,
                                     error = null
@@ -50,8 +54,8 @@ suspend fun <R, D, S, A : ViewAction> BaseViewModel<D, S, A>.processDataFromUseC
                 when (it.res) {
                     is Resource.Ok -> {
                         setState {
-                            copy(
-                                dataState = dataState.copy(
+                            copyDynamic(
+                                stateProperty, stateProperty.get(this).copy(
                                     data = it.res.data.resultReducer(),
                                     loading = LoadingState.Nothing,
                                     error = null
@@ -62,8 +66,8 @@ suspend fun <R, D, S, A : ViewAction> BaseViewModel<D, S, A>.processDataFromUseC
 
                     is Resource.Err -> {
                         setState {
-                            copy(
-                                dataState = dataState.copy(
+                            copyDynamic(
+                                stateProperty, stateProperty.get(this).copy(
                                     data = null,
                                     loading = LoadingState.Nothing,
                                     error = it.res.e

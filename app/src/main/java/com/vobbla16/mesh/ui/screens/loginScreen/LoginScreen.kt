@@ -70,7 +70,7 @@ fun LoginScreen(navController: NavController, mainVM: MainActivityViewModel) {
         Log.d("RECOMPS", "LoginScreen recomposition occurred")
     }
 
-    when (state.otherState.processingState) {
+    when (state.processingState) {
         is ProcessingState.WelcomeStep -> {
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -157,7 +157,7 @@ fun LoginScreen(navController: NavController, mainVM: MainActivityViewModel) {
         is ProcessingState.Error -> {
             Column {
                 Text(
-                    text = "Error occurred: ${state.otherState.processingState.message}",
+                    text = "Error occurred: ${state.processingState.message}",
                     modifier = Modifier
                         .fillMaxSize()
                         .align(Alignment.CenterHorizontally),

@@ -66,7 +66,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
     val vm: ScheduleScreenViewModel = koinViewModel()
     val state = vm.viewState.value
 
-    LaunchedEffect(key1 = state.data?.date) {
+    LaunchedEffect(key1 = state.scheduleData.data?.date) {
         mainVM.showBottomBar()
     }
 
@@ -111,12 +111,12 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
         topBar = {
             TopAppBar(title = {
                 Text(
-                    text = state.otherState.selectedDate.toHumanStr(
+                    text = state.selectedDate.toHumanStr(
                         LocalConfiguration.current
                     )
                 )
             }, actions = {
-                if (state.otherState.selectedDate != localDateTimeNow().date) {
+                if (state.selectedDate != localDateTimeNow().date) {
                     TextButton(
                         onClick = {
                             datePickerState.setSelection(localDateTimeNow().toInstant(TimeZone.currentSystemDefault()).epochSeconds * 1000)
@@ -143,12 +143,12 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             GenericHolderContainer(
-                holder = state.dataState,
+                holder = state.scheduleData,
                 onRefresh = { vm.updateData(true) },
                 onRetry = { vm.updateData(false) },
                 modifier = Modifier.weight(1f)
             ) { data ->
-                if (state.otherState.datePickerOpened) {
+                if (state.datePickerOpened) {
                     DatePickerDialog(onDismissRequest = {
                         vm.updateDatePickerOpened(false)
                     }, confirmButton = {
@@ -212,7 +212,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                 }
             }
             DayOfWeekPicker(
-                selectedDay = state.otherState.selectedDate
+                selectedDay = state.selectedDate
             ) {
                 vm.updateDate(it)
             }

@@ -33,7 +33,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.vobbla16.mesh.MainActivityViewModel
 import com.vobbla16.mesh.R
-import com.vobbla16.mesh.ui.Screens
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -57,7 +56,7 @@ fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
             vm.action.onEach { action ->
                 when (action) {
                     is MarksScreenAction.NavigateToLoginScreen -> {
-                        navController.navigate(Screens.Login.route)
+//                        navController.navigate(Screens.Login.route)
                     }
                 }
             }.collect()
@@ -157,7 +156,7 @@ fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
             //            }
             //        )
             GenericHolderContainer(
-                holder = state.dataState,
+                holder = state.marksData,
                 onRefresh = { vm.refreshData() },
                 onRetry = { vm.retryOnError() }
             ) {

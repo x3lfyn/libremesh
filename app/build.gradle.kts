@@ -86,4 +86,6 @@ dependencies {
     implementation(libs.paging.compose)
 
     implementation(libs.systemUiController)
+
+    implementation(kotlin("reflect"))
 }

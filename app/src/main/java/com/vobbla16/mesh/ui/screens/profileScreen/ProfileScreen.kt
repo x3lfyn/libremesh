@@ -48,10 +48,10 @@ fun ProfileScreen(navController: NavController, mainVM: MainActivityViewModel) {
         mainVM.showBottomBar()
     }
 
-    if (state.otherState.dialogOpened) {
+    if (state.dialogOpened) {
         AlertDialog(
             onDismissRequest = {
-                if (!state.otherState.isLoggingOut) {
+                if (!state.isLoggingOut) {
                     vm.updatedDialogOpened(false)
                 }
             },
@@ -72,7 +72,7 @@ fun ProfileScreen(navController: NavController, mainVM: MainActivityViewModel) {
             dismissButton = {
                 TextButton(
                     onClick = { vm.updatedDialogOpened(false) },
-                    enabled = !state.otherState.isLoggingOut
+                    enabled = !state.isLoggingOut
                 ) {
                     Text(text = "Отклонить")
                 }
@@ -122,7 +122,7 @@ fun ProfileScreen(navController: NavController, mainVM: MainActivityViewModel) {
         )
     }) { paddingValues ->
         GenericHolderContainer(
-            holder = state.dataState,
+            holder = state.childData,
             onRefresh = { vm.refreshData() },
             onRetry = { vm.retryOnError() },
             modifier = Modifier

@@ -32,7 +32,7 @@ fun HomeworkScreen(navController: NavController, mainVM: MainActivityViewModel) 
         CenterAlignedTopAppBar(title = { Text(text = "Homework screen") })
     }) { paddingValues ->
         GenericHolderContainer(
-            holder = state.dataState,
+            holder = state.homeworkData,
             onRefresh = { vm.refreshData() },
             onRetry = { vm.retryOnError() },
             modifier = Modifier.padding(paddingValues)
