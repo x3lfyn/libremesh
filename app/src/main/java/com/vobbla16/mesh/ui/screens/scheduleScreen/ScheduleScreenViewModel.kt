@@ -46,8 +46,8 @@ class ScheduleScreenViewModel(private val getScheduleUseCase: GetScheduleUseCase
             useCase = getScheduleUseCase(viewState.value.selectedDate),
             resultReducer = { this },
             loadingType = LoadingState.fromBool(refresh),
-            stateProperty = ScheduleScreenState::scheduleData,
             onNotLoggedIn = { setAction { ScheduleScreenAction.NavigateToLoginScreen } },
+            newStateApplier = { setState { copy(scheduleData = it) } }
         )
     }
 

@@ -58,8 +58,9 @@ class MarksScreenViewModel(
             useCase = getMarksReportUseCase(),
             resultReducer = { this },
             loadingType = LoadingState.fromBool(refresh),
-            stateProperty = MarksScreenState::marksData,
-            onNotLoggedIn = { setAction { MarksScreenAction.NavigateToLoginScreen } })
+            onNotLoggedIn = { setAction { MarksScreenAction.NavigateToLoginScreen } },
+            newStateApplier = { setState { copy(marksData = it) } }
+        )
         setState { copy(dataGroupedByDate = viewState.value.marksData.data?.toSingleDayReports()) }
     }
 

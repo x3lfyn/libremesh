@@ -35,8 +35,9 @@ class ProfileScreenViewModel(
             useCase = getStudentUseCase(),
             resultReducer = { this.children[0] },
             loadingType = LoadingState.fromBool(refresh),
-            stateProperty = ProfileScreenState::childData,
-            onNotLoggedIn = { setAction { ProfileScreenAction.NavigateToLoginScreen } })
+            onNotLoggedIn = { setAction { ProfileScreenAction.NavigateToLoginScreen } },
+            newStateApplier = { setState { copy(childData = it) } }
+        )
     }
 
     fun requestLogOut() = viewModelScope.launch {

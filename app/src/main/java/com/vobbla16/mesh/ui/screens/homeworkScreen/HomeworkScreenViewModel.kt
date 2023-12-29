@@ -28,8 +28,8 @@ class HomeworkScreenViewModel(
             useCase = getHomeworkUseCase(localDateTimeNow().date),
             resultReducer = { this },
             loadingType = LoadingState.fromBool(refresh),
-            stateProperty = HomeworkScreenState::homeworkData,
-            onNotLoggedIn = { setAction { HomeworkScreenAction.NavigateToLoginScreen } }
+            onNotLoggedIn = { setAction { HomeworkScreenAction.NavigateToLoginScreen } },
+            newStateApplier = { setState { copy(homeworkData = it) } }
         )
     }
 }
