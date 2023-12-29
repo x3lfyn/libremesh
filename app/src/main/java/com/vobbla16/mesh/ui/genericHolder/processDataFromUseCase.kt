@@ -2,8 +2,6 @@ package com.vobbla16.mesh.ui.genericHolder
 
 import com.vobbla16.mesh.common.OrLoading
 import com.vobbla16.mesh.common.Resource
-import com.vobbla16.mesh.ui.ViewAction
-import com.vobbla16.mesh.ui.ViewState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
