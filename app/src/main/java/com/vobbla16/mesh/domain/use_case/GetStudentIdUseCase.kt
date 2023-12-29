@@ -1,7 +1,7 @@
 package com.vobbla16.mesh.domain.use_case
 
-import com.vobbla16.mesh.common.OrLoading
-import com.vobbla16.mesh.common.Resource
+import com.vobbla16.mesh.common.structures.OrLoading
+import com.vobbla16.mesh.common.structures.Resource
 import com.vobbla16.mesh.common.mergeIfOk
 import com.vobbla16.mesh.domain.repository.MeshRepository
 import kotlinx.coroutines.flow.Flow

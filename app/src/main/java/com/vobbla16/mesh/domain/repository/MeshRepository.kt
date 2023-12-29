@@ -1,7 +1,7 @@
 package com.vobbla16.mesh.domain.repository
 
-import com.vobbla16.mesh.common.OrLoading
-import com.vobbla16.mesh.common.Resource
+import com.vobbla16.mesh.common.structures.OrLoading
+import com.vobbla16.mesh.common.structures.Resource
 import com.vobbla16.mesh.domain.model.acadYears.AcademicYearItemModel
 import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
 import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel

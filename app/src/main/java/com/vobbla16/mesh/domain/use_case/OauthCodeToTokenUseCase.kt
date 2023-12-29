@@ -1,8 +1,8 @@
 package com.vobbla16.mesh.domain.use_case
 
 import com.vobbla16.mesh.common.Constants
-import com.vobbla16.mesh.common.DataOrError
-import com.vobbla16.mesh.common.OrLoading
+import com.vobbla16.mesh.common.structures.DataOrError
+import com.vobbla16.mesh.common.structures.OrLoading
 import com.vobbla16.mesh.data.remote.InsertAuthAttrs
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

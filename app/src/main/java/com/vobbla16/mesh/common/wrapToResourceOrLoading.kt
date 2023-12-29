@@ -1,5 +1,7 @@
 package com.vobbla16.mesh.common
 
+import com.vobbla16.mesh.common.structures.OrLoading
+import com.vobbla16.mesh.common.structures.Resource
 import com.vobbla16.mesh.data.remote.NoTokenException
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse

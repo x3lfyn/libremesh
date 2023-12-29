@@ -1,8 +1,8 @@
 package com.vobbla16.mesh.ui.screens.loginScreen
 
 import androidx.lifecycle.viewModelScope
-import com.vobbla16.mesh.common.DataOrError
-import com.vobbla16.mesh.common.OrLoading
+import com.vobbla16.mesh.common.structures.DataOrError
+import com.vobbla16.mesh.common.structures.OrLoading
 import com.vobbla16.mesh.common.toText
 import com.vobbla16.mesh.domain.repository.SettingsRepository
 import com.vobbla16.mesh.domain.use_case.OauthCodeToTokenUseCase

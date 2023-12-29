@@ -1,4 +1,4 @@
-package com.vobbla16.mesh.common
+package com.vobbla16.mesh.common.structures
 
 sealed class LoadingOrDone {
     object Loading: LoadingOrDone()

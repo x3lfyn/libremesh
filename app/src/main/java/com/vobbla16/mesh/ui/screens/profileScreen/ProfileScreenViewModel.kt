@@ -2,7 +2,7 @@ package com.vobbla16.mesh.ui.screens.profileScreen
 
 import android.webkit.CookieManager
 import androidx.lifecycle.viewModelScope
-import com.vobbla16.mesh.common.LoadingOrDone
+import com.vobbla16.mesh.common.structures.LoadingOrDone
 import com.vobbla16.mesh.domain.use_case.GetStudentUseCase
 import com.vobbla16.mesh.domain.use_case.LogOutUseCase
 import com.vobbla16.mesh.ui.BaseViewModel

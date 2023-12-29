@@ -1,5 +1,7 @@
 package com.vobbla16.mesh.common
 
+import com.vobbla16.mesh.common.structures.OrLoading
+import com.vobbla16.mesh.common.structures.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow

@@ -6,4 +6,10 @@ import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 
-fun LocalDate.toEpochSecond(secondOfDay: Int = 43200): Long = LocalDateTime(this, LocalTime.fromSecondOfDay(secondOfDay)).toInstant(TimeZone.currentSystemDefault()).epochSeconds
+fun LocalDate.toEpochSecond(
+    secondOfDay: Int = 43200,
+    tz: TimeZone = TimeZone.currentSystemDefault()
+): Long = LocalDateTime(
+    this,
+    LocalTime.fromSecondOfDay(secondOfDay)
+).toInstant(tz).epochSeconds

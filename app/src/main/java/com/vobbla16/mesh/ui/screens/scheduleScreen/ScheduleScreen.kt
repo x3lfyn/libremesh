@@ -43,7 +43,7 @@ import androidx.navigation.NavController
 import com.vobbla16.mesh.MainActivityViewModel
 import com.vobbla16.mesh.R
 import com.vobbla16.mesh.common.localDateTimeNow
-import com.vobbla16.mesh.common.msToLocalDate
+import com.vobbla16.mesh.common.msToLocalDateTime
 import com.vobbla16.mesh.common.toEpochSecond
 import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.schedule.Activity
@@ -155,7 +155,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                         TextButton(
                             onClick = {
                                 vm.updateDate(
-                                    datePickerState.selectedDateMillis!!.msToLocalDate()
+                                    msToLocalDateTime(datePickerState.selectedDateMillis!!).date
                                 )
                                 vm.updateDatePickerOpened(false)
                             }, enabled = confirmEnabled.value
