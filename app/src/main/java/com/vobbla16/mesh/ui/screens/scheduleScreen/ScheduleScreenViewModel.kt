@@ -51,7 +51,7 @@ class ScheduleScreenViewModel(private val getScheduleUseCase: GetScheduleUseCase
         )
     }
 
-    private fun getLessonInfo() = viewModelScope.launch {
+    fun getLessonInfo() = viewModelScope.launch {
         setState { copy(lessonInfo = viewState.value.lessonInfo.copy(loading = LoadingState.Load)) }
         delay(1000L)
         setState {
