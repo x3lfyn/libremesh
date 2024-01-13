@@ -1,12 +1,13 @@
 package com.vobbla16.mesh.ui.screens.profileScreen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -21,12 +22,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
@@ -81,10 +83,6 @@ fun ProfileScreen(navController: NavController, mainVM: MainActivityViewModel) {
         )
     }
 
-    SideEffect {
-        Log.d("RECOMPS", "ProfileScreen recomposition occurred")
-    }
-
     val vmActionsScope = rememberCoroutineScope()
     LaunchedEffect(key1 = vm.action) {
         vmActionsScope.launch {
@@ -104,23 +102,29 @@ fun ProfileScreen(navController: NavController, mainVM: MainActivityViewModel) {
         }
     }
 
-    Scaffold(topBar = {
-        TopAppBar(
-            title = { Text(text = "Profile screen") },
-            actions = {
-                IconButton(
-                    onClick = {
-                        vm.updatedDialogOpened(true)
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Profile screen") },
+                actions = {
+                    IconButton(
+                        onClick = {
+                            vm.updatedDialogOpened(true)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ExitToApp,
+                            contentDescription = "log out"
+                        )
                     }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ExitToApp,
-                        contentDescription = "log out"
-                    )
-                }
-            }
-        )
-    }) { paddingValues ->
+                },
+                scrollBehavior = scrollBehavior
+            )
+        },
+        contentWindowInsets = WindowInsets.statusBars,
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+    ) { paddingValues ->
         GenericHolderContainer(
             holder = state.childData,
             onRefresh = { vm.refreshData() },
@@ -190,7 +194,6 @@ fun ProfileScreen(navController: NavController, mainVM: MainActivityViewModel) {
                         Text(
                             text = profile.school.name,
                             style = MaterialTheme.typography.labelSmall,
-                            maxLines = 2,
                             modifier = Modifier.padding(4.dp, 1.dp)
                         )
                         Spacer(modifier = Modifier.height(2.dp))
