@@ -10,8 +10,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -21,33 +23,43 @@ import androidx.compose.ui.unit.dp
 import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.homework.HomeworkItem
 import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 
 @SuppressLint("NewApi")
 @Composable
-fun HomeworkItemsForDateCard(data: HomeworkItemsForDateModel, modifier: Modifier = Modifier) {
+fun HomeworkItemsForDateCard(
+    data: HomeworkItemsForDateModel,
+    modifier: Modifier = Modifier,
+    snackbarHostState: SnackbarHostState
+) {
     val config = LocalConfiguration.current
 
     Card(modifier) {
         Text(
             text = data.date.toHumanStr(config),
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(6.dp)
         )
 
+        val coroutineScope = rememberCoroutineScope()
         data.items.forEachIndexed { index, item ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Checkbox(checked = item.isReady, onCheckedChange = {})
+                Checkbox(checked = item.isReady, onCheckedChange = {
+                    coroutineScope.launch {
+                        snackbarHostState.showSnackbar("Not yet implemented")
+                    }
+                })
 
                 Column(Modifier.padding(0.dp, 2.dp, 6.dp, 4.dp)) {
                     Text(
                         text = item.subjectName,
-                        style = MaterialTheme.typography.titleMedium,
+                        style = MaterialTheme.typography.labelLarge,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -55,7 +67,7 @@ fun HomeworkItemsForDateCard(data: HomeworkItemsForDateModel, modifier: Modifier
                 }
             }
             if (index != data.items.size - 1) {
-                Divider(thickness = 2.dp, modifier = Modifier.padding(8.dp, 2.dp))
+                Divider(modifier = Modifier.padding(8.dp, 2.dp))
             }
         }
     }
@@ -103,6 +115,7 @@ fun HomeworkItemsForDateCardPreview1() {
                 ),
             )
         ),
-        modifier = Modifier.padding(32.dp)
+        modifier = Modifier.padding(32.dp),
+        snackbarHostState = SnackbarHostState()
     )
 }

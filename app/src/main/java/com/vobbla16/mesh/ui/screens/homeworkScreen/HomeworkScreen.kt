@@ -1,15 +1,20 @@
 package com.vobbla16.mesh.ui.screens.homeworkScreen
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.vobbla16.mesh.MainActivityViewModel
@@ -28,25 +33,39 @@ fun HomeworkScreen(navController: NavController, mainVM: MainActivityViewModel) 
         mainVM.showBottomBar()
     }
 
-    Scaffold(topBar = {
-        CenterAlignedTopAppBar(title = { Text(text = "Homework screen") })
-    }) { paddingValues ->
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text(text = "Homework screen") }, scrollBehavior = scrollBehavior
+            )
+        },
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        contentWindowInsets = WindowInsets.statusBars
+    ) { paddingValues ->
         GenericHolderContainer(
             holder = state.homeworkData,
             onRefresh = { vm.refreshData() },
             onRetry = { vm.retryOnError() },
             modifier = Modifier.padding(paddingValues)
         ) {
-            HomeworkScreenUI(it)
+            HomeworkScreenUI(it, mainVM.viewState.value.snackbarHostState)
         }
     }
 }
 
 @Composable
-fun HomeworkScreenUI(data: List<HomeworkItemsForDateModel>) {
+fun HomeworkScreenUI(
+    data: List<HomeworkItemsForDateModel>,
+    snackbarHostState: SnackbarHostState
+) {
     LazyColumn {
         items(data) { item ->
-            HomeworkItemsForDateCard(data = item, modifier = Modifier.padding(4.dp))
+            HomeworkItemsForDateCard(
+                data = item,
+                modifier = Modifier.padding(4.dp),
+                snackbarHostState = snackbarHostState
+            )
         }
     }
 }
