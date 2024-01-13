@@ -30,14 +30,20 @@ fun <T> GenericHolderContainer(
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
     useAnimations: Boolean = true,
+    usePullRefresh: Boolean = true,
     content: @Composable ColumnScope.(T) -> Unit
 ) {
     val pullRefreshState = rememberPullRefreshState(holder.isRefreshing, onRefresh)
 
     Box(
-        modifier
-            .pullRefresh(pullRefreshState)
-            .fillMaxSize()
+        if(usePullRefresh) {
+            modifier
+                .pullRefresh(pullRefreshState)
+                .fillMaxSize()
+        } else {
+            modifier.fillMaxSize()
+        }
+
     ) {
         holder.error?.let {
             ErrorComponent(it, onRetry)
@@ -89,10 +95,12 @@ fun <T> GenericHolderContainer(
             }
         }
 
-        PullRefreshIndicator(
-            refreshing = holder.isRefreshing,
-            state = pullRefreshState,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
+        if(usePullRefresh){
+            PullRefreshIndicator(
+                refreshing = holder.isRefreshing,
+                state = pullRefreshState,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
+        }
     }
 }
