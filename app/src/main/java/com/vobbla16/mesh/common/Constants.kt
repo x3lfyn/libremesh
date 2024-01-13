@@ -16,4 +16,7 @@ object Constants {
     const val PROFILE_ENDPOINT = "/api/family/web/v1/profile"
     const val MARKS_ENDPOINT = "/api/ej/report/family/v1/progress/json"
     const val SCHEDULE_ENDPOINT = "/api/family/web/v1/schedule"
+    const val LESSON_INFO_ENDPOINT = "/api/family/web/v1/lesson_schedule_items/"
+
+    const val EDUCATION_TYPE = "OO"
 }

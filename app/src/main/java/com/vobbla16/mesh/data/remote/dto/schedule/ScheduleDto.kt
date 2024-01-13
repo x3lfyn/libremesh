@@ -60,8 +60,8 @@ fun ScheduleDto.toDomain(): com.vobbla16.mesh.domain.model.schedule.ScheduleMode
                 is BreakActivity -> {
                     com.vobbla16.mesh.domain.model.schedule.Activity.Break(
                         info = act.info ?: Constants.DEFAULT_STRING,
-                        beginTime = act.beginUtc.secsToLocalTime(),
-                        endTime = act.endUtc.secsToLocalTime(),
+                        beginTime = act.beginUtc.secsToLocalTime().time,
+                        endTime = act.endUtc.secsToLocalTime().time,
                         duration = act.duration.toDuration(DurationUnit.SECONDS)
                     )
                 }

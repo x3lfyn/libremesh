@@ -1,0 +1,82 @@
+package com.vobbla16.mesh.data.remote.dto.lessonInfo
+
+
+import com.vobbla16.mesh.common.secsToLocalTime
+import com.vobbla16.mesh.data.remote.dto.schedule.Mark
+import com.vobbla16.mesh.domain.model.lessonInfo.Homework
+import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import java.util.UUID
+
+@Serializable
+data class LessonInfoDto(
+    @SerialName("begin_time")
+    val beginTime: String,
+    @SerialName("begin_utc")
+    val beginUtc: Long,
+    @SerialName("building_name")
+    val buildingName: String,
+    @SerialName("date")
+    val date: String,
+    @SerialName("end_time")
+    val endTime: String,
+    @SerialName("end_utc")
+    val endUtc: Long,
+    @SerialName("homework_presence_status_id")
+    val homeworkPresenceStatusId: Long,
+    @SerialName("id")
+    val id: Long,
+    @SerialName("is_missed_lesson")
+    val isMissedLesson: Boolean,
+    @SerialName("is_virtual")
+    val isVirtual: Boolean,
+    @SerialName("lesson_education_type")
+    val lessonEducationType: String,
+    @SerialName("lesson_homeworks")
+    val lessonHomeworks: List<LessonHomework>,
+    @SerialName("lesson_type")
+    val lessonType: String,
+    @SerialName("marks")
+    val marks: List<Mark>,
+    @SerialName("plan_id")
+    val planId: Long,
+    @SerialName("room_name")
+    val roomName: String,
+    @SerialName("room_number")
+    val roomNumber: String,
+    @SerialName("subject_id")
+    val subjectId: Long,
+    @SerialName("subject_name")
+    val subjectName: String,
+    @SerialName("teacher")
+    val teacher: Teacher?
+)
+
+fun LessonInfoDto.toDomain() = LessonInfoModel(
+    id = id,
+    beginTime =  beginUtc.secsToLocalTime(),
+    endTime = endUtc.secsToLocalTime(),
+    subjectId = subjectId,
+    teacher = teacher?.let { "${it.lastName} ${it.firstName} ${it.middleName}" },
+    homeworks = lessonHomeworks.map { homework ->
+        Homework(
+            name = homework.homework,
+            isDone = homework.isDone,
+            additionMaterials = homework.additionalMaterials.map {material ->
+                when(material) {
+                    is AdditionalMaterial.Attachment -> com.vobbla16.mesh.domain.model.lessonInfo.AdditionalMaterial.Attachment(
+                        title = material.title,
+                        links = material.links.map { link -> link.url }
+                    )
+                    is AdditionalMaterial.TestTaskBinding -> com.vobbla16.mesh.domain.model.lessonInfo.AdditionalMaterial.TestTaskBinding(
+                        title = material.title,
+                        uuid = material.uuid?.let { UUID.fromString(it) }
+                    )
+                }
+            }
+        )
+    },
+    room = "$buildingName, $roomName",
+    subjectName = subjectName
+)

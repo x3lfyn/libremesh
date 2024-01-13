@@ -2,17 +2,19 @@ package com.vobbla16.mesh.ui.screens.scheduleScreen
 
 import androidx.lifecycle.viewModelScope
 import com.vobbla16.mesh.common.localDateTimeNow
+import com.vobbla16.mesh.domain.use_case.GetLessonInfoUseCase
 import com.vobbla16.mesh.domain.use_case.GetScheduleUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
 import com.vobbla16.mesh.ui.genericHolder.GenericHolder
 import com.vobbla16.mesh.ui.genericHolder.LoadingState
 import com.vobbla16.mesh.ui.genericHolder.processDataFromUseCase
-
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
-class ScheduleScreenViewModel(private val getScheduleUseCase: GetScheduleUseCase) :
+class ScheduleScreenViewModel(
+    private val getScheduleUseCase: GetScheduleUseCase,
+    private val getLessonInfoUseCase: GetLessonInfoUseCase
+) :
     BaseViewModel<ScheduleScreenState, ScheduleScreenAction>() {
 
     override fun setInitialState() = ScheduleScreenState(
@@ -51,16 +53,13 @@ class ScheduleScreenViewModel(private val getScheduleUseCase: GetScheduleUseCase
         )
     }
 
-    fun getLessonInfo() = viewModelScope.launch {
-        setState { copy(lessonInfo = viewState.value.lessonInfo.copy(loading = LoadingState.Load)) }
-        delay(1000L)
-        setState {
-            copy(
-                lessonInfo = viewState.value.lessonInfo.copy(
-                    data = "123",
-                    loading = LoadingState.Nothing
-                )
-            )
-        }
+    fun getLessonInfo(lessonId: Long) = viewModelScope.launch {
+        processDataFromUseCase(
+            useCase = getLessonInfoUseCase(lessonId),
+            resultReducer = { this },
+            loadingType = LoadingState.Load,
+            onNotLoggedIn = { setAction { ScheduleScreenAction.NavigateToLoginScreen } },
+            newStateApplier = { setState { copy(lessonInfo = it) } }
+        )
     }
 }

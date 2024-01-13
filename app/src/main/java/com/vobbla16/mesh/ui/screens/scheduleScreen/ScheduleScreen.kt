@@ -14,7 +14,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
@@ -49,7 +48,7 @@ import androidx.navigation.NavController
 import com.vobbla16.mesh.MainActivityViewModel
 import com.vobbla16.mesh.R
 import com.vobbla16.mesh.common.localDateTimeNow
-import com.vobbla16.mesh.common.msToLocalDate
+import com.vobbla16.mesh.common.secsToLocalTime
 import com.vobbla16.mesh.common.toEpochSecond
 import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.schedule.Activity
@@ -145,12 +144,24 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
             }, scrollBehavior = scrollBehavior)
         },
         floatingActionButton = {
-                               FloatingActionButton(onClick = {
-                                   showLessonInfo = true
-                                   vm.getLessonInfo()
-                               }) {
-                                   Text(text = "hey")
-                               }
+            state.scheduleData.data?.let {
+                FloatingActionButton(onClick = {
+                    showLessonInfo = true
+                    vm.getLessonInfo(it.activities.map {
+                        when (it) {
+                            is Activity.Lesson -> {
+                                it.scheduleItemId
+                            }
+
+                            is Activity.Break -> {
+                                0
+                            }
+                        }
+                    }.first { it != (0.toLong()) })
+                }) {
+                    Text(text = "hey")
+                }
+            }
         },
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         contentWindowInsets = WindowInsets.statusBars
@@ -160,8 +171,13 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                 GenericHolderContainer(
                     holder = state.lessonInfo,
                     onRefresh = { /*TODO*/ },
-                    onRetry = { /*TODO*/ }) {
-                    Text(text = it)
+                    onRetry = { /*TODO*/ }
+                ) {
+                    LazyColumn {
+                        item {
+                            Text(text = it.toString())
+                        }
+                    }
                 }
             }
         }
@@ -184,7 +200,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                         TextButton(
                             onClick = {
                                 vm.updateDate(
-                                    datePickerState.selectedDateMillis!!.msToLocalDate()
+                                    (datePickerState.selectedDateMillis!! / 1000).secsToLocalTime().date
                                 )
                                 vm.updateDatePickerOpened(false)
                             }, enabled = confirmEnabled.value

@@ -4,6 +4,7 @@ import com.vobbla16.mesh.common.OrLoading
 import com.vobbla16.mesh.common.Resource
 import com.vobbla16.mesh.domain.model.acadYears.AcademicYearItemModel
 import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
+import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
 import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel
 import com.vobbla16.mesh.domain.model.profile.ProfileModel
 import com.vobbla16.mesh.domain.model.schedule.ScheduleModel
@@ -29,4 +30,9 @@ interface MeshRepository {
         studentId: Long,
         week: LocalDate
     ): Flow<OrLoading<Resource<List<HomeworkItemsForDateModel>>>>
+
+    suspend fun getLessonInfo(
+        studentId: Long,
+        lessonId: Long
+    ): Flow<OrLoading<Resource<LessonInfoModel>>>
 }
