@@ -239,6 +239,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                     }
                 }
             }
+
             DayOfWeekPicker(
                 selectedDay = state.selectedDate
             ) {
