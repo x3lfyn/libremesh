@@ -2,6 +2,7 @@ package com.vobbla16.mesh.ui.screens.scheduleScreen
 
 import androidx.lifecycle.viewModelScope
 import com.vobbla16.mesh.common.localDateTimeNow
+import com.vobbla16.mesh.domain.model.schedule.Activity
 import com.vobbla16.mesh.domain.use_case.GetLessonInfoUseCase
 import com.vobbla16.mesh.domain.use_case.GetScheduleUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
@@ -53,9 +54,9 @@ class ScheduleScreenViewModel(
         )
     }
 
-    fun getLessonInfo(lessonId: Long) = viewModelScope.launch {
+    fun getLessonInfo(lesson: Activity.Lesson) = viewModelScope.launch {
         processDataFromUseCase(
-            useCase = getLessonInfoUseCase(lessonId),
+            useCase = getLessonInfoUseCase(lesson.scheduleItemId, lesson.lessonType),
             resultReducer = { this },
             loadingType = LoadingState.Load,
             onNotLoggedIn = { setAction { ScheduleScreenAction.NavigateToLoginScreen } },

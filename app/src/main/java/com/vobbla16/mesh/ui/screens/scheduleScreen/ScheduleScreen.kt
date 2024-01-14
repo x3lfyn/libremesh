@@ -205,7 +205,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                                 is Activity.Lesson -> {
                                     ScheduleLessonItem(activity) {
                                         showLessonInfo = true
-                                        vm.getLessonInfo(activity.scheduleItemId)
+                                        vm.getLessonInfo(activity)
                                     }
                                 }
 

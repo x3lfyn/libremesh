@@ -7,6 +7,7 @@ import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
 import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
 import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel
 import com.vobbla16.mesh.domain.model.profile.ProfileModel
+import com.vobbla16.mesh.domain.model.schedule.LessonType
 import com.vobbla16.mesh.domain.model.schedule.ScheduleModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDate
@@ -33,6 +34,7 @@ interface MeshRepository {
 
     suspend fun getLessonInfo(
         studentId: Long,
-        lessonId: Long
+        lessonId: Long,
+        educationType: LessonType
     ): Flow<OrLoading<Resource<LessonInfoModel>>>
 }

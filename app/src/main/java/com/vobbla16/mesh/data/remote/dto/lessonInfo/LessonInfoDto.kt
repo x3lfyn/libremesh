@@ -24,7 +24,7 @@ data class LessonInfoDto(
     @SerialName("end_utc")
     val endUtc: Long,
     @SerialName("homework_presence_status_id")
-    val homeworkPresenceStatusId: Long,
+    val homeworkPresenceStatusId: Long? = null,
     @SerialName("id")
     val id: Long,
     @SerialName("is_missed_lesson")

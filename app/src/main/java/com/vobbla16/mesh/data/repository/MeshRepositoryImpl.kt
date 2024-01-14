@@ -1,12 +1,12 @@
 package com.vobbla16.mesh.data.repository
 
-import com.vobbla16.mesh.common.Constants
 import com.vobbla16.mesh.common.structures.OrLoading
 import com.vobbla16.mesh.common.structures.Resource
 import com.vobbla16.mesh.common.toStr
 import com.vobbla16.mesh.data.remote.MeshApi
 import com.vobbla16.mesh.domain.model.acadYears.AcademicYearItemModel
 import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
+import com.vobbla16.mesh.domain.model.schedule.LessonType
 import com.vobbla16.mesh.domain.repository.MeshRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.DatePeriod
@@ -42,10 +42,11 @@ class MeshRepositoryImpl : MeshRepository {
 
     override suspend fun getLessonInfo(
         studentId: Long,
-        lessonId: Long
+        lessonId: Long,
+        educationType: LessonType
     ): Flow<OrLoading<Resource<LessonInfoModel>>> = meshApi.getLessonInfo(
         studentId,
         lessonId,
-        Constants.EDUCATION_TYPE
+        educationType.str
     )
 }
