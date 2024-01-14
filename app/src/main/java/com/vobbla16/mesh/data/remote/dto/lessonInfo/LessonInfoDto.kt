@@ -40,7 +40,7 @@ data class LessonInfoDto(
     @SerialName("marks")
     val marks: List<Mark>,
     @SerialName("plan_id")
-    val planId: Long,
+    val planId: Long? = null,
     @SerialName("room_name")
     val roomName: String,
     @SerialName("room_number")
@@ -73,10 +73,37 @@ fun LessonInfoDto.toDomain() = LessonInfoModel(
                         title = material.title,
                         uuid = material.uuid?.let { UUID.fromString(it) }
                     )
+                    is AdditionalMaterial.GameApp -> com.vobbla16.mesh.domain.model.lessonInfo.AdditionalMaterial.GameApp(
+                        a = 0
+                    )
+                    is AdditionalMaterial.AtomicObject -> com.vobbla16.mesh.domain.model.lessonInfo.AdditionalMaterial.AtomicObject(
+                        a = 0
+                    )
+                    is AdditionalMaterial.LessonTemplate -> com.vobbla16.mesh.domain.model.lessonInfo.AdditionalMaterial.LessonTemplate(
+                        a = 0
+                    )
+                    is AdditionalMaterial.TestSpecBinding -> com.vobbla16.mesh.domain.model.lessonInfo.AdditionalMaterial.TestSpecBinding(
+                        a = 0
+                    )
+                    is AdditionalMaterial.Workbook -> com.vobbla16.mesh.domain.model.lessonInfo.AdditionalMaterial.Workbook(
+                        a = 0
+                    )
+                    is AdditionalMaterial.FizikonModule -> com.vobbla16.mesh.domain.model.lessonInfo.AdditionalMaterial.FizikonModule(
+                        a = 0
+                    )
                 }
             }
         )
     },
     room = "$buildingName, $roomName",
-    subjectName = subjectName
+    subjectName = subjectName,
+    marks = marks.map { mark ->
+        com.vobbla16.mesh.domain.model.lessonInfo.Mark(
+            value = mark.value.toInt(),
+            weight = mark.weight,
+            comment = if (mark.commentExists) mark.comment else null,
+            controlForm = mark.controlFormName,
+            isPoint = mark.isPoint
+        )
+    }
 )

@@ -12,4 +12,28 @@ sealed class AdditionalMaterial {
         val title: String,
         val links: List<String>
     ) : AdditionalMaterial()
+
+    data class GameApp(
+        val a: Int
+    ): AdditionalMaterial()
+
+    data class AtomicObject(
+        val a: Int
+    ): AdditionalMaterial()
+
+    data class LessonTemplate(
+        val a: Int
+    ): AdditionalMaterial()
+
+    data class TestSpecBinding(
+        val a: Int
+    ): AdditionalMaterial()
+
+    data class Workbook(
+        val a: Int
+    ): AdditionalMaterial()
+
+    data class FizikonModule(
+        val a: Int
+    ): AdditionalMaterial()
 }

@@ -20,7 +20,6 @@ import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -55,6 +54,7 @@ import com.vobbla16.mesh.domain.model.schedule.Activity
 import com.vobbla16.mesh.ui.Screens
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.DayOfWeekPicker
+import com.vobbla16.mesh.ui.screens.scheduleScreen.components.LessonInfoDisplay
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.ScheduleBreakItem
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.ScheduleLessonItem
 import kotlinx.coroutines.flow.collect
@@ -143,26 +143,6 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                 }
             }, scrollBehavior = scrollBehavior)
         },
-        floatingActionButton = {
-            state.scheduleData.data?.let {
-                FloatingActionButton(onClick = {
-                    showLessonInfo = true
-                    vm.getLessonInfo(it.activities.map {
-                        when (it) {
-                            is Activity.Lesson -> {
-                                it.scheduleItemId
-                            }
-
-                            is Activity.Break -> {
-                                0
-                            }
-                        }
-                    }.first { it != (0.toLong()) })
-                }) {
-                    Text(text = "hey")
-                }
-            }
-        },
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         contentWindowInsets = WindowInsets.statusBars
     ) { paddingValues ->
@@ -170,14 +150,14 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
             ModalBottomSheet(onDismissRequest = { showLessonInfo = false }) {
                 GenericHolderContainer(
                     holder = state.lessonInfo,
-                    onRefresh = { /*TODO*/ },
+                    usePullRefresh = false,
+                    onRefresh = {},
                     onRetry = { /*TODO*/ }
                 ) {
-                    LazyColumn {
-                        item {
-                            Text(text = it.toString())
-                        }
-                    }
+                    LessonInfoDisplay(
+                        lessonInfo = it,
+                        snackbarHostState = mainVM.viewState.value.snackbarHostState
+                    )
                 }
             }
         }
@@ -223,7 +203,10 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                         items(data.activities) { activity ->
                             when (activity) {
                                 is Activity.Lesson -> {
-                                    ScheduleLessonItem(activity)
+                                    ScheduleLessonItem(activity) {
+                                        showLessonInfo = true
+                                        vm.getLessonInfo(activity.scheduleItemId)
+                                    }
                                 }
 
                                 is Activity.Break -> {

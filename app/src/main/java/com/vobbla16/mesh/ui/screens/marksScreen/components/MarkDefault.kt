@@ -22,11 +22,11 @@ import com.vobbla16.mesh.domain.model.marks.MarkValue
 import kotlinx.datetime.LocalDate
 
 @Composable
-fun MarkDefault(mark: Mark, modifier: Modifier = Modifier) {
+fun MarkDefault(mark: MarkDefaultValue, modifier: Modifier = Modifier) {
     OutlinedCard(modifier) {
         Box(Modifier.size(48.dp)) {
             Text(
-                text = mark.value.fiveScale.toInt().toString(),
+                text = mark.value.toString(),
                 modifier = Modifier.align(
                     Alignment.Center,
                 ), style = MaterialTheme.typography.titleMedium
@@ -39,12 +39,6 @@ fun MarkDefault(mark: Mark, modifier: Modifier = Modifier) {
                 style = MaterialTheme.typography.labelMedium
             )
             if (mark.isPoint) {
-//                Text(
-//                    text = "·",
-//                    modifier = Modifier.align(Alignment.TopStart),
-//                    style = MaterialTheme.typography.headlineLarge,
-//                    color = MaterialTheme.colorScheme.error
-//                )
                 Icon(
                     imageVector = Icons.Default.Star,
                     contentDescription = "can be changed",
@@ -58,6 +52,12 @@ fun MarkDefault(mark: Mark, modifier: Modifier = Modifier) {
         }
     }
 }
+
+data class MarkDefaultValue(
+    val value: Int,
+    val weight: Int,
+    val isPoint: Boolean
+)
 
 @Preview(
     showBackground = true,
@@ -76,7 +76,7 @@ fun MarkDefaultPreview1() {
         value = MarkValue(4f, 80f),
         weight = 2
     )
-    MarkDefault(mark = mark)
+    MarkDefault(mark = mark.toMarkDefaultValue())
 }
 
 @Preview(
@@ -96,5 +96,5 @@ fun MarkDefaultPreview2() {
         value = MarkValue(5f, 100f),
         weight = 2
     )
-    MarkDefault(mark = mark)
+    MarkDefault(mark = mark.toMarkDefaultValue())
 }

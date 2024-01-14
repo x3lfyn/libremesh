@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Item(
     @SerialName("id")
-    val id: Int,
+    val id: Int? = null,
     @SerialName("is_hidden_from_students")
     val isHiddenFromStudents: Boolean,
     @SerialName("is_necessary")

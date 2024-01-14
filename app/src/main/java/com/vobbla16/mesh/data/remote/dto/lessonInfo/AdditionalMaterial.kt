@@ -30,4 +30,46 @@ sealed class AdditionalMaterial {
         @SerialName("urls")
         val links: List<UrlAdditionMaterial>
     ) : AdditionalMaterial()
+
+    @Serializable
+    @SerialName("game_app")
+    data class GameApp(
+        @SerialName("type")
+        override val type: String = "game_app"
+    ): AdditionalMaterial()
+
+    @Serializable
+    @SerialName("atomic_object")
+    data class AtomicObject(
+        @SerialName("type")
+        override val type: String = "atomic_object"
+    ): AdditionalMaterial()
+
+    @Serializable
+    @SerialName("lesson_template")
+    data class LessonTemplate(
+        @SerialName("type")
+        override val type: String = "lesson_template"
+    ): AdditionalMaterial()
+
+    @Serializable
+    @SerialName("test_spec_binding")
+    data class TestSpecBinding(
+        @SerialName("type")
+        override val type: String = "test_spec_binding"
+    ): AdditionalMaterial()
+
+    @Serializable
+    @SerialName("workbook")
+    data class Workbook(
+        @SerialName("type")
+        override val type: String = "workbook"
+    ): AdditionalMaterial()
+
+    @Serializable
+    @SerialName("fizikon_module")
+    data class FizikonModule(
+        @SerialName("type")
+        override val type: String = "fizikon_module"
+    ): AdditionalMaterial()
 }

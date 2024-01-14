@@ -10,5 +10,10 @@ data class LessonInfoModel(
     val subjectName: String,
     val teacher: String?,
     val room: String,
-    val homeworks: List<Homework>
-)
+    val homeworks: List<Homework>,
+    val marks: List<Mark>
+) {
+    fun durationMinutes(): Int {
+        return (endTime.time.toSecondOfDay() - beginTime.time.toSecondOfDay()) / 60
+    }
+}
