@@ -100,11 +100,13 @@ fun ScheduleLessonItem(activity: Activity.Lesson, onClick: () -> Unit) {
                 else -> {}
             }
 
-            FlowRow(
-                modifier = Modifier.fillMaxWidth().padding(2.dp, 6.dp, 2.dp, 2.dp)
-            ) {
-                activity.marks.forEach { mark ->
-                    MarkDefault(mark = mark.toMarkDefaultValue(), size = MarkDefaultSize.Small)
+            if (activity.marks.isNotEmpty()) {
+                FlowRow(
+                    modifier = Modifier.fillMaxWidth().padding(2.dp, 6.dp, 2.dp, 2.dp)
+                ) {
+                    activity.marks.forEach { mark ->
+                        MarkDefault(mark = mark.toMarkDefaultValue(), size = MarkDefaultSize.Small)
+                    }
                 }
             }
         }
