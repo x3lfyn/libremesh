@@ -3,6 +3,8 @@ package com.vobbla16.mesh.ui.screens.scheduleScreen.components
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,9 +24,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vobbla16.mesh.domain.model.schedule.Activity
 import com.vobbla16.mesh.domain.model.schedule.LessonType
+import com.vobbla16.mesh.ui.screens.marksScreen.components.MarkDefault
+import com.vobbla16.mesh.ui.screens.marksScreen.components.MarkDefaultSize
 import kotlinx.datetime.LocalTime
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalLayoutApi::class
+)
 @Composable
 fun ScheduleLessonItem(activity: Activity.Lesson, onClick: () -> Unit) {
     Card(
@@ -94,6 +100,13 @@ fun ScheduleLessonItem(activity: Activity.Lesson, onClick: () -> Unit) {
                 else -> {}
             }
 
+            FlowRow(
+                modifier = Modifier.fillMaxWidth().padding(2.dp, 6.dp, 2.dp, 2.dp)
+            ) {
+                activity.marks.forEach { mark ->
+                    MarkDefault(mark = mark.toMarkDefaultValue(), size = MarkDefaultSize.Small)
+                }
+            }
         }
     }
 }

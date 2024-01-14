@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.vobbla16.mesh.domain.model.marks.GradeType
 import com.vobbla16.mesh.domain.model.marks.Mark
@@ -22,9 +23,13 @@ import com.vobbla16.mesh.domain.model.marks.MarkValue
 import kotlinx.datetime.LocalDate
 
 @Composable
-fun MarkDefault(mark: MarkDefaultValue, modifier: Modifier = Modifier) {
+fun MarkDefault(
+    mark: MarkDefaultValue,
+    modifier: Modifier = Modifier,
+    size: MarkDefaultSize = MarkDefaultSize.Default
+) {
     OutlinedCard(modifier) {
-        Box(Modifier.size(48.dp)) {
+        Box(Modifier.size(size.size)) {
             Text(
                 text = mark.value.toString(),
                 modifier = Modifier.align(
@@ -53,6 +58,11 @@ fun MarkDefault(mark: MarkDefaultValue, modifier: Modifier = Modifier) {
     }
 }
 
+enum class MarkDefaultSize(val size: Dp) {
+    Default(48.dp),
+    Small(38.dp)
+}
+
 data class MarkDefaultValue(
     val value: Int,
     val weight: Int,
@@ -70,13 +80,13 @@ fun MarkDefaultPreview1() {
         controlFormName = "Самостоятельная работа",
         date = LocalDate(2022, 12, 28),
         gradeType = GradeType.Five,
-        isPoint = false,
+        isPoint = true,
         pointDate = null,
         topic = "Что-то там",
         value = MarkValue(4f, 80f),
         weight = 2
     )
-    MarkDefault(mark = mark.toMarkDefaultValue())
+    MarkDefault(mark = mark.toMarkDefaultValue(), size = MarkDefaultSize.Small)
 }
 
 @Preview(

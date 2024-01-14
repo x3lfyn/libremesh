@@ -44,7 +44,8 @@ fun ScheduleDto.toDomain(): com.vobbla16.mesh.domain.model.schedule.ScheduleMode
                             Mark(
                                 mark.id,
                                 mark.value,
-                                mark.weight
+                                mark.weight,
+                                mark.isPoint
                             )
                         },
                         homework = act.lesson.homework,
