@@ -1,8 +1,8 @@
 package com.vobbla16.mesh.data.repository
 
 import com.vobbla16.mesh.common.Constants
-import com.vobbla16.mesh.common.OrLoading
-import com.vobbla16.mesh.common.Resource
+import com.vobbla16.mesh.common.structures.OrLoading
+import com.vobbla16.mesh.common.structures.Resource
 import com.vobbla16.mesh.common.toStr
 import com.vobbla16.mesh.data.remote.MeshApi
 import com.vobbla16.mesh.domain.model.acadYears.AcademicYearItemModel

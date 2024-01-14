@@ -2,7 +2,6 @@ package com.vobbla16.mesh.ui.screens.scheduleScreen.components
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -59,7 +58,7 @@ fun LessonInfoDisplay(
             inlineContent = mapOf("arrow" to InlineTextContent(
                 Placeholder(20.sp, 20.sp, PlaceholderVerticalAlign.TextCenter)
             ) {
-                Image(
+                Icon(
                     imageVector = Icons.Default.KeyboardArrowRight,
                     contentDescription = "arrow icon"
                 )
@@ -85,7 +84,11 @@ fun LessonInfoDisplay(
                     .padding(4.dp, 6.dp)
             ) {
                 Column(Modifier.padding(4.dp)) {
-                    Text(text = "Домашняя работа", style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(2.dp))
+                    Text(
+                        text = "Домашняя работа",
+                        style = MaterialTheme.typography.titleSmall,
+                        modifier = Modifier.padding(2.dp)
+                    )
 
                     lessonInfo.homeworks.forEachIndexed { index, homework ->
                         Column {
@@ -127,7 +130,7 @@ fun LessonInfoDisplay(
                                     else -> {}
                                 }
                             }
-                            if(index != lessonInfo.homeworks.size - 1) {
+                            if (index != lessonInfo.homeworks.size - 1) {
                                 Divider(modifier = Modifier.padding(2.dp))
                             }
                         }
