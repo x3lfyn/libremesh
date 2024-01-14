@@ -6,6 +6,8 @@ import com.vobbla16.mesh.data.remote.dto.acadYears.AcademicYearsItemDto
 import com.vobbla16.mesh.data.remote.dto.acadYears.toDomain
 import com.vobbla16.mesh.data.remote.dto.homework.HomeworkItemDto
 import com.vobbla16.mesh.data.remote.dto.homework.toDomain
+import com.vobbla16.mesh.data.remote.dto.lessonInfo.LessonInfoDto
+import com.vobbla16.mesh.data.remote.dto.lessonInfo.toDomain
 import com.vobbla16.mesh.data.remote.dto.marks.MarksReportItemDto
 import com.vobbla16.mesh.data.remote.dto.marks.toDomain
 import com.vobbla16.mesh.data.remote.dto.profile.ProfileDto
@@ -14,6 +16,7 @@ import com.vobbla16.mesh.data.remote.dto.schedule.ScheduleDto
 import com.vobbla16.mesh.data.remote.dto.schedule.toDomain
 import com.vobbla16.mesh.domain.model.acadYears.AcademicYearItemModel
 import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
+import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
 import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel
 import com.vobbla16.mesh.domain.model.profile.ProfileModel
 import com.vobbla16.mesh.domain.model.schedule.ScheduleModel
@@ -71,6 +74,16 @@ class MeshApi : KoinComponent {
                     parameter("student_profile_id", studentId)
                     parameter("begin_prepared_date", beginDate)
                     parameter("end_prepared_date", endDate)
+                }
+            }
+        }
+
+    suspend fun getLessonInfo(studentId: Long, scheduleItemId: Long, type: String) =
+        wrapToResourceOrLoading<LessonInfoDto, LessonInfoModel>({ it.toDomain() }) {
+            httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.LESSON_INFO_ENDPOINT + scheduleItemId.toString()) {
+                url {
+                    parameter("student_id", studentId)
+                    parameter("type", type)
                 }
             }
         }

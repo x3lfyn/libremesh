@@ -77,7 +77,7 @@ fun PeriodCard(period: Period, modifier: Modifier = Modifier) {
 
         FlowRow {
             period.marks.forEach { mark ->
-                MarkDefault(mark = mark, modifier = Modifier.padding(6.dp))
+                MarkDefault(mark = mark.toMarkDefaultValue(), modifier = Modifier.padding(6.dp))
             }
         }
     }

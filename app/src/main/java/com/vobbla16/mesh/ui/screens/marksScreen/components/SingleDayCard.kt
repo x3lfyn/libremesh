@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.vobbla16.mesh.common.Constants
 import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.marks.GradeType
 import com.vobbla16.mesh.domain.model.marks.Mark
@@ -43,11 +44,11 @@ fun SingleDayCard(report: SingleDayReport, modifier: Modifier = Modifier) {
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                MarkDefault(mark = mark.mark, modifier = Modifier.padding(6.dp, 4.dp))
+                MarkDefault(mark = mark.mark.toMarkDefaultValue(), modifier = Modifier.padding(6.dp, 4.dp))
                 Column(Modifier.padding(8.dp, 2.dp)) {
                     Text(text = mark.subjectName, style = MaterialTheme.typography.labelLarge)
                     Text(
-                        text = mark.mark.controlFormName,
+                        text = mark.mark.controlFormName ?: Constants.DEFAULT_STRING,
                         style = MaterialTheme.typography.bodySmall
                     )
                 }

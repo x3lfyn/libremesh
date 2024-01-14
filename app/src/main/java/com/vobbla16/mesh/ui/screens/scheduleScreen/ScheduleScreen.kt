@@ -23,6 +23,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -31,8 +32,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -43,13 +47,14 @@ import androidx.navigation.NavController
 import com.vobbla16.mesh.MainActivityViewModel
 import com.vobbla16.mesh.R
 import com.vobbla16.mesh.common.localDateTimeNow
-import com.vobbla16.mesh.common.msToLocalDateTime
+import com.vobbla16.mesh.common.secsToLocalTime
 import com.vobbla16.mesh.common.toEpochSecond
 import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.schedule.Activity
 import com.vobbla16.mesh.ui.Screens
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.DayOfWeekPicker
+import com.vobbla16.mesh.ui.screens.scheduleScreen.components.LessonInfoDisplay
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.ScheduleBreakItem
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.ScheduleLessonItem
 import kotlinx.coroutines.flow.collect
@@ -106,6 +111,10 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
         }
     }
 
+    var showLessonInfo by remember {
+        mutableStateOf(false)
+    }
+
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(
         topBar = {
@@ -137,6 +146,22 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         contentWindowInsets = WindowInsets.statusBars
     ) { paddingValues ->
+        if (showLessonInfo) {
+            ModalBottomSheet(onDismissRequest = { showLessonInfo = false }) {
+                GenericHolderContainer(
+                    holder = state.lessonInfo,
+                    usePullRefresh = false,
+                    onRefresh = {},
+                    onRetry = { /*TODO*/ }
+                ) {
+                    LessonInfoDisplay(
+                        lessonInfo = it,
+                        snackbarHostState = mainVM.viewState.value.snackbarHostState
+                    )
+                }
+            }
+        }
+
         Column(
             modifier = Modifier
                 .padding(paddingValues),
@@ -155,7 +180,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                         TextButton(
                             onClick = {
                                 vm.updateDate(
-                                    msToLocalDateTime(datePickerState.selectedDateMillis!!).date
+                                    (datePickerState.selectedDateMillis!! / 1000).secsToLocalTime().date
                                 )
                                 vm.updateDatePickerOpened(false)
                             }, enabled = confirmEnabled.value
@@ -178,7 +203,10 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                         items(data.activities) { activity ->
                             when (activity) {
                                 is Activity.Lesson -> {
-                                    ScheduleLessonItem(activity)
+                                    ScheduleLessonItem(activity) {
+                                        showLessonInfo = true
+                                        vm.getLessonInfo(activity.scheduleItemId)
+                                    }
                                 }
 
                                 is Activity.Break -> {

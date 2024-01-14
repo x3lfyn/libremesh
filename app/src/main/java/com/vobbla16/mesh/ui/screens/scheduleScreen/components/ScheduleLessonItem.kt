@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,13 +24,14 @@ import com.vobbla16.mesh.domain.model.schedule.Activity
 import com.vobbla16.mesh.domain.model.schedule.LessonType
 import kotlinx.datetime.LocalTime
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun ScheduleLessonItem(activity: Activity.Lesson) {
+fun ScheduleLessonItem(activity: Activity.Lesson, onClick: () -> Unit) {
     Card(
-        Modifier
+        modifier = Modifier
             .fillMaxWidth()
-            .padding(4.dp)
+            .padding(4.dp),
+        onClick = onClick
     ) {
         Column(Modifier.padding(6.dp)) {
             Row {
@@ -111,7 +113,8 @@ private fun ScheduleLessonItemPreview1() {
             marks = listOf(),
             homework = "Учебник страница 123, номер 123,412,1345(б)\nрабочая тетрадь стр 234, номер 412",
             lessonType = LessonType.OO
-        )
+        ),
+        onClick = {}
     )
 }
 
@@ -130,7 +133,8 @@ private fun ScheduleLessonItemPreview2() {
             marks = listOf(),
             homework = "Учебник страница 123, номер 123,412,1345(б)\nрабочая тетрадь стр 234, номер 412 и ещё 200000000 номер череез неделю сдать и ещё раз ляляляляляляляляляляляляляллялялялляллялялляялляял",
             lessonType = LessonType.OO
-        )
+        ),
+        onClick = {}
     )
 }
 
@@ -149,7 +153,8 @@ private fun ScheduleLessonItemPreview3() {
             marks = listOf(),
             homework = "Учебник страница 123, номер 123,412,1345(б)\nрабочая тетрадь стр 234, номер 412",
             lessonType = LessonType.AE
-        )
+        ),
+        onClick = {}
     )
 }
 
@@ -168,6 +173,7 @@ private fun ScheduleLessonItemPreview4() {
             marks = listOf(),
             homework = "Учебник страница 123, номер 123,412,1345(б)\nрабочая тетрадь стр 234, номер 412 и ещё 200000000 номер череез неделю сдать и ещё раз ляляляляляляляляляляляляляллялялялляллялялляялляял",
             lessonType = LessonType.EC
-        )
+        ),
+        onClick = {}
     )
 }
