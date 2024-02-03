@@ -10,6 +10,7 @@ import com.vobbla16.mesh.domain.model.profile.Sex
 import kotlinx.datetime.toLocalDate
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.util.*
 
 @Serializable
 data class ProfileDto(
@@ -97,7 +98,7 @@ fun ProfileDto.toDomain() = ProfileModel(
             sudirLogin = child.sudirLogin,
             isLegalRepresentative = child.isLegalRepresentative,
             parallelCurriculumId = child.parallelCurriculumId,
-            contingentGuid = child.contingentGuid
+            contingentGuid = UUID.fromString(child.contingentGuid)
         )
     },
     hash = this.hash

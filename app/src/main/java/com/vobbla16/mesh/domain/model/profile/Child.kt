@@ -1,6 +1,7 @@
 package com.vobbla16.mesh.domain.model.profile
 
 import kotlinx.datetime.LocalDate
+import java.util.*
 
 data class Child(
     val lastName: String,
@@ -26,5 +27,5 @@ data class Child(
     val sudirLogin: String?,
     val isLegalRepresentative: Boolean,
     val parallelCurriculumId: Long?,
-    val contingentGuid: String
+    val contingentGuid: UUID
 )

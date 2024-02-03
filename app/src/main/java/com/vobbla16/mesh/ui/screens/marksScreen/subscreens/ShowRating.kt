@@ -13,7 +13,7 @@ import com.vobbla16.mesh.ui.screens.marksScreen.MarksScreenViewModel
 fun ShowRating(vm: MarksScreenViewModel) {
     val state = vm.viewState.value
 
-    GenericHolderContainer(holder = state.classmates, onRefresh = { /*TODO*/ }, onRetry = { /*TODO*/ }) {classmates ->
+    GenericHolderContainer(holder = state.ratingClass, onRefresh = { /*TODO*/ }, onRetry = { /*TODO*/ }) {classmates ->
         LazyColumn {
             items(classmates) {
                 Text(text = it.toString())

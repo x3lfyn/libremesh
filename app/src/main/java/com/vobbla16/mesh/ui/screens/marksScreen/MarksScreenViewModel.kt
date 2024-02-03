@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.lifecycle.viewModelScope
 import com.vobbla16.mesh.domain.use_case.GetClassmatesUseCase
 import com.vobbla16.mesh.domain.use_case.GetMarksReportUseCase
+import com.vobbla16.mesh.domain.use_case.GetRatingClassDeanonUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
 import com.vobbla16.mesh.ui.genericHolder.GenericHolder
 import com.vobbla16.mesh.ui.genericHolder.LoadingState
@@ -14,19 +15,19 @@ import kotlinx.coroutines.launch
 @ExperimentalFoundationApi
 class MarksScreenViewModel(
     private val getMarksReportUseCase: GetMarksReportUseCase,
-    private val getClassmatesUseCase: GetClassmatesUseCase
+    private val getRatingClassDeanonUseCase: GetRatingClassDeanonUseCase
 ) : BaseViewModel<MarksScreenState, MarksScreenAction>() {
     override fun setInitialState(): MarksScreenState = MarksScreenState(
         marksData = GenericHolder(),
         selectedTabIndex = 0,
         openedSubjectsIndices = emptyList(),
         dataGroupedByDate = null,
-        classmates = GenericHolder()
+        ratingClass = GenericHolder()
     )
 
     init {
         getMarksReport(false)
-        getClassmates()
+        getRatingClass()
     }
 
 //    fun switchTab(selectedTabIndex: Int) {
@@ -68,13 +69,13 @@ class MarksScreenViewModel(
         setState { copy(dataGroupedByDate = viewState.value.marksData.data?.toSingleDayReports()) }
     }
 
-    private fun getClassmates() = viewModelScope.launch {
+    private fun getRatingClass() = viewModelScope.launch {
         processDataFromUseCase(
-            useCase = getClassmatesUseCase(),
+            useCase = getRatingClassDeanonUseCase(),
             resultReducer = { this },
             loadingType = LoadingState.Load,
             onNotLoggedIn = {},
-            newStateApplier = { setState { copy(classmates = it) } }
+            newStateApplier = { setState { copy(ratingClass = it) } }
         )
     }
 
