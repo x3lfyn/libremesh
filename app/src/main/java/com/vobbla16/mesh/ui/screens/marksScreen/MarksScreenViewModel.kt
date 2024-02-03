@@ -2,6 +2,7 @@ package com.vobbla16.mesh.ui.screens.marksScreen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.lifecycle.viewModelScope
+import com.vobbla16.mesh.domain.use_case.GetClassmatesUseCase
 import com.vobbla16.mesh.domain.use_case.GetMarksReportUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
 import com.vobbla16.mesh.ui.genericHolder.GenericHolder
@@ -12,17 +13,20 @@ import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
 class MarksScreenViewModel(
-    private val getMarksReportUseCase: GetMarksReportUseCase
+    private val getMarksReportUseCase: GetMarksReportUseCase,
+    private val getClassmatesUseCase: GetClassmatesUseCase
 ) : BaseViewModel<MarksScreenState, MarksScreenAction>() {
     override fun setInitialState(): MarksScreenState = MarksScreenState(
         marksData = GenericHolder(),
         selectedTabIndex = 0,
         openedSubjectsIndices = emptyList(),
-        dataGroupedByDate = null
+        dataGroupedByDate = null,
+        classmates = GenericHolder()
     )
 
     init {
         getMarksReport(false)
+        getClassmates()
     }
 
 //    fun switchTab(selectedTabIndex: Int) {
@@ -62,6 +66,16 @@ class MarksScreenViewModel(
             newStateApplier = { setState { copy(marksData = it) } }
         )
         setState { copy(dataGroupedByDate = viewState.value.marksData.data?.toSingleDayReports()) }
+    }
+
+    private fun getClassmates() = viewModelScope.launch {
+        processDataFromUseCase(
+            useCase = getClassmatesUseCase(),
+            resultReducer = { this },
+            loadingType = LoadingState.Load,
+            onNotLoggedIn = {},
+            newStateApplier = { setState { copy(classmates = it) } }
+        )
     }
 
 }

@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -127,6 +128,25 @@ fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
                             )
                         },
                         onClick = { scope.launch { pagerState.animateScrollToPage(1) } }
+                    )
+                    DropdownMenuItem(
+                        text = {
+                            Text(text = "Rating")
+                        },
+                        trailingIcon = {
+                            if (pagerState.currentPage == 2)
+                                Icon(
+                                    imageVector = Icons.Default.Check,
+                                    contentDescription = "selected"
+                                )
+                        },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Star,
+                                contentDescription = "star icon"
+                            )
+                        },
+                        onClick = { scope.launch { pagerState.animateScrollToPage(2) } }
                     )
                 }
             }, scrollBehavior = scrollBehavior)

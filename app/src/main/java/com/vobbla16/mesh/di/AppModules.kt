@@ -15,6 +15,7 @@ import com.vobbla16.mesh.domain.use_case.GetStudentUseCase
 import com.vobbla16.mesh.domain.use_case.GetTokenUseCase
 import com.vobbla16.mesh.domain.use_case.LogOutUseCase
 import com.vobbla16.mesh.domain.use_case.OauthCodeToTokenUseCase
+import com.vobbla16.mesh.domain.use_case.GetClassmatesUseCase
 import com.vobbla16.mesh.ui.screens.homeworkScreen.HomeworkScreenViewModel
 import com.vobbla16.mesh.ui.screens.loginScreen.LoginScreenViewModel
 import com.vobbla16.mesh.ui.screens.marksScreen.MarksScreenViewModel
@@ -55,6 +56,7 @@ val appModule = module {
     single { GetHomeworkUseCase(get()) }
     single { GetStudentUseCase(get()) }
     single { GetLessonInfoUseCase(get()) }
+    single { GetClassmatesUseCase(get(), get()) }
 
     viewModel {
         ScheduleScreenViewModel(get(), get())
@@ -63,7 +65,7 @@ val appModule = module {
         LoginScreenViewModel(get(), get())
     }
     viewModel {
-        MarksScreenViewModel(get())
+        MarksScreenViewModel(get(), get())
     }
     viewModel {
         ProfileScreenViewModel(get(), get())

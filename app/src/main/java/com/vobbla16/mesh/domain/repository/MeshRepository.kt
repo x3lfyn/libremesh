@@ -3,6 +3,7 @@ package com.vobbla16.mesh.domain.repository
 import com.vobbla16.mesh.common.structures.OrLoading
 import com.vobbla16.mesh.common.structures.Resource
 import com.vobbla16.mesh.domain.model.acadYears.AcademicYearItemModel
+import com.vobbla16.mesh.domain.model.classmates.ClassmateModel
 import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
 import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
 import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel
@@ -37,4 +38,8 @@ interface MeshRepository {
         lessonId: Long,
         educationType: LessonType
     ): Flow<OrLoading<Resource<LessonInfoModel>>>
+
+    suspend fun getClassmates(
+        classUnitId: Long
+    ): Flow<OrLoading<Resource<List<ClassmateModel>>>>
 }

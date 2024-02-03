@@ -5,6 +5,7 @@ import com.vobbla16.mesh.common.structures.Resource
 import com.vobbla16.mesh.common.toStr
 import com.vobbla16.mesh.data.remote.MeshApi
 import com.vobbla16.mesh.domain.model.acadYears.AcademicYearItemModel
+import com.vobbla16.mesh.domain.model.classmates.ClassmateModel
 import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
 import com.vobbla16.mesh.domain.model.schedule.LessonType
 import com.vobbla16.mesh.domain.repository.MeshRepository
@@ -48,5 +49,10 @@ class MeshRepositoryImpl : MeshRepository {
         studentId,
         lessonId,
         educationType.str
+    )
+
+    override suspend fun getClassmates(classUnitId: Long)
+            : Flow<OrLoading<Resource<List<ClassmateModel>>>> = meshApi.getClassmates(
+        classUnitId
     )
 }

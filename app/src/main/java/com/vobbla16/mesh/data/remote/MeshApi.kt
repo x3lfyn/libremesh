@@ -4,6 +4,7 @@ import com.vobbla16.mesh.common.Constants
 import com.vobbla16.mesh.common.wrapToResourceOrLoading
 import com.vobbla16.mesh.data.remote.dto.acadYears.AcademicYearsItemDto
 import com.vobbla16.mesh.data.remote.dto.acadYears.toDomain
+import com.vobbla16.mesh.data.remote.dto.classmates.ClassmateDto
 import com.vobbla16.mesh.data.remote.dto.homework.HomeworkItemDto
 import com.vobbla16.mesh.data.remote.dto.homework.toDomain
 import com.vobbla16.mesh.data.remote.dto.lessonInfo.LessonInfoDto
@@ -15,14 +16,14 @@ import com.vobbla16.mesh.data.remote.dto.profile.toDomain
 import com.vobbla16.mesh.data.remote.dto.schedule.ScheduleDto
 import com.vobbla16.mesh.data.remote.dto.schedule.toDomain
 import com.vobbla16.mesh.domain.model.acadYears.AcademicYearItemModel
+import com.vobbla16.mesh.domain.model.classmates.ClassmateModel
 import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
 import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
 import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel
 import com.vobbla16.mesh.domain.model.profile.ProfileModel
 import com.vobbla16.mesh.domain.model.schedule.ScheduleModel
 import io.ktor.client.HttpClient
-import io.ktor.client.request.get
-import io.ktor.client.request.parameter
+import io.ktor.client.request.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -84,6 +85,17 @@ class MeshApi : KoinComponent {
                 url {
                     parameter("student_id", studentId)
                     parameter("type", type)
+                }
+            }
+        }
+
+    suspend fun getClassmates(classUnitId: Long) =
+        wrapToResourceOrLoading<List<ClassmateDto>, List<ClassmateModel>>({ it.map { it.toDomain() } }) {
+            httpClient.get(Constants.MESH_API_BASE_DOMAIN_DNEVNIK + Constants.CLASSMATES_ENDPOINT) {
+                url {
+                    parameter("class_unit_id", classUnitId)
+                    parameter("per_page", Int.MAX_VALUE)
+                    parameter("types", "student")
                 }
             }
         }
