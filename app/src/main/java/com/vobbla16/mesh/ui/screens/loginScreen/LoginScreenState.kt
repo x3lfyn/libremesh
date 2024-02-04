@@ -7,8 +7,8 @@ data class LoginScreenState(
 ) : ViewState
 
 sealed class ProcessingState {
-    object WelcomeStep : ProcessingState()
-    object WebViewStep : ProcessingState()
-    object ProcessingStep : ProcessingState()
+    data object WelcomeStep : ProcessingState()
+    data object WebViewStep : ProcessingState()
+    data object ProcessingStep : ProcessingState()
     data class Error(val message: String) : ProcessingState()
 }

@@ -30,7 +30,7 @@ fun List<MarksReportItemDto>.toDomain(): List<MarksSubjectModel> = this.map { su
                         comment = mark.comment,
                         controlFormName = mark.controlFormName,
                         date = mark.date.nonIsoToLocalDate(),
-                        gradeType = GradeType.values().find { it.text == mark.gradeSystemType }!!,
+                        gradeType = GradeType.entries.find { it.text == mark.gradeSystemType }!!,
                         isPoint = mark.isPoint,
                         pointDate = mark.pointDate?.nonIsoToLocalDate(),
                         topic = mark.topicName ?: "Нет темы",

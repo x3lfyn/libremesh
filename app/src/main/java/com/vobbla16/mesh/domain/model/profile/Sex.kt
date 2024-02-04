@@ -7,7 +7,7 @@ enum class Sex(
     Female("female");
 
     companion object {
-        private val mapText = Sex.values().associateBy(Sex::text)
+        private val mapText = entries.associateBy(Sex::text)
 
         fun fromString(text: String?) = if(text != null) mapText[text] else null
     }

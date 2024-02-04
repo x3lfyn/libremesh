@@ -19,6 +19,4 @@ object Constants {
     const val LESSON_INFO_ENDPOINT = "/api/family/web/v1/lesson_schedule_items/"
     const val CLASSMATES_ENDPOINT = "/core/api/profiles"
     const val RATING_CLASS_ENDPOINT = "/api/ej/rating/v1/rank/class"
-
-    const val EDUCATION_TYPE = "OO"
 }

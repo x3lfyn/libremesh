@@ -69,7 +69,7 @@ fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
         mutableStateOf(false)
     }
 
-    val pagerState = rememberPagerState(pageCount = { Tabs.values().size })
+    val pagerState = rememberPagerState(pageCount = { Tabs.entries.size })
     val scope = rememberCoroutineScope()
     Scaffold(
         topBar = {
@@ -181,7 +181,7 @@ fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
                 onRetry = { vm.retryOnError() }
             ) {
                 HorizontalPager(state = pagerState) { page ->
-                    Tabs.values()[page].subscreen(vm)
+                    Tabs.entries[page].subscreen(vm)
                 }
             }
         }
