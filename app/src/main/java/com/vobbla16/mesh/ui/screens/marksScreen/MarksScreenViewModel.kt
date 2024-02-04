@@ -69,12 +69,12 @@ class MarksScreenViewModel(
         setState { copy(dataGroupedByDate = viewState.value.marksData.data?.toSingleDayReports()) }
     }
 
-    private fun getRatingClass() = viewModelScope.launch {
+    fun getRatingClass(refresh: Boolean = false) = viewModelScope.launch {
         processDataFromUseCase(
             useCase = getRatingClassDeanonUseCase(),
             resultReducer = { this },
-            loadingType = LoadingState.Load,
-            onNotLoggedIn = {},
+            loadingType = LoadingState.fromBool(refresh),
+            onNotLoggedIn = { setAction { MarksScreenAction.NavigateToLoginScreen } },
             newStateApplier = { setState { copy(ratingClass = it) } }
         )
     }
