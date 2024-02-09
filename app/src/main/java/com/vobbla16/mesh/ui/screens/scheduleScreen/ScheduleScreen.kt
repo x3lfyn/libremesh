@@ -15,10 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.DatePickerState
-import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -75,14 +73,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
         mainVM.showBottomBar()
     }
 
-    val datePickerState = remember {
-        DatePickerState(
-            initialDisplayMode = DisplayMode.Picker,
-            yearRange = DatePickerDefaults.YearRange,
-            initialSelectedDateMillis = null,
-            initialDisplayedMonthMillis = null
-        )
-    }
+    val datePickerState = rememberDatePickerState()
     val confirmEnabled =
         remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
 
@@ -96,7 +87,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                     }
 
                     is ScheduleScreenAction.UpdateDataPickerState -> {
-                        datePickerState.setSelection(action.newDate.toEpochSecond() * 1000)
+                        datePickerState.selectedDateMillis = action.newDate.toEpochSecond() * 1000
                     }
                 }
             }.collect()
@@ -128,7 +119,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                 if (state.selectedDate != localDateTimeNow().date) {
                     TextButton(
                         onClick = {
-                            datePickerState.setSelection(localDateTimeNow().toInstant(TimeZone.currentSystemDefault()).epochSeconds * 1000)
+                            datePickerState.selectedDateMillis = localDateTimeNow().toInstant(TimeZone.currentSystemDefault()).epochSeconds * 1000
                             vm.updateDate(localDateTimeNow().date)
                         }
                     ) {

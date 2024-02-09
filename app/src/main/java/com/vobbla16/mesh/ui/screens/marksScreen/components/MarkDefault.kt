@@ -1,9 +1,10 @@
 package com.vobbla16.mesh.ui.screens.marksScreen.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
@@ -29,20 +30,22 @@ fun MarkDefault(
     size: MarkDefaultSize = MarkDefaultSize.Default
 ) {
     OutlinedCard(modifier) {
-        Box(Modifier.size(size.size)) {
+        Box(Modifier.height(size.size).widthIn(size.size, Dp.Infinity)) {
             Text(
                 text = mark.value.toString(),
                 modifier = Modifier.align(
                     Alignment.Center,
-                ), style = MaterialTheme.typography.titleMedium
+                ).padding(6.dp), style = MaterialTheme.typography.titleMedium
             )
-            Text(
-                text = mark.weight.toString(),
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(4.dp),
-                style = MaterialTheme.typography.labelMedium
-            )
+            mark.weight?.let {
+                Text(
+                    text = it.toString(),
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(4.dp),
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
             if (mark.isPoint) {
                 Icon(
                     imageVector = Icons.Default.Star,
@@ -64,8 +67,8 @@ enum class MarkDefaultSize(val size: Dp) {
 }
 
 data class MarkDefaultValue(
-    val value: Int,
-    val weight: Int,
+    val value: Number,
+    val weight: Int?,
     val isPoint: Boolean
 )
 
@@ -107,4 +110,16 @@ fun MarkDefaultPreview2() {
         weight = 2
     )
     MarkDefault(mark = mark.toMarkDefaultValue())
+}
+
+@Preview(
+    showBackground = true,
+    device = "spec:width=128px,height=128px,dpi=440"
+)
+@Composable
+fun MarkDefaultPreview3() {
+    MarkDefault(mark = MarkDefaultValue(
+        4.66, null, false
+    ), size = MarkDefaultSize.Small
+    )
 }

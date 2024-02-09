@@ -1,6 +1,12 @@
 package com.vobbla16.mesh.ui.screens.marksScreen.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
@@ -25,36 +31,31 @@ fun ClassRatingItemCard(
     anonymous: Boolean = true
 ) {
     @Composable
-    fun RankIndicator(rank: RankStatus) = Row {
+    fun RankIndicator(rank: RankStatus) {
         Text(
             text = "${rank.place} место",
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(4.dp, 0.dp)
         )
         Spacer(modifier = Modifier.width(4.dp))
-        Text(
-            text = rank.averageMark.toString(),
-            style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.padding(4.dp, 0.dp)
+        MarkDefault(
+            mark = MarkDefaultValue(rank.averageMark, null, false),
+            size = MarkDefaultSize.Small
         )
     }
 
     Card(modifier) {
-        Row(
-            modifier = Modifier
-                .padding(4.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(4.dp)
         ) {
-            if (!anonymous) {
-                Text(
-                    text = "${item.second.lastName} ${item.second.firstName}",
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-
-            Row(horizontalArrangement = Arrangement.SpaceAround) {
+            Row(
+                modifier = Modifier
+                    .padding(4.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
                 RankIndicator(rank = item.first.currentRank)
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
@@ -62,6 +63,13 @@ fun ClassRatingItemCard(
                     modifier = Modifier.padding(6.dp, 0.dp)
                 )
                 RankIndicator(rank = item.first.previousRank)
+            }
+            if (!anonymous) {
+                Text(
+                    text = "${item.second.lastName} ${item.second.firstName}",
+                    style = MaterialTheme.typography.titleSmall,
+                    modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 4.dp)
+                )
             }
         }
     }

@@ -2,7 +2,6 @@ package com.vobbla16.mesh.ui.screens.marksScreen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.lifecycle.viewModelScope
-import com.vobbla16.mesh.domain.use_case.GetClassmatesUseCase
 import com.vobbla16.mesh.domain.use_case.GetMarksReportUseCase
 import com.vobbla16.mesh.domain.use_case.GetRatingClassDeanonUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
@@ -22,7 +21,8 @@ class MarksScreenViewModel(
         selectedTabIndex = 0,
         openedSubjectsIndices = emptyList(),
         dataGroupedByDate = null,
-        ratingClass = GenericHolder()
+        ratingClass = GenericHolder(),
+        anonymousRating = true
     )
 
     init {
@@ -79,4 +79,6 @@ class MarksScreenViewModel(
         )
     }
 
+    fun toggleAnonymousRating() =
+        setState { copy(anonymousRating = !viewState.value.anonymousRating) }
 }

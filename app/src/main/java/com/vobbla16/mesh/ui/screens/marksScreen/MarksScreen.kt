@@ -34,6 +34,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.vobbla16.mesh.MainActivityViewModel
 import com.vobbla16.mesh.R
+import com.vobbla16.mesh.ui.Screens
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -57,7 +58,7 @@ fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
             vm.action.onEach { action ->
                 when (action) {
                     is MarksScreenAction.NavigateToLoginScreen -> {
-//                        navController.navigate(Screens.Login.route)
+                        navController.navigate(Screens.Login.route)
                     }
                 }
             }.collect()
@@ -71,6 +72,7 @@ fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
 
     val pagerState = rememberPagerState(pageCount = { Tabs.entries.size })
     val scope = rememberCoroutineScope()
+
     Scaffold(
         topBar = {
             TopAppBar(title = {
@@ -78,6 +80,24 @@ fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
                     text = "Marks"
                 )
             }, actions = {
+                if(pagerState.currentPage == 2) {
+                    IconButton(onClick = {
+                        vm.toggleAnonymousRating()
+                    }) {
+                        if (state.anonymousRating) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.visibility_off),
+                                contentDescription = "hidden icon"
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(id = R.drawable.visibility),
+                                contentDescription = "visible icon"
+                            )
+                        }
+                    }
+                }
+
                 IconButton(onClick = { menuExpanded = !menuExpanded }) {
                     Icon(
                         imageVector = Icons.Filled.MoreVert,
