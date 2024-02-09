@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -58,7 +58,7 @@ fun ProfileScreen(navController: NavController, mainVM: MainActivityViewModel) {
                 }
             },
             icon = {
-                Icon(imageVector = Icons.Default.ExitToApp, contentDescription = "exit icon")
+                Icon(imageVector = Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "exit icon")
             },
             title = {
                 Text(text = "Выйти")
@@ -114,7 +114,7 @@ fun ProfileScreen(navController: NavController, mainVM: MainActivityViewModel) {
                         }
                     ) {
                         Icon(
-                            imageVector = Icons.Default.ExitToApp,
+                            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
                             contentDescription = "log out"
                         )
                     }

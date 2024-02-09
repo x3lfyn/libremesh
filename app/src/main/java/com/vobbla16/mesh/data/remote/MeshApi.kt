@@ -1,7 +1,6 @@
 package com.vobbla16.mesh.data.remote
 
 import com.vobbla16.mesh.common.Constants
-import com.vobbla16.mesh.common.toStr
 import com.vobbla16.mesh.common.wrapToResourceOrLoading
 import com.vobbla16.mesh.data.remote.dto.acadYears.AcademicYearsItemDto
 import com.vobbla16.mesh.data.remote.dto.acadYears.toDomain
@@ -26,11 +25,12 @@ import com.vobbla16.mesh.domain.model.profile.ProfileModel
 import com.vobbla16.mesh.domain.model.ratingClass.anon.PersonRatingModel
 import com.vobbla16.mesh.domain.model.schedule.ScheduleModel
 import io.ktor.client.HttpClient
-import io.ktor.client.request.*
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import kotlinx.datetime.LocalDate
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.util.*
+import java.util.UUID
 
 class MeshApi : KoinComponent {
     private val httpClient: HttpClient by inject()

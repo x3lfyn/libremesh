@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -59,7 +59,7 @@ fun LessonInfoDisplay(
                 Placeholder(20.sp, 20.sp, PlaceholderVerticalAlign.TextCenter)
             ) {
                 Icon(
-                    imageVector = Icons.Default.KeyboardArrowRight,
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                     contentDescription = "arrow icon"
                 )
             }),
@@ -131,7 +131,7 @@ fun LessonInfoDisplay(
                                 }
                             }
                             if (index != lessonInfo.homeworks.size - 1) {
-                                Divider(modifier = Modifier.padding(2.dp))
+                                HorizontalDivider(modifier = Modifier.padding(2.dp))
                             }
                         }
                     }

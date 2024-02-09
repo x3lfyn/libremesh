@@ -1,13 +1,13 @@
 package com.vobbla16.mesh.ui
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.automirrored.outlined.List
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Create
-import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -30,8 +30,8 @@ enum class NavBarItems(
     Schedule(
         Screens.Schedule,
         "Schedule",
-        { Icon(imageVector = Icons.Outlined.List, contentDescription = "list outlined icon") },
-        { Icon(imageVector = Icons.Filled.List, contentDescription = "list filled icon") }
+        { Icon(imageVector = Icons.AutoMirrored.Outlined.List, contentDescription = "list outlined icon") },
+        { Icon(imageVector = Icons.AutoMirrored.Filled.List, contentDescription = "list filled icon") }
     ),
     Marks(
         Screens.Marks,
