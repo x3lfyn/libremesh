@@ -12,7 +12,7 @@ data class Profile(
     val id: Long,
     val contractId: Long?,
     val phone: String,
-    val email: String,
+    val email: String?,
     val snils: String,
     val type: String?,
 )

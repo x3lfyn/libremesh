@@ -11,7 +11,7 @@ data class Representative(
     @SerialName("contract_id")
     val contractId: Long?, // null
     @SerialName("email")
-    val email: String,
+    val email: String? = null,
     @SerialName("first_name")
     val firstName: String,
     @SerialName("id")
