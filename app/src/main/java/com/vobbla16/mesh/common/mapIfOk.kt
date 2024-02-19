@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.map
 
 @Suppress("UNCHECKED_CAST")
 fun <T, R> Flow<OrLoading<Resource<T>>>.mapIfOk(
-    transform: (T) -> R
+    transform: suspend (T) -> R
 ): Flow<OrLoading<Resource<R>>> {
     return this.map {
         when (it) {

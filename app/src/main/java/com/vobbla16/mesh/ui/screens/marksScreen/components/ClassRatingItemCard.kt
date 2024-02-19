@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -44,7 +45,12 @@ fun ClassRatingItemCard(
         )
     }
 
-    Card(modifier) {
+    Card(
+        modifier = modifier,
+        colors = if (item.third)
+            CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
+        else CardDefaults.cardColors()
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(4.dp)
@@ -76,7 +82,7 @@ fun ClassRatingItemCard(
 }
 
 
-val sample = Pair(
+val sample = Triple(
     PersonRatingModel(
         UUID.randomUUID(),
         currentRank = RankStatus(4.8f, 2),
@@ -89,13 +95,14 @@ val sample = Pair(
         "Ivanov",
         "Ivan",
         "Ivanovich"
-    )
+    ),
+    false
 )
 
 @Preview
 @Composable
 fun ClassRatingItemCardPreview1() {
-    ClassRatingItemCard(item = sample, Modifier.fillMaxWidth(), true)
+    ClassRatingItemCard(item = sample.copy(third = true), Modifier.fillMaxWidth(), true)
 }
 
 @Preview

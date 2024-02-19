@@ -8,7 +8,7 @@ import com.vobbla16.mesh.ui.ViewState
 import com.vobbla16.mesh.ui.genericHolder.GenericHolder
 import com.vobbla16.mesh.ui.screens.marksScreen.localState.SingleDayReport
 
-typealias ClassRatingItem = Pair<PersonRatingModel, ClassmateModel>
+typealias ClassRatingItem = Triple<PersonRatingModel, ClassmateModel, Boolean>
 typealias RatingClass = List<ClassRatingItem>
 
 @ExperimentalFoundationApi
