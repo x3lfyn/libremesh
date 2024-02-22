@@ -34,6 +34,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vobbla16.mesh.LocalMainVM
+import com.vobbla16.mesh.ui.commonComponents.SpoilerText
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
 import com.vobbla16.mesh.ui.screens.destinations.LoginScreenDestination
 import com.vobbla16.mesh.ui.screens.destinations.ScheduleScreenDestination
@@ -146,18 +147,27 @@ fun ProfileScreen(navigator: DestinationsNavigator) {
                 )
 
                 @Composable
-                fun OneLineData(first: String, second: String) {
+                fun OneLineData(first: String, second: String, isSecret: Boolean = false) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = first,
                             style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier.padding(4.dp, 1.dp)
                         )
-                        Text(
-                            text = second,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(4.dp, 1.dp)
-                        )
+                        if (isSecret) {
+                            SpoilerText(modifier = Modifier.padding(4.dp, 1.dp)) {
+                                Text(
+                                    text = second,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            }
+                        } else {
+                            Text(
+                                text = second,
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(4.dp, 1.dp)
+                            )
+                        }
                     }
                 }
 
@@ -173,9 +183,9 @@ fun ProfileScreen(navigator: DestinationsNavigator) {
                     )
                     Column(Modifier.padding(4.dp, 1.dp, 2.dp, 4.dp)) {
                         OneLineData(first = "Класс:", second = profile.className)
-                        OneLineData(first = "Электропочта:", second = profile.email)
-                        OneLineData(first = "Телефон:", second = profile.phone)
-                        OneLineData(first = "СНИЛС:", second = profile.snils)
+                        OneLineData(first = "Электропочта:", second = profile.email, true)
+                        OneLineData(first = "Телефон:", second = profile.phone, true)
+                        OneLineData(first = "СНИЛС:", second = profile.snils, true)
                     }
                 }
 

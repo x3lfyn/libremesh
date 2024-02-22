@@ -21,6 +21,7 @@ paging = "3.2.1"
 paging-compose = "3.2.1"
 ksp = "1.9.0-1.0.13"
 compose-destinations = "1.10.1"
+cloudy = "0.1.2"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -63,6 +64,8 @@ paging-compose = { group = "androidx.paging", name = "paging-compose", version.r
 systemUiController = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 compose-destinations-core = { group = "io.github.raamcosta.compose-destinations", name = "animations-core", version.ref = "compose-destinations" }
 compose-destinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "compose-destinations" }
+
+cloudy = { group = "com.github.skydoves", name = "cloudy", version.ref = "cloudy" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

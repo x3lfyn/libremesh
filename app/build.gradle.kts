@@ -89,4 +89,6 @@ dependencies {
 
     implementation(libs.compose.destinations.core)
     ksp(libs.compose.destinations.ksp)
+
+    implementation(libs.cloudy)
 }
