@@ -1,5 +1,6 @@
 package com.vobbla16.mesh.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.outlined.List
@@ -11,42 +12,39 @@ import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-
-enum class Screens(val route: String) {
-    Schedule("schedule"),
-    Marks("marks"),
-    Login("login"),
-    Profile("profile"),
-    Homework("homework")
-}
-
+import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
+import com.vobbla16.mesh.ui.screens.destinations.HomeworkScreenDestination
+import com.vobbla16.mesh.ui.screens.destinations.MarksScreenDestination
+import com.vobbla16.mesh.ui.screens.destinations.ProfileScreenDestination
+import com.vobbla16.mesh.ui.screens.destinations.ScheduleScreenDestination
 
 enum class NavBarItems(
-    val screen: Screens,
+    val screen: DirectionDestinationSpec,
     val label: String,
     val inactiveIcon: @Composable () -> Unit,
     val activeIcon: @Composable () -> Unit
 ) {
     Schedule(
-        Screens.Schedule,
+        ScheduleScreenDestination,
         "Schedule",
         { Icon(imageVector = Icons.AutoMirrored.Outlined.List, contentDescription = "list outlined icon") },
         { Icon(imageVector = Icons.AutoMirrored.Filled.List, contentDescription = "list filled icon") }
     ),
+    @OptIn(ExperimentalFoundationApi::class)
     Marks(
-        Screens.Marks,
+        MarksScreenDestination,
         "Marks",
         { Icon(imageVector = Icons.Outlined.CheckCircle, contentDescription = "marks outlined icon") },
         { Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = "marks filled icon") }
     ),
     Homework(
-        Screens.Homework,
+        HomeworkScreenDestination,
         "Homework",
         { Icon(imageVector = Icons.Outlined.Create, contentDescription = "homework outlined icon") },
         { Icon(imageVector = Icons.Filled.Create, contentDescription = "homework filled icon") }
     ),
     Profile(
-        Screens.Profile,
+        ProfileScreenDestination,
         "Profile",
         { Icon(imageVector = Icons.Outlined.Person, contentDescription = "profile outlined icon") },
         { Icon(imageVector = Icons.Filled.Person, contentDescription = "profile filled icon") }

@@ -16,8 +16,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.vobbla16.mesh.MainActivityViewModel
+import com.ramcosta.composedestinations.annotation.Destination
+import com.vobbla16.mesh.LocalMainVM
 import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
 import com.vobbla16.mesh.ui.screens.homeworkScreen.components.HomeworkItemsForDateCard
@@ -25,7 +25,9 @@ import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeworkScreen(navController: NavController, mainVM: MainActivityViewModel) {
+@Destination
+fun HomeworkScreen() {
+    val mainVM = LocalMainVM.current
     val vm: HomeworkScreenViewModel = koinViewModel()
     val state = vm.viewState.value
 

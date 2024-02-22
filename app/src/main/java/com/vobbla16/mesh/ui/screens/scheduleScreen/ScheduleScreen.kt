@@ -41,16 +41,20 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.vobbla16.mesh.MainActivityViewModel
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.result.NavResult
+import com.ramcosta.composedestinations.result.ResultRecipient
+import com.vobbla16.mesh.LocalMainVM
 import com.vobbla16.mesh.R
 import com.vobbla16.mesh.common.localDateTimeNow
 import com.vobbla16.mesh.common.secsToLocalTime
 import com.vobbla16.mesh.common.toEpochSecond
 import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.schedule.Activity
-import com.vobbla16.mesh.ui.Screens
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
+import com.vobbla16.mesh.ui.screens.destinations.LoginScreenDestination
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.DayOfWeekPicker
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.LessonInfoDisplay
 import com.vobbla16.mesh.ui.screens.scheduleScreen.components.ScheduleBreakItem
@@ -65,7 +69,13 @@ import org.koin.androidx.compose.koinViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) {
+@RootNavGraph(start = true)
+@Destination
+fun ScheduleScreen(
+    navigator: DestinationsNavigator,
+    loginResultRecipient: ResultRecipient<LoginScreenDestination, Boolean>
+) {
+    val mainVM = LocalMainVM.current
     val vm: ScheduleScreenViewModel = koinViewModel()
     val state = vm.viewState.value
 
@@ -83,7 +93,7 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
             vm.action.onEach { action ->
                 when (action) {
                     is ScheduleScreenAction.NavigateToLoginScreen -> {
-                        navController.navigate(Screens.Login.route)
+                        navigator.navigate(LoginScreenDestination)
                     }
 
                     is ScheduleScreenAction.UpdateDataPickerState -> {
@@ -94,11 +104,12 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
         }
     }
 
-    navController.currentBackStackEntry?.savedStateHandle.let {
-        LaunchedEffect(key1 = it) {
-            if (it?.get<Boolean>("loggedIn") == true) {
+    loginResultRecipient.onNavResult {
+        when(it) {
+            is NavResult.Value -> {
                 vm.afterLoggingIn()
             }
+            else -> {}
         }
     }
 
@@ -119,7 +130,8 @@ fun ScheduleScreen(navController: NavController, mainVM: MainActivityViewModel) 
                 if (state.selectedDate != localDateTimeNow().date) {
                     TextButton(
                         onClick = {
-                            datePickerState.selectedDateMillis = localDateTimeNow().toInstant(TimeZone.currentSystemDefault()).epochSeconds * 1000
+                            datePickerState.selectedDateMillis =
+                                localDateTimeNow().toInstant(TimeZone.currentSystemDefault()).epochSeconds * 1000
                             vm.updateDate(localDateTimeNow().date)
                         }
                     ) {

@@ -26,11 +26,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.google.accompanist.web.AccompanistWebViewClient
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.rememberWebViewState
-import com.vobbla16.mesh.MainActivityViewModel
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.result.ResultBackNavigator
+import com.vobbla16.mesh.LocalMainVM
 import com.vobbla16.mesh.common.Constants
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -38,7 +39,9 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun LoginScreen(navController: NavController, mainVM: MainActivityViewModel) {
+@Destination
+fun LoginScreen(resultNavigator: ResultBackNavigator<Boolean>) {
+    val mainVM = LocalMainVM.current
     val vm: LoginScreenViewModel = koinViewModel()
     val state = vm.viewState.value
 
@@ -48,14 +51,11 @@ fun LoginScreen(navController: NavController, mainVM: MainActivityViewModel) {
             vm.action.collect { action ->
                 when (action) {
                     is LoginScreenAction.SetSavedStateFlag -> {
-                        navController.previousBackStackEntry?.savedStateHandle?.set(
-                            "loggedIn",
-                            true
-                        )
+                        resultNavigator.setResult(true)
                     }
 
                     is LoginScreenAction.GoBack -> {
-                        navController.popBackStack()
+                        resultNavigator.navigateBack()
                     }
                 }
             }

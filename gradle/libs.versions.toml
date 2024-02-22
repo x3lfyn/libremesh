@@ -19,6 +19,8 @@ accompanist = "0.33.1-alpha"
 datastore = "1.0.0"
 paging = "3.2.1"
 paging-compose = "3.2.1"
+ksp = "1.9.0-1.0.13"
+compose-destinations = "1.10.1"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -59,11 +61,14 @@ paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.r
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging-compose" }
 
 systemUiController = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
+compose-destinations-core = { group = "io.github.raamcosta.compose-destinations", name = "animations-core", version.ref = "compose-destinations" }
+compose-destinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "compose-destinations" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinx-serialization-plugin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
 

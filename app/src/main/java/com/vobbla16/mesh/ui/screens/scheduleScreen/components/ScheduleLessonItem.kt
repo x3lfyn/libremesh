@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,9 +27,7 @@ import com.vobbla16.mesh.ui.screens.marksScreen.components.MarkDefault
 import com.vobbla16.mesh.ui.screens.marksScreen.components.MarkDefaultSize
 import kotlinx.datetime.LocalTime
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
-    ExperimentalLayoutApi::class
-)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
 @Composable
 fun ScheduleLessonItem(activity: Activity.Lesson, onClick: () -> Unit) {
     Card(
@@ -102,7 +99,9 @@ fun ScheduleLessonItem(activity: Activity.Lesson, onClick: () -> Unit) {
 
             if (activity.marks.isNotEmpty()) {
                 FlowRow(
-                    modifier = Modifier.fillMaxWidth().padding(2.dp, 6.dp, 2.dp, 2.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(2.dp, 6.dp, 2.dp, 2.dp)
                 ) {
                     activity.marks.forEach { mark ->
                         MarkDefault(mark = mark.toMarkDefaultValue(), size = MarkDefaultSize.Small)

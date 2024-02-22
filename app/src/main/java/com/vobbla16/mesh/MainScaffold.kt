@@ -1,5 +1,6 @@
 package com.vobbla16.mesh
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
@@ -10,40 +11,37 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
+import com.ramcosta.composedestinations.navigation.navigate
 import com.vobbla16.mesh.ui.NavBarItems
+import com.vobbla16.mesh.ui.screens.NavGraphs
+import com.vobbla16.mesh.ui.screens.appCurrentDestinationAsState
+import com.vobbla16.mesh.ui.screens.destinations.Destination
+import com.vobbla16.mesh.ui.screens.startAppDestination
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScaffold(
     navController: NavController,
-    vm: MainActivityViewModel,
     content: @Composable () -> Unit
 ) {
-    val state = vm.viewState.value
+    val state = LocalMainVM.current.viewState.value
 
     Scaffold(
         bottomBar = {
             if (state.showBottomBar) {
                 NavigationBar {
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    val currentDestination = navBackStackEntry?.destination
+                    val currentDestination: Destination = navController.appCurrentDestinationAsState().value
+                        ?: NavGraphs.root.startAppDestination
                     NavBarItems.entries.forEach { item ->
-                        val selected = currentDestination?.hierarchy?.any { it.route == item.screen.route } == true
+                        val selected = currentDestination == item.screen
                         NavigationBarItem(
                             selected = selected,
                             label = { Text(text = item.label) },
                             onClick = {
-                                navController.navigate(item.screen.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
-                                    }
+                                navController.navigate(item.screen) {
                                     launchSingleTop = true
-                                    restoreState = true
                                 }
                             },
                             icon = if(selected) { item.activeIcon } else { item.inactiveIcon }

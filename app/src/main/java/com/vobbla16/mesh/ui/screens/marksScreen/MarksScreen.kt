@@ -31,11 +31,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
-import androidx.navigation.NavController
-import com.vobbla16.mesh.MainActivityViewModel
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.vobbla16.mesh.LocalMainVM
 import com.vobbla16.mesh.R
-import com.vobbla16.mesh.ui.Screens
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
+import com.vobbla16.mesh.ui.screens.destinations.LoginScreenDestination
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -44,7 +45,9 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @ExperimentalFoundationApi
-fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
+@Destination
+fun MarksScreen(navigator: DestinationsNavigator) {
+    val mainVM = LocalMainVM.current
     val vm: MarksScreenViewModel = koinViewModel()
     val state = vm.viewState.value
 
@@ -58,7 +61,7 @@ fun MarksScreen(navController: NavController, mainVM: MainActivityViewModel) {
             vm.action.onEach { action ->
                 when (action) {
                     is MarksScreenAction.NavigateToLoginScreen -> {
-                        navController.navigate(Screens.Login.route)
+                        navigator.navigate(LoginScreenDestination)
                     }
                 }
             }.collect()
