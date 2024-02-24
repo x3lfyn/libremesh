@@ -19,6 +19,7 @@ import com.vobbla16.mesh.domain.use_case.GetTokenUseCase
 import com.vobbla16.mesh.domain.use_case.LogOutUseCase
 import com.vobbla16.mesh.domain.use_case.OauthCodeToTokenUseCase
 import com.vobbla16.mesh.ui.screens.homeworkScreen.HomeworkScreenViewModel
+import com.vobbla16.mesh.ui.screens.lessonScreen.LessonScreenViewModel
 import com.vobbla16.mesh.ui.screens.loginScreen.LoginScreenViewModel
 import com.vobbla16.mesh.ui.screens.marksScreen.MarksScreenViewModel
 import com.vobbla16.mesh.ui.screens.profileScreen.ProfileScreenViewModel
@@ -63,7 +64,7 @@ val appModule = module {
     single { GetRatingClassDeanonUseCase(get(), get(), get()) }
 
     viewModel {
-        ScheduleScreenViewModel(get(), get())
+        ScheduleScreenViewModel(get())
     }
     viewModel {
         LoginScreenViewModel(get(), get())
@@ -79,5 +80,8 @@ val appModule = module {
     }
     viewModel {
         MainActivityViewModel()
+    }
+    viewModel {
+        LessonScreenViewModel(get())
     }
 }

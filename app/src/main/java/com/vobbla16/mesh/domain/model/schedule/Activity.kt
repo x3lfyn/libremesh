@@ -1,5 +1,6 @@
 package com.vobbla16.mesh.domain.model.schedule
 
+import com.vobbla16.mesh.domain.model.common.LessonSelector
 import kotlinx.datetime.LocalTime
 import kotlin.time.Duration
 
@@ -24,3 +25,7 @@ sealed class Activity {
         val duration: Duration
     ) : Activity()
 }
+
+fun Activity.Lesson.toLessonSelector() = LessonSelector(
+    scheduleItemId, lessonType
+)
