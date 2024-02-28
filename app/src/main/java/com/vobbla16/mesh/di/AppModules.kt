@@ -9,11 +9,13 @@ import com.vobbla16.mesh.domain.repository.MeshRepository
 import com.vobbla16.mesh.domain.repository.SettingsRepository
 import com.vobbla16.mesh.domain.use_case.GetClassmatesUseCase
 import com.vobbla16.mesh.domain.use_case.GetHomeworkUseCase
+import com.vobbla16.mesh.domain.use_case.GetHomeworkWithLessonUseCase
 import com.vobbla16.mesh.domain.use_case.GetLessonInfoUseCase
 import com.vobbla16.mesh.domain.use_case.GetMarksReportUseCase
 import com.vobbla16.mesh.domain.use_case.GetRatingClassDeanonUseCase
 import com.vobbla16.mesh.domain.use_case.GetRatingClassUseCase
 import com.vobbla16.mesh.domain.use_case.GetScheduleUseCase
+import com.vobbla16.mesh.domain.use_case.GetShortScheduleUseCase
 import com.vobbla16.mesh.domain.use_case.GetStudentUseCase
 import com.vobbla16.mesh.domain.use_case.GetTokenUseCase
 import com.vobbla16.mesh.domain.use_case.LogOutUseCase
@@ -62,6 +64,8 @@ val appModule = module {
     single { GetClassmatesUseCase(get(), get()) }
     single { GetRatingClassUseCase(get(), get()) }
     single { GetRatingClassDeanonUseCase(get(), get(), get()) }
+    single { GetShortScheduleUseCase(get()) }
+    single { GetHomeworkWithLessonUseCase(get(), get()) }
 
     viewModel {
         ScheduleScreenViewModel(get())

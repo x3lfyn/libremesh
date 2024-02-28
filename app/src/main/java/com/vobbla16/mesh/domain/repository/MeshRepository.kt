@@ -11,9 +11,10 @@ import com.vobbla16.mesh.domain.model.profile.ProfileModel
 import com.vobbla16.mesh.domain.model.ratingClass.anon.PersonRatingModel
 import com.vobbla16.mesh.domain.model.schedule.LessonType
 import com.vobbla16.mesh.domain.model.schedule.ScheduleModel
+import com.vobbla16.mesh.domain.model.shortSchedule.ShortScheduleModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDate
-import java.util.*
+import java.util.UUID
 
 interface MeshRepository {
     suspend fun getProfile(): Flow<OrLoading<Resource<ProfileModel>>>
@@ -49,4 +50,9 @@ interface MeshRepository {
         personId: UUID,
         date: LocalDate
     ): Flow<OrLoading<Resource<List<PersonRatingModel>>>>
+
+    suspend fun getShortSchedule(
+        studentId: Long,
+        dates: List<LocalDate>
+    ): Flow<OrLoading<Resource<ShortScheduleModel>>>
 }

@@ -3,6 +3,7 @@ package com.vobbla16.mesh.ui.screens.homeworkScreen
 import androidx.lifecycle.viewModelScope
 import com.vobbla16.mesh.common.localDateTimeNow
 import com.vobbla16.mesh.domain.use_case.GetHomeworkUseCase
+import com.vobbla16.mesh.domain.use_case.GetHomeworkWithLessonUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
 import com.vobbla16.mesh.ui.genericHolder.GenericHolder
 import com.vobbla16.mesh.ui.genericHolder.LoadingState
@@ -10,7 +11,7 @@ import com.vobbla16.mesh.ui.genericHolder.processDataFromUseCase
 import kotlinx.coroutines.launch
 
 class HomeworkScreenViewModel(
-    private val getHomeworkUseCase: GetHomeworkUseCase
+    private val getHomeworkWithLessonUseCase: GetHomeworkWithLessonUseCase
 ) : BaseViewModel<HomeworkScreenState, HomeworkScreenAction>() {
     override fun setInitialState() = HomeworkScreenState(
         homeworkData = GenericHolder()
@@ -25,7 +26,7 @@ class HomeworkScreenViewModel(
 
     private fun getHomework(refresh: Boolean) = viewModelScope.launch {
         processDataFromUseCase(
-            useCase = getHomeworkUseCase(localDateTimeNow().date),
+            useCase = getHomeworkWithLessonUseCase(localDateTimeNow().date),
             resultReducer = { this },
             loadingType = LoadingState.fromBool(refresh),
             onNotLoggedIn = { setAction { HomeworkScreenAction.NavigateToLoginScreen } },

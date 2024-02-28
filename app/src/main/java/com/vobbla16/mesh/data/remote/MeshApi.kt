@@ -16,6 +16,7 @@ import com.vobbla16.mesh.data.remote.dto.profile.toDomain
 import com.vobbla16.mesh.data.remote.dto.ratingClass.PersonRatingDto
 import com.vobbla16.mesh.data.remote.dto.schedule.ScheduleDto
 import com.vobbla16.mesh.data.remote.dto.schedule.toDomain
+import com.vobbla16.mesh.data.remote.dto.shortSchedule.ShortScheduleDto
 import com.vobbla16.mesh.domain.model.acadYears.AcademicYearItemModel
 import com.vobbla16.mesh.domain.model.classmates.ClassmateModel
 import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
@@ -24,6 +25,7 @@ import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel
 import com.vobbla16.mesh.domain.model.profile.ProfileModel
 import com.vobbla16.mesh.domain.model.ratingClass.anon.PersonRatingModel
 import com.vobbla16.mesh.domain.model.schedule.ScheduleModel
+import com.vobbla16.mesh.domain.model.shortSchedule.Lesson
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
@@ -113,6 +115,18 @@ class MeshApi : KoinComponent {
             url {
                 parameter("personId", personId.toString())
                 parameter("date", date.toString())
+            }
+        }
+    }
+
+    suspend fun getShortSchedule(
+        studentId: Long,
+        dates: List<LocalDate>
+    ) = wrapToResourceOrLoading<ShortScheduleDto, Map<LocalDate, List<Lesson>>>({ it.toDomain() }) {
+        httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.SHORT_SCHEDULE_ENDPOINT) {
+            url {
+                parameter("student_id", studentId.toString())
+                parameter("dates", dates.joinToString(",") { it.toString() })
             }
         }
     }

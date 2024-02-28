@@ -9,12 +9,13 @@ import com.vobbla16.mesh.domain.model.classmates.ClassmateModel
 import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
 import com.vobbla16.mesh.domain.model.ratingClass.anon.PersonRatingModel
 import com.vobbla16.mesh.domain.model.schedule.LessonType
+import com.vobbla16.mesh.domain.model.shortSchedule.ShortScheduleModel
 import com.vobbla16.mesh.domain.repository.MeshRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
-import java.util.*
+import java.util.UUID
 
 class MeshRepositoryImpl : MeshRepository {
     companion object {
@@ -63,5 +64,12 @@ class MeshRepositoryImpl : MeshRepository {
         date: LocalDate
     ): Flow<OrLoading<Resource<List<PersonRatingModel>>>> = meshApi.getRatingClass(
         personId, date
+    )
+
+    override suspend fun getShortSchedule(
+        studentId: Long,
+        dates: List<LocalDate>
+    ): Flow<OrLoading<Resource<ShortScheduleModel>>> = meshApi.getShortSchedule(
+        studentId, dates
     )
 }

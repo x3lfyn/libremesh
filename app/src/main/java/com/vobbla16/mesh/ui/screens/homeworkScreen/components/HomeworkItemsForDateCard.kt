@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.homework.HomeworkItem
+import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDataWithLessonModel
 import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
@@ -30,7 +31,7 @@ import kotlinx.datetime.LocalDateTime
 @SuppressLint("NewApi")
 @Composable
 fun HomeworkItemsForDateCard(
-    data: HomeworkItemsForDateModel,
+    data: HomeworkItemsForDataWithLessonModel,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState
 ) {
@@ -50,7 +51,7 @@ fun HomeworkItemsForDateCard(
                 horizontalArrangement = Arrangement.Start,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Checkbox(checked = item.isReady, onCheckedChange = {
+                Checkbox(checked = item.first.isReady, onCheckedChange = {
                     coroutineScope.launch {
                         snackbarHostState.showSnackbar("Not yet implemented")
                     }
@@ -58,14 +59,15 @@ fun HomeworkItemsForDateCard(
 
                 Column(Modifier.padding(0.dp, 2.dp, 6.dp, 4.dp)) {
                     Text(
-                        text = item.subjectName,
+                        text = item.first.subjectName,
                         style = MaterialTheme.typography.labelLarge,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
-                    Text(text = item.description)
+                    Text(text = item.first.description)
                 }
             }
+            Text(text = item.second.toString())
             if (index != data.items.size - 1) {
                 HorizontalDivider(modifier = Modifier.padding(8.dp, 2.dp))
             }
@@ -73,49 +75,49 @@ fun HomeworkItemsForDateCard(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun HomeworkItemsForDateCardPreview1() {
-    HomeworkItemsForDateCard(
-        data = HomeworkItemsForDateModel(
-            date = LocalDate(2022, 10, 7),
-            items = listOf(
-                HomeworkItem(
-                    isReady = true,
-                    createdAt = LocalDateTime(2022, 10, 5, 22, 10),
-                    updatedAt = LocalDateTime(2022, 10, 5, 22, 11),
-                    description = "Простое задание",
-                    subjectId = 1337,
-                    subjectName = "Физика",
-                    teacherId = 1337,
-                    dateAssignedOn = LocalDate(2022, 10, 5),
-                    datePreparedFor = LocalDate(2022, 10, 7)
-                ),
-                HomeworkItem(
-                    isReady = false,
-                    createdAt = LocalDateTime(2022, 10, 6, 10, 10),
-                    updatedAt = LocalDateTime(2022, 10, 5, 11, 11),
-                    description = "Ооооооооочень длинное задание, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dictum, diam pulvinar rhoncus malesuada, neque turpis laoreet urna, ac elementum.",
-                    subjectId = 1337,
-                    subjectName = "Какаято там дичь. предмет с ооооочень длинным названием. предмет с ооооочень длинным названием",
-                    teacherId = 1337,
-                    dateAssignedOn = LocalDate(2022, 10, 6),
-                    datePreparedFor = LocalDate(2022, 10, 7)
-                ),
-                HomeworkItem(
-                    isReady = true,
-                    createdAt = LocalDateTime(2022, 10, 5, 22, 10),
-                    updatedAt = LocalDateTime(2022, 10, 5, 22, 11),
-                    description = "Простое задание",
-                    subjectId = 1337,
-                    subjectName = "Физика",
-                    teacherId = 1337,
-                    dateAssignedOn = LocalDate(2022, 10, 5),
-                    datePreparedFor = LocalDate(2022, 10, 7)
-                ),
-            )
-        ),
-        modifier = Modifier.padding(32.dp),
-        snackbarHostState = SnackbarHostState()
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun HomeworkItemsForDateCardPreview1() {
+//    HomeworkItemsForDateCard(
+//        data = HomeworkItemsForDateModel(
+//            date = LocalDate(2022, 10, 7),
+//            items = listOf(
+//                HomeworkItem(
+//                    isReady = true,
+//                    createdAt = LocalDateTime(2022, 10, 5, 22, 10),
+//                    updatedAt = LocalDateTime(2022, 10, 5, 22, 11),
+//                    description = "Простое задание",
+//                    subjectId = 1337,
+//                    subjectName = "Физика",
+//                    teacherId = 1337,
+//                    dateAssignedOn = LocalDate(2022, 10, 5),
+//                    datePreparedFor = LocalDate(2022, 10, 7)
+//                ),
+//                HomeworkItem(
+//                    isReady = false,
+//                    createdAt = LocalDateTime(2022, 10, 6, 10, 10),
+//                    updatedAt = LocalDateTime(2022, 10, 5, 11, 11),
+//                    description = "Ооооооооочень длинное задание, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dictum, diam pulvinar rhoncus malesuada, neque turpis laoreet urna, ac elementum.",
+//                    subjectId = 1337,
+//                    subjectName = "Какаято там дичь. предмет с ооооочень длинным названием. предмет с ооооочень длинным названием",
+//                    teacherId = 1337,
+//                    dateAssignedOn = LocalDate(2022, 10, 6),
+//                    datePreparedFor = LocalDate(2022, 10, 7)
+//                ),
+//                HomeworkItem(
+//                    isReady = true,
+//                    createdAt = LocalDateTime(2022, 10, 5, 22, 10),
+//                    updatedAt = LocalDateTime(2022, 10, 5, 22, 11),
+//                    description = "Простое задание",
+//                    subjectId = 1337,
+//                    subjectName = "Физика",
+//                    teacherId = 1337,
+//                    dateAssignedOn = LocalDate(2022, 10, 5),
+//                    datePreparedFor = LocalDate(2022, 10, 7)
+//                ),
+//            )
+//        ),
+//        modifier = Modifier.padding(32.dp),
+//        snackbarHostState = SnackbarHostState()
+//    )
+//}
