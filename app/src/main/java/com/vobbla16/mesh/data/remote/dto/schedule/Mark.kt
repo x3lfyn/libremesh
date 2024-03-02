@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Mark(
     @SerialName("comment")
-    val comment: String, // графики
+    val comment: String? = null, // графики
     @SerialName("comment_exists")
     val commentExists: Boolean, // true
     @SerialName("control_form_name")
