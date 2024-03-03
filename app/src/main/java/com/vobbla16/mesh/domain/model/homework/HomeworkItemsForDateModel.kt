@@ -8,7 +8,7 @@ data class HomeworkItemsForDateModel(
     val items: List<HomeworkItem>
 )
 
-data class HomeworkItemsForDataWithLessonModel(
+data class HomeworkItemsForDateWithLessonModel(
     val date: LocalDate,
     val items: List<Pair<HomeworkItem, LessonSelector?>>
 )

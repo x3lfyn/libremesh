@@ -17,17 +17,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vobbla16.mesh.LocalMainVM
-import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDataWithLessonModel
-import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
+import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateWithLessonModel
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
+import com.vobbla16.mesh.ui.screens.destinations.LessonScreenDestination
 import com.vobbla16.mesh.ui.screens.homeworkScreen.components.HomeworkItemsForDateCard
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Destination
-fun HomeworkScreen() {
+fun HomeworkScreen(
+    navigator: DestinationsNavigator
+) {
     val mainVM = LocalMainVM.current
     val vm: HomeworkScreenViewModel = koinViewModel()
     val state = vm.viewState.value
@@ -52,22 +55,30 @@ fun HomeworkScreen() {
             onRetry = { vm.retryOnError() },
             modifier = Modifier.padding(paddingValues)
         ) {
-            HomeworkScreenUI(it, mainVM.viewState.value.snackbarHostState)
+            HomeworkScreenUI(it, mainVM.viewState.value.snackbarHostState, navigator)
         }
     }
 }
 
 @Composable
 fun HomeworkScreenUI(
-    data: List<HomeworkItemsForDataWithLessonModel>,
-    snackbarHostState: SnackbarHostState
+    data: List<HomeworkItemsForDateWithLessonModel>,
+    snackbarHostState: SnackbarHostState,
+    navigator: DestinationsNavigator
 ) {
     LazyColumn {
         items(data) { item ->
             HomeworkItemsForDateCard(
                 data = item,
                 modifier = Modifier.padding(4.dp),
-                snackbarHostState = snackbarHostState
+                snackbarHostState = snackbarHostState,
+                onClick = {
+                    navigator.navigate(
+                        LessonScreenDestination(
+                            it
+                        )
+                    )
+                }
             )
         }
     }

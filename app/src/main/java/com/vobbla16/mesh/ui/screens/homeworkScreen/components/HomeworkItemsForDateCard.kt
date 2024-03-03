@@ -1,6 +1,7 @@
 package com.vobbla16.mesh.ui.screens.homeworkScreen.components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,22 +19,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vobbla16.mesh.common.toHumanStr
-import com.vobbla16.mesh.domain.model.homework.HomeworkItem
-import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDataWithLessonModel
-import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
+import com.vobbla16.mesh.domain.model.common.LessonSelector
+import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateWithLessonModel
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 
 @SuppressLint("NewApi")
 @Composable
 fun HomeworkItemsForDateCard(
-    data: HomeworkItemsForDataWithLessonModel,
+    data: HomeworkItemsForDateWithLessonModel,
     modifier: Modifier = Modifier,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    onClick: (LessonSelector) -> Unit
 ) {
     val config = LocalConfiguration.current
 
@@ -49,7 +47,11 @@ fun HomeworkItemsForDateCard(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().clickable {
+                    item.second?.let {
+                        onClick(it)
+                    }
+                }
             ) {
                 Checkbox(checked = item.first.isReady, onCheckedChange = {
                     coroutineScope.launch {
@@ -67,7 +69,6 @@ fun HomeworkItemsForDateCard(
                     Text(text = item.first.description)
                 }
             }
-            Text(text = item.second.toString())
             if (index != data.items.size - 1) {
                 HorizontalDivider(modifier = Modifier.padding(8.dp, 2.dp))
             }
