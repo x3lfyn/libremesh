@@ -23,6 +23,7 @@ import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateWithLessonMod
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
 import com.vobbla16.mesh.ui.screens.destinations.LessonScreenDestination
 import com.vobbla16.mesh.ui.screens.homeworkScreen.components.HomeworkItemsForDateCard
+import com.vobbla16.mesh.ui.screens.lessonScreen.OpenTab
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,7 +76,8 @@ fun HomeworkScreenUI(
                 onClick = {
                     navigator.navigate(
                         LessonScreenDestination(
-                            it
+                            lessonSelector = it,
+                            openTab = OpenTab.Homeworks
                         )
                     )
                 }

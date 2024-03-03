@@ -30,7 +30,8 @@ import org.koin.androidx.compose.koinViewModel
 @Destination
 fun LessonScreen(
     navigator: DestinationsNavigator,
-    lessonSelector: LessonSelector
+    lessonSelector: LessonSelector,
+    openTab: OpenTab = OpenTab.Description
 ) {
     val mainVM = LocalMainVM.current
     val vm: LessonScreenViewModel = koinViewModel()
@@ -39,6 +40,7 @@ fun LessonScreen(
     LaunchedEffect(key1 = Unit) {
         mainVM.showBottomBar()
         vm.setSelectedLesson(lessonSelector)
+        vm.changeTab(openTab.tab)
     }
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
