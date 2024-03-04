@@ -68,7 +68,7 @@ fun LessonInfoDisplay(
         )
         Text(text = lessonInfo.subjectName, style = MaterialTheme.typography.headlineSmall)
         Text(
-            text = lessonInfo.room,
+            text = lessonInfo.room.toString(),
             style = MaterialTheme.typography.labelMedium,
             modifier = Modifier.padding(0.dp, 2.dp)
         )

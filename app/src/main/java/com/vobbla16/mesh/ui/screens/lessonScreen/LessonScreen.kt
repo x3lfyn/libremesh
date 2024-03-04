@@ -1,5 +1,7 @@
 package com.vobbla16.mesh.ui.screens.lessonScreen
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
@@ -25,7 +27,7 @@ import com.vobbla16.mesh.LocalMainVM
 import com.vobbla16.mesh.domain.model.common.LessonSelector
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 @Destination
 fun LessonScreen(
@@ -49,7 +51,7 @@ fun LessonScreen(
             TopAppBar(
                 title = {
                     state.lessonInfo.data?.subjectName?.let { subjName ->
-                        Text(text = subjName)
+                        Text(text = subjName, modifier = Modifier.basicMarquee())
                     }
                 },
                 navigationIcon = {

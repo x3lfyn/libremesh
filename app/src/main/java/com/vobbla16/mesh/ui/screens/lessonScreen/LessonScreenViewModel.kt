@@ -26,7 +26,7 @@ class LessonScreenViewModel(
     }
 
     fun refresh() = getLessonInfo(true)
-    fun retry() = getLessonInfo(true)
+    fun retry() = getLessonInfo(false)
 
     fun changeTab(newTab: Tabs) = setState { copy(currentTab = newTab) }
 

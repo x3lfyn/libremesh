@@ -42,9 +42,9 @@ data class LessonInfoDto(
     @SerialName("plan_id")
     val planId: Long? = null,
     @SerialName("room_name")
-    val roomName: String,
+    val roomName: String? = null,
     @SerialName("room_number")
-    val roomNumber: String,
+    val roomNumber: String? = null,
     @SerialName("subject_id")
     val subjectId: Long,
     @SerialName("subject_name")

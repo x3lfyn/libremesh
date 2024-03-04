@@ -9,7 +9,7 @@ data class LessonInfoModel(
     val subjectId: Long,
     val subjectName: String,
     val teacher: String?,
-    val room: String,
+    val room: String?,
     val homeworks: List<Homework>,
     val marks: List<Mark>
 ) {

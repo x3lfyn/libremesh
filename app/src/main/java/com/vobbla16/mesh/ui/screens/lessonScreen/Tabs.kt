@@ -5,6 +5,9 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.runtime.Composable
+import com.vobbla16.mesh.ui.screens.lessonScreen.subscreens.DescriptionTab
+import com.vobbla16.mesh.ui.screens.lessonScreen.subscreens.HomeworkTab
+import com.vobbla16.mesh.ui.screens.lessonScreen.subscreens.MarksTab
 
 enum class Tabs(
     val title: @Composable () -> Unit,
@@ -21,11 +24,7 @@ enum class Tabs(
                 contentDescription = "description icon"
             )
         },
-        {
-            androidx.compose.material3.Text(
-                text = it.viewState.value.lessonInfo.data?.room ?: "fff"
-            )
-        }
+        { DescriptionTab(it) }
     ),
     Marks(
         {
@@ -38,9 +37,7 @@ enum class Tabs(
             )
         },
         {
-            androidx.compose.material3.Text(
-                text = it.viewState.value.lessonInfo.data?.marks.toString()
-            )
+            MarksTab(it)
         }
     ),
     Homework(
@@ -54,9 +51,7 @@ enum class Tabs(
             )
         },
         {
-            androidx.compose.material3.Text(
-                text = it.viewState.value.lessonInfo.data?.homeworks.toString()
-            )
+            HomeworkTab(it)
         }
     )
 }
