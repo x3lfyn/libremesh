@@ -97,7 +97,7 @@ fun MarksTabUI(state: LessonScreenState, onRetry: () -> Unit, onRefresh: () -> U
     }
 }
 
-private val baseSample = LessonInfoModel(
+val baseSample = LessonInfoModel(
     id = 0,
     subjectId = 0,
     subjectName = "Основы духовно-нравственной культуры народов россии",
