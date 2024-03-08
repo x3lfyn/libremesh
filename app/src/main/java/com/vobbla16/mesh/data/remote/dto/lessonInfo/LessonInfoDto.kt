@@ -1,6 +1,7 @@
 package com.vobbla16.mesh.data.remote.dto.lessonInfo
 
 
+import com.vobbla16.mesh.common.orDefault
 import com.vobbla16.mesh.common.secsToLocalTime
 import com.vobbla16.mesh.data.remote.dto.schedule.Mark
 import com.vobbla16.mesh.domain.model.lessonInfo.Homework
@@ -16,7 +17,7 @@ data class LessonInfoDto(
     @SerialName("begin_utc")
     val beginUtc: Long,
     @SerialName("building_name")
-    val buildingName: String,
+    val buildingName: String? = null,
     @SerialName("date")
     val date: String,
     @SerialName("end_time")
@@ -95,7 +96,7 @@ fun LessonInfoDto.toDomain() = LessonInfoModel(
             }
         )
     },
-    room = "$buildingName, $roomName",
+    room = "${buildingName.orDefault()}, ${roomName.orDefault()}, ${roomNumber.orDefault()}",
     subjectName = subjectName,
     marks = marks.map { mark ->
         com.vobbla16.mesh.domain.model.lessonInfo.Mark(
@@ -105,5 +106,6 @@ fun LessonInfoDto.toDomain() = LessonInfoModel(
             controlForm = mark.controlFormName,
             isPoint = mark.isPoint
         )
-    }
+    },
+    isMissed = isMissedLesson
 )

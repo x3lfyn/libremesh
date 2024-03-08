@@ -4,13 +4,20 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -19,11 +26,19 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.Placeholder
+import androidx.compose.ui.text.PlaceholderVerticalAlign
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vobbla16.mesh.LocalMainVM
+import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.common.LessonSelector
 import org.koin.androidx.compose.koinViewModel
 
@@ -68,7 +83,45 @@ fun LessonScreen(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         contentWindowInsets = WindowInsets.statusBars
     ) { paddingValues ->
-        Column(Modifier.padding(paddingValues)) {
+        Column(
+            Modifier
+                .padding(paddingValues)
+                .fillMaxWidth()
+        ) {
+            state.lessonInfo.data?.let { model ->
+                Text(
+                    text = model.beginTime.date.toHumanStr(LocalConfiguration.current),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+                Text(
+                    text = buildAnnotatedString {
+                        append(model.beginTime.time.toString())
+                        appendInlineContent("arrow")
+                        append("${model.durationMinutes()} минyт")
+                        appendInlineContent("arrow")
+                        append(model.endTime.time.toString())
+                    },
+                    inlineContent = mapOf("arrow" to InlineTextContent(
+                        Placeholder(20.sp, 20.sp, PlaceholderVerticalAlign.TextCenter)
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "arrow icon"
+                        )
+                    }),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            } ?: run {
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .width(150.dp)
+                        .padding(0.dp, 20.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
+            }
+
             TabRow(selectedTabIndex = Tabs.entries.indexOf(state.currentTab)) {
                 Tabs.entries.forEach { tab ->
                     Tab(
@@ -79,6 +132,7 @@ fun LessonScreen(
                     )
                 }
             }
+
             state.currentTab.content(vm)
         }
     }

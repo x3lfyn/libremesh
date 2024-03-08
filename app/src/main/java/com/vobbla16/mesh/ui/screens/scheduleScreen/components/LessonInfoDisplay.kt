@@ -236,7 +236,8 @@ private fun LessonInfoDisplayPreview1() {
                     controlForm = "Контрольная работа",
                     isPoint = true
                 )
-            )
+            ),
+            isMissed = false
         ), snackbarHostState = SnackbarHostState()
     )
 }
