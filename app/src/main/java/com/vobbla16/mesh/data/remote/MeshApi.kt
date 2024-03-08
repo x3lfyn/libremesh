@@ -9,6 +9,7 @@ import com.vobbla16.mesh.data.remote.dto.homework.HomeworkItemDto
 import com.vobbla16.mesh.data.remote.dto.homework.toDomain
 import com.vobbla16.mesh.data.remote.dto.lessonInfo.LessonInfoDto
 import com.vobbla16.mesh.data.remote.dto.lessonInfo.toDomain
+import com.vobbla16.mesh.data.remote.dto.markInfo.MarkInfoDto
 import com.vobbla16.mesh.data.remote.dto.marks.MarksReportItemDto
 import com.vobbla16.mesh.data.remote.dto.marks.toDomain
 import com.vobbla16.mesh.data.remote.dto.profile.ProfileDto
@@ -127,6 +128,16 @@ class MeshApi : KoinComponent {
             url {
                 parameter("student_id", studentId.toString())
                 parameter("dates", dates.joinToString(",") { it.toString() })
+            }
+        }
+    }
+
+    suspend fun getMarkInfo(
+        markId: Long
+    ) = wrapToResourceOrLoading<MarkInfoDto, Long>({ it.activity.scheduleItemId }) {
+        httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.MARK_INFO_ENDPOINT + markId.toString()) {
+            url {
+                parameter("markId", markId.toString())
             }
         }
     }

@@ -72,4 +72,7 @@ class MeshRepositoryImpl : MeshRepository {
     ): Flow<OrLoading<Resource<ShortScheduleModel>>> = meshApi.getShortSchedule(
         studentId, dates
     )
+
+    override suspend fun getScheduleItemIdFromMark(markId: Long): Flow<OrLoading<Resource<Long>>> =
+        meshApi.getMarkInfo(markId)
 }

@@ -3,6 +3,7 @@ package com.vobbla16.mesh.ui.screens.marksScreen.components
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,7 +29,7 @@ import kotlinx.datetime.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun SingleDayCard(report: SingleDayReport, modifier: Modifier = Modifier) {
+fun SingleDayCard(report: SingleDayReport, onClick: (Long) -> Unit, modifier: Modifier = Modifier) {
     val config = LocalConfiguration.current
 
     Card(modifier) {
@@ -42,9 +43,16 @@ fun SingleDayCard(report: SingleDayReport, modifier: Modifier = Modifier) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        onClick(mark.mark.id)
+                    },
             ) {
-                MarkDefault(mark = mark.mark.toMarkDefaultValue(), modifier = Modifier.padding(6.dp, 4.dp))
+                MarkDefault(
+                    mark = mark.mark.toMarkDefaultValue(),
+                    modifier = Modifier.padding(6.dp, 4.dp)
+                )
                 Column(Modifier.padding(8.dp, 2.dp)) {
                     Text(text = mark.subjectName, style = MaterialTheme.typography.labelLarge)
                     Text(
@@ -74,7 +82,8 @@ fun SingleDayCardPreview1() {
                     pointDate = LocalDate(2022, 12, 28),
                     topic = "Что-то там",
                     value = MarkValue(5f, 100f),
-                    weight = 2
+                    weight = 2,
+                    id = 0
                 )
             ),
             MarkWithSubject(
@@ -87,11 +96,12 @@ fun SingleDayCardPreview1() {
                     pointDate = LocalDate(2022, 12, 28),
                     topic = "Что-то там",
                     value = MarkValue(5f, 100f),
-                    weight = 3
+                    weight = 3,
+                    id = 0
                 )
             )
         )
     )
 
-    SingleDayCard(report = report, modifier = Modifier.padding(32.dp))
+    SingleDayCard(report = report, modifier = Modifier.padding(32.dp), onClick = {})
 }

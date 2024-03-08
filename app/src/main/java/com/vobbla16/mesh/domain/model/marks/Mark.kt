@@ -4,6 +4,7 @@ import com.vobbla16.mesh.ui.screens.marksScreen.components.MarkDefaultValue
 import kotlinx.datetime.LocalDate
 
 data class Mark(
+    val id: Long,
     val comment: String?,
     val controlFormName: String?,
     val date: LocalDate,

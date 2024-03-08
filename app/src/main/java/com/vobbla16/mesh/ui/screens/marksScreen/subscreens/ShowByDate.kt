@@ -12,17 +12,21 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.vobbla16.mesh.ui.screens.marksScreen.MarksScreenViewModel
 import com.vobbla16.mesh.ui.screens.marksScreen.components.SingleDayCard
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ShowByDate(vm: MarksScreenViewModel) {
     val state = vm.viewState.value
+
+    val scope = rememberCoroutineScope()
 
     state.dataGroupedByDate?.let { data ->
         if (data.isEmpty()) {
@@ -38,8 +42,12 @@ fun ShowByDate(vm: MarksScreenViewModel) {
             }
         } else {
             LazyColumn {
-                items(data) {day ->
-                    SingleDayCard(report = day, modifier = Modifier.padding(6.dp))
+                items(data) { day ->
+                    SingleDayCard(report = day, modifier = Modifier.padding(6.dp), onClick = {
+                        scope.launch {
+                            vm.openMarkInfo(it)
+                        }
+                    })
                 }
             }
         }

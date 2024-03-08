@@ -87,7 +87,8 @@ fun MarkDefaultPreview1() {
         pointDate = null,
         topic = "Что-то там",
         value = MarkValue(4f, 80f),
-        weight = 2
+        weight = 2,
+        id = 0
     )
     MarkDefault(mark = mark.toMarkDefaultValue(), size = MarkDefaultSize.Small)
 }
@@ -107,7 +108,8 @@ fun MarkDefaultPreview2() {
         pointDate = LocalDate(2022, 12, 28),
         topic = "Что-то там",
         value = MarkValue(5f, 100f),
-        weight = 2
+        weight = 2,
+        id = 0
     )
     MarkDefault(mark = mark.toMarkDefaultValue())
 }

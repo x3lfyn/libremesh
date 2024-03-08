@@ -2,8 +2,13 @@ package com.vobbla16.mesh.ui.screens.marksScreen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.lifecycle.viewModelScope
+import com.vobbla16.mesh.common.structures.OrLoading
+import com.vobbla16.mesh.common.structures.Resource
+import com.vobbla16.mesh.domain.model.common.LessonSelector
+import com.vobbla16.mesh.domain.model.schedule.LessonType
 import com.vobbla16.mesh.domain.use_case.GetMarksReportUseCase
 import com.vobbla16.mesh.domain.use_case.GetRatingClassDeanonUseCase
+import com.vobbla16.mesh.domain.use_case.GetScheduleItemIdFromMarkUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
 import com.vobbla16.mesh.ui.genericHolder.GenericHolder
 import com.vobbla16.mesh.ui.genericHolder.LoadingState
@@ -14,7 +19,8 @@ import kotlinx.coroutines.launch
 @ExperimentalFoundationApi
 class MarksScreenViewModel(
     private val getMarksReportUseCase: GetMarksReportUseCase,
-    private val getRatingClassDeanonUseCase: GetRatingClassDeanonUseCase
+    private val getRatingClassDeanonUseCase: GetRatingClassDeanonUseCase,
+    private val getScheduleItemIdFromMarkUseCase: GetScheduleItemIdFromMarkUseCase
 ) : BaseViewModel<MarksScreenState, MarksScreenAction>() {
     override fun setInitialState(): MarksScreenState = MarksScreenState(
         marksData = GenericHolder(),
@@ -81,4 +87,28 @@ class MarksScreenViewModel(
 
     fun toggleAnonymousRating() =
         setState { copy(anonymousRating = !viewState.value.anonymousRating) }
+
+    suspend fun openMarkInfo(markId: Long) {
+        getScheduleItemIdFromMarkUseCase(markId).collect {
+            when (it) {
+                is OrLoading.Data -> {
+                    when (it.res) {
+                        is Resource.Ok -> setAction {
+                            MarksScreenAction.OpenMarkInfo(
+                                LessonSelector(
+                                    it.res.data,
+                                    LessonType.OO
+                                )
+                            )
+                        }
+
+                        is Resource.Err -> setAction { MarksScreenAction.FailedToOpenInfo }
+                        is Resource.NotLoggedIn -> setAction { MarksScreenAction.NavigateToLoginScreen }
+                    }
+                }
+
+                is OrLoading.Loading -> {}
+            }
+        }
+    }
 }

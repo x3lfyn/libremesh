@@ -2,6 +2,7 @@ package com.vobbla16.mesh.ui.screens.marksScreen.components
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -27,7 +28,7 @@ import kotlinx.datetime.LocalDate
 @OptIn(ExperimentalLayoutApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PeriodCard(period: Period, modifier: Modifier = Modifier) {
+fun PeriodCard(period: Period, onClick: (Long) -> Unit, modifier: Modifier = Modifier) {
     val configuration = LocalConfiguration.current
 
     Card(modifier.fillMaxWidth()) {
@@ -77,7 +78,13 @@ fun PeriodCard(period: Period, modifier: Modifier = Modifier) {
 
         FlowRow {
             period.marks.forEach { mark ->
-                MarkDefault(mark = mark.toMarkDefaultValue(), modifier = Modifier.padding(6.dp))
+                MarkDefault(
+                    mark = mark.toMarkDefaultValue(),
+                    modifier = Modifier
+                        .padding(6.dp)
+                        .clickable {
+                            onClick(mark.id)
+                        })
             }
         }
     }
@@ -104,7 +111,8 @@ fun PeriodCardPreview1() {
                 pointDate = null,
                 topic = "Механика.Неравномерное движение",
                 value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                weight = 2
+                weight = 2,
+                id = 0
             ), Mark(
                 comment = null,
                 controlFormName = "Комбинированная работа",
@@ -114,7 +122,8 @@ fun PeriodCardPreview1() {
                 pointDate = null,
                 topic = "Механика.Неравномерное движение",
                 value = MarkValue(fiveScale = 5.0f, hundredScale = 100.0f),
-                weight = 2
+                weight = 2,
+                id = 0
             ), Mark(
                 comment = null,
                 controlFormName = "Решение задач",
@@ -124,7 +133,8 @@ fun PeriodCardPreview1() {
                 pointDate = null,
                 topic = "Механика.Неравномерное движение",
                 value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                weight = 2
+                weight = 2,
+                id = 0
             ), Mark(
                 comment = null,
                 controlFormName = "Решение задач",
@@ -134,7 +144,8 @@ fun PeriodCardPreview1() {
                 pointDate = null,
                 topic = "Механика.Неравномерное движение",
                 value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                weight = 2
+                weight = 2,
+                id = 0
             ), Mark(
                 comment = "Там какой то коммент к оценке",
                 controlFormName = "Решение задач",
@@ -144,10 +155,11 @@ fun PeriodCardPreview1() {
                 pointDate = null,
                 topic = "Механика.Неравномерное движение",
                 value = MarkValue(fiveScale = 5.0f, hundredScale = 100.0f),
-                weight = 2
+                weight = 2,
+                id = 0
             )
         )
     )
 
-    PeriodCard(period = period)
+    PeriodCard(period = period, onClick = {})
 }

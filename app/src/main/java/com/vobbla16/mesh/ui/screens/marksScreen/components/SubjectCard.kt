@@ -39,6 +39,7 @@ fun SubjectCard(
     subject: MarksSubjectModel,
     opened: Boolean,
     onClick: () -> Unit,
+    onClickMark: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     OutlinedCard(modifier = modifier.fillMaxWidth(), onClick = onClick) {
@@ -108,7 +109,10 @@ fun SubjectCard(
         AnimatedVisibility(visible = opened) {
             Column {
                 subject.periods.reversed().forEach { period ->
-                    PeriodCard(period = period, modifier = Modifier.padding(4.dp))
+                    PeriodCard(
+                        period = period, modifier = Modifier.padding(4.dp),
+                        onClick = onClickMark
+                    )
                 }
             }
         }
@@ -143,7 +147,8 @@ fun SubjectCardPreview1() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = null,
                         controlFormName = "Комбинированная работа",
@@ -153,7 +158,8 @@ fun SubjectCardPreview1() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 5.0f, hundredScale = 100.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = null,
                         controlFormName = "Решение задач",
@@ -163,7 +169,8 @@ fun SubjectCardPreview1() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = null,
                         controlFormName = "Решение задач",
@@ -173,7 +180,8 @@ fun SubjectCardPreview1() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = "Там какой то коммент к оценке",
                         controlFormName = "Решение задач",
@@ -183,7 +191,8 @@ fun SubjectCardPreview1() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 5.0f, hundredScale = 100.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     )
                 )
             ), Period(
@@ -203,7 +212,8 @@ fun SubjectCardPreview1() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = null,
                         controlFormName = "Комбинированная работа",
@@ -213,7 +223,8 @@ fun SubjectCardPreview1() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 5.0f, hundredScale = 100.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = null,
                         controlFormName = "Решение задач",
@@ -223,7 +234,8 @@ fun SubjectCardPreview1() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = null,
                         controlFormName = "Решение задач",
@@ -233,7 +245,8 @@ fun SubjectCardPreview1() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = "Там какой то коммент к оценке",
                         controlFormName = "Решение задач",
@@ -243,13 +256,14 @@ fun SubjectCardPreview1() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 5.0f, hundredScale = 100.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     )
                 )
             )
         )
     )
-    SubjectCard(subject = subj, opened = false, onClick = {}, modifier = Modifier.padding(8.dp))
+    SubjectCard(subject = subj, opened = false, onClick = {}, modifier = Modifier.padding(8.dp), onClickMark = {})
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -280,7 +294,8 @@ fun SubjectCardPreview2() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = null,
                         controlFormName = "Комбинированная работа",
@@ -290,7 +305,8 @@ fun SubjectCardPreview2() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 5.0f, hundredScale = 100.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = null,
                         controlFormName = "Решение задач",
@@ -300,7 +316,8 @@ fun SubjectCardPreview2() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = null,
                         controlFormName = "Решение задач",
@@ -310,7 +327,8 @@ fun SubjectCardPreview2() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = "Там какой то коммент к оценке",
                         controlFormName = "Решение задач",
@@ -320,7 +338,8 @@ fun SubjectCardPreview2() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 5.0f, hundredScale = 100.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     )
                 )
             ), Period(
@@ -340,7 +359,8 @@ fun SubjectCardPreview2() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = null,
                         controlFormName = "Комбинированная работа",
@@ -350,7 +370,8 @@ fun SubjectCardPreview2() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 5.0f, hundredScale = 100.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = null,
                         controlFormName = "Решение задач",
@@ -360,7 +381,8 @@ fun SubjectCardPreview2() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = null,
                         controlFormName = "Решение задач",
@@ -370,7 +392,8 @@ fun SubjectCardPreview2() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = "Там какой то коммент к оценке",
                         controlFormName = "Решение задач",
@@ -380,13 +403,14 @@ fun SubjectCardPreview2() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 5.0f, hundredScale = 100.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     )
                 )
             )
         )
     )
-    SubjectCard(subject = subj, opened = true, onClick = {}, modifier = Modifier.padding(8.dp))
+    SubjectCard(subject = subj, opened = true, onClick = {}, modifier = Modifier.padding(8.dp), onClickMark = {})
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -401,7 +425,7 @@ fun SubjectCardPreview3() {
         attestationMark = 5,
         periods = emptyList()
     )
-    SubjectCard(subject = subj, opened = true, onClick = {}, modifier = Modifier.padding(8.dp))
+    SubjectCard(subject = subj, opened = true, onClick = {}, modifier = Modifier.padding(8.dp), onClickMark = {})
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -432,7 +456,8 @@ fun SubjectCardPreview4() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = null,
                         controlFormName = "Комбинированная работа",
@@ -442,7 +467,8 @@ fun SubjectCardPreview4() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 5.0f, hundredScale = 100.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = null,
                         controlFormName = "Решение задач",
@@ -452,7 +478,8 @@ fun SubjectCardPreview4() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = null,
                         controlFormName = "Решение задач",
@@ -462,7 +489,8 @@ fun SubjectCardPreview4() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 4.0f, hundredScale = 80.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     ), Mark(
                         comment = "Там какой то коммент к оценке",
                         controlFormName = "Решение задач",
@@ -472,11 +500,12 @@ fun SubjectCardPreview4() {
                         pointDate = null,
                         topic = "Механика.Неравномерное движение",
                         value = MarkValue(fiveScale = 5.0f, hundredScale = 100.0f),
-                        weight = 2
+                        weight = 2,
+                        id = 0
                     )
                 )
             )
         )
     )
-    SubjectCard(subject = subj, opened = false, onClick = {}, modifier = Modifier.padding(8.dp))
+    SubjectCard(subject = subj, opened = false, onClick = {}, modifier = Modifier.padding(8.dp), onClickMark = {})
 }

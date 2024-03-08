@@ -36,7 +36,9 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vobbla16.mesh.LocalMainVM
 import com.vobbla16.mesh.R
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
+import com.vobbla16.mesh.ui.screens.destinations.LessonScreenDestination
 import com.vobbla16.mesh.ui.screens.destinations.LoginScreenDestination
+import com.vobbla16.mesh.ui.screens.lessonScreen.OpenTab
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -63,6 +65,19 @@ fun MarksScreen(navigator: DestinationsNavigator) {
                     is MarksScreenAction.NavigateToLoginScreen -> {
                         navigator.navigate(LoginScreenDestination)
                     }
+
+                    MarksScreenAction.FailedToOpenInfo -> {
+                        mainVM.viewState.value.snackbarHostState.showSnackbar("Failed to get information")
+                    }
+
+                    is MarksScreenAction.OpenMarkInfo -> {
+                        navigator.navigate(
+                            LessonScreenDestination(
+                                action.lessonSelector,
+                                OpenTab.Marks
+                            )
+                        )
+                    }
                 }
             }.collect()
         }
@@ -83,7 +98,7 @@ fun MarksScreen(navigator: DestinationsNavigator) {
                     text = "Marks"
                 )
             }, actions = {
-                if(pagerState.currentPage == 2) {
+                if (pagerState.currentPage == 2) {
                     IconButton(onClick = {
                         vm.toggleAnonymousRating()
                     }) {

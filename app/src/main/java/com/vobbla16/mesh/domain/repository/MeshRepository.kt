@@ -55,4 +55,8 @@ interface MeshRepository {
         studentId: Long,
         dates: List<LocalDate>
     ): Flow<OrLoading<Resource<ShortScheduleModel>>>
+
+    suspend fun getScheduleItemIdFromMark(
+        markId: Long
+    ): Flow<OrLoading<Resource<Long>>>
 }

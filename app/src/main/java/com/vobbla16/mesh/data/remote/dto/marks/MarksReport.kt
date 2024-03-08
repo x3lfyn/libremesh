@@ -38,7 +38,8 @@ fun List<MarksReportItemDto>.toDomain(): List<MarksSubjectModel> = this.map { su
                             mark.values[0].five.toFloat(),
                             mark.values[0].hundred.toFloat()
                         ),
-                        weight = mark.weight
+                        weight = mark.weight,
+                        id = mark.id
                     )
                 }
             )
