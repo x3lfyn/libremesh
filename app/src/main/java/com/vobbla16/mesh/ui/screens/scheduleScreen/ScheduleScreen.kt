@@ -111,6 +111,8 @@ fun ScheduleScreen(
         }
     }
 
+    val currentTime = localDateTimeNow().time
+
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(
         topBar = {
@@ -184,7 +186,15 @@ fun ScheduleScreen(
                         items(data.activities) { activity ->
                             when (activity) {
                                 is Activity.Lesson -> {
-                                    ScheduleLessonItem(activity) {
+                                    val highlighted =
+                                        (state.selectedDate == localDateTimeNow().date) and
+                                                (currentTime >= activity.beginTime) and
+                                                (currentTime < activity.endTime)
+
+                                    ScheduleLessonItem(
+                                        activity = activity,
+                                        highlighted = highlighted
+                                    ) {
                                         navigator.navigate(
                                             LessonScreenDestination(
                                                 activity.toLessonSelector()

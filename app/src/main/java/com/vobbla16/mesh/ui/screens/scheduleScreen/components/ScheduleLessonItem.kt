@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,12 +30,19 @@ import kotlinx.datetime.LocalTime
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
 @Composable
-fun ScheduleLessonItem(activity: Activity.Lesson, onClick: () -> Unit) {
+fun ScheduleLessonItem(
+    activity: Activity.Lesson,
+    highlighted: Boolean = false,
+    onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp),
-        onClick = onClick
+        onClick = onClick,
+        colors = if (highlighted)
+            CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
+        else CardDefaults.cardColors()
     ) {
         Column(Modifier.padding(6.dp)) {
             Row {
