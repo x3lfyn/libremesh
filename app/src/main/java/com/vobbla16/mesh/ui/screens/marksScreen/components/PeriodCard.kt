@@ -16,8 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.vobbla16.mesh.R
 import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.marks.GradeType
 import com.vobbla16.mesh.domain.model.marks.Mark
@@ -56,7 +58,7 @@ fun PeriodCard(period: Period, onClick: (Long) -> Unit, modifier: Modifier = Mod
                 .padding(4.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "Среднее:", modifier = Modifier.padding(4.dp))
+                Text(text = stringResource(R.string.marks_screen_average_mark), modifier = Modifier.padding(4.dp))
                 CheckMark(
                     mark = period.average.fiveScale,
                     bgColor = MaterialTheme.colorScheme.inverseOnSurface,
@@ -66,7 +68,7 @@ fun PeriodCard(period: Period, onClick: (Long) -> Unit, modifier: Modifier = Mod
 
             period.finalMark?.let { final ->
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "Финальная:", modifier = Modifier.padding(4.dp))
+                    Text(text = stringResource(R.string.marks_screen_final_mark), modifier = Modifier.padding(4.dp))
                     CheckMark(
                         mark = final,
                         bgColor = MaterialTheme.colorScheme.inverseOnSurface,

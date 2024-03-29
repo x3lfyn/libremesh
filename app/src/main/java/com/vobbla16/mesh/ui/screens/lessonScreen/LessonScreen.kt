@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.buildAnnotatedString
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vobbla16.mesh.LocalMainVM
+import com.vobbla16.mesh.R
 import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.common.LessonSelector
 import org.koin.androidx.compose.koinViewModel
@@ -98,7 +100,7 @@ fun LessonScreen(
                     text = buildAnnotatedString {
                         append(model.beginTime.time.toString())
                         appendInlineContent("arrow")
-                        append("${model.durationMinutes()} минyт")
+                        append("${model.durationMinutes()} ${stringResource(id = R.string.minutes)}")
                         appendInlineContent("arrow")
                         append(model.endTime.time.toString())
                     },

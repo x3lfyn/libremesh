@@ -17,8 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.vobbla16.mesh.R
 import com.vobbla16.mesh.domain.model.classmates.ClassmateModel
 import com.vobbla16.mesh.domain.model.ratingClass.anon.PersonRatingModel
 import com.vobbla16.mesh.domain.model.ratingClass.anon.RankStatus
@@ -34,7 +36,7 @@ fun ClassRatingItemCard(
     @Composable
     fun RankIndicator(rank: RankStatus) {
         Text(
-            text = "${rank.place} место",
+            text = "${rank.place} " + stringResource(R.string.marks_screen_rating_place),
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(4.dp, 0.dp)
         )

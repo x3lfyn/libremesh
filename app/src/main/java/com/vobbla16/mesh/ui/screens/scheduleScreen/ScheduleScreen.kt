@@ -131,7 +131,7 @@ fun ScheduleScreen(
                             vm.updateDate(localDateTimeNow().date)
                         }
                     ) {
-                        Text("Сегодня")
+                        Text(stringResource(R.string.schedule_screen_return_today_btn))
                     }
                 }
                 IconButton(onClick = { vm.updateDatePickerOpened(true) }) {
@@ -168,13 +168,13 @@ fun ScheduleScreen(
                                 vm.updateDatePickerOpened(false)
                             }, enabled = confirmEnabled.value
                         ) {
-                            Text("OK")
+                            Text(stringResource(R.string.schedule_screen_datepicker_ok_btn))
                         }
                     }, dismissButton = {
                         TextButton(onClick = {
                             vm.updateDatePickerOpened(false)
                         }) {
-                            Text("Cancel")
+                            Text(stringResource(R.string.schedule_screen_datepicker_cancel_btn))
                         }
                     }) {
                         DatePicker(state = datePickerState)

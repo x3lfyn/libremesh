@@ -9,8 +9,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
+import com.vobbla16.mesh.R
 import com.vobbla16.mesh.domain.model.schedule.LessonType
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
 import com.vobbla16.mesh.ui.screens.lessonScreen.LessonScreenViewModel
@@ -41,14 +43,14 @@ fun DescriptionTab(vm: LessonScreenViewModel) {
             when (state.selectedLesson?.lessonType) {
                 LessonType.AE -> {
                     Text(
-                        text = "дополнительное образование",
+                        text = stringResource(id = R.string.lesson_type_ae),
                         style = MaterialTheme.typography.labelLarge
                     )
                 }
 
                 LessonType.EC -> {
                     Text(
-                        text = "внеурочная деятельность",
+                        text = stringResource(id = R.string.lesson_type_ec),
                         style = MaterialTheme.typography.labelLarge
                     )
                 }
@@ -58,7 +60,7 @@ fun DescriptionTab(vm: LessonScreenViewModel) {
 
             if (model.isMissed) {
                 Text(
-                    text = "пропущен",
+                    text = stringResource(R.string.lesson_screen_skipped),
                     style = MaterialTheme.typography.labelLarge,
                     fontStyle = FontStyle.Italic
                 )

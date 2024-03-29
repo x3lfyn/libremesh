@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_lessons_today">Сегодня уроков нет</string>
+    <string name="no_lessons_that_day">На этот день нет уроков</string>
+    <string name="date_picker_button_text_placeholder">Дата</string>
+
+    <string name="bottom_bar_marks_screen">Оценки</string>
+    <string name="bottom_bar_schedule_screen">Расписание</string>
+    <string name="bottom_bar_homework_screen">Д/З</string>
+    <string name="bottom_bar_profile_screen">Профиль</string>
+    <string name="schedule_screen_return_today_btn">Сегодня</string>
+    <string name="schedule_screen_datepicker_ok_btn">OK</string>
+    <string name="schedule_screen_datepicker_cancel_btn">Отмена</string>
+    <string name="minutes">минyт</string>
+    <string name="lesson_type_ae">дополнительное образование</string>
+    <string name="lesson_type_ec">внеурочная деятельность</string>
+    <string name="profile_screen_logout_title">Выйти</string>
+    <string name="profile_screen_logout_description">Будет произведён выход из аккаунта. После необходимо будет заново произвести авторизацию</string>
+    <string name="profile_screen_logout_confirm">Подтвердить</string>
+    <string name="profile_screen_logout_cancel">Отклонить</string>
+    <string name="profile_screen_title">Профиль</string>
+    <string name="profile_screen_section_common_info">Общая информация</string>
+    <string name="profile_screen_classname">Класс:</string>
+    <string name="profile_screen_email">Электропочта:</string>
+    <string name="profile_screen_telephone">Телефон:</string>
+    <string name="profile_screen_section_school">Школа</string>
+    <string name="profile_screen_school_head">Директор:</string>
+    <string name="profile_screen_school_telephone">Телефон:</string>
+    <string name="profile_screen_section_sections">Секции</string>
+    <string name="marks_screen_failed_to_open_lesson">Невозможно открыть урок</string>
+    <string name="marks_screen_title">Оценки</string>
+    <string name="marks_screen_dropdown_arrange_by">Выбрать по</string>
+    <string name="marks_screen_dropdown_by_date">Дате</string>
+    <string name="marks_screen_dropdown_by_subject">Предмету</string>
+    <string name="marks_screen_dropdown_rating">Рейтинг</string>
+    <string name="no_marks">Нет оценок</string>
+    <string name="marks_screen_class_rating_title">Рейтинг класса</string>
+    <string name="marks_screen_rating_place">место</string>
+    <string name="marks_screen_average_mark">Среднее:</string>
+    <string name="marks_screen_final_mark">Финальная:</string>
+    <string name="login_screen_welcome_to_libremesh">Добро пожаловать в libremesh</string>
+    <string name="login_screen_webview_loading">Загрузка…</string>
+    <string name="login_screen_processing_oauth_code">Обработка OAuth кода</string>
+    <string name="error_occurred">Произошла ошибка</string>
+    <string name="lesson_screen_description_tab">Описание</string>
+    <string name="lesson_screen_marks_tab">Оценки</string>
+    <string name="lesson_screen_homework_tab">Домашняя работа</string>
+    <string name="lesson_screen_skipped">пропущен</string>
+    <string name="homework_screen_title">Домашняя работа</string>
+    <string name="error_component_retry_btn">Повторить</string>
+</resources>

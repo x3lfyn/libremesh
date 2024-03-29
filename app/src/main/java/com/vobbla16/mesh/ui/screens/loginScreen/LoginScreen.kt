@@ -1,7 +1,6 @@
 package com.vobbla16.mesh.ui.screens.loginScreen
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.webkit.WebView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,11 +19,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.web.AccompanistWebViewClient
 import com.google.accompanist.web.WebView
@@ -32,6 +31,7 @@ import com.google.accompanist.web.rememberWebViewState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 import com.vobbla16.mesh.LocalMainVM
+import com.vobbla16.mesh.R
 import com.vobbla16.mesh.common.Constants
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -66,10 +66,6 @@ fun LoginScreen(resultNavigator: ResultBackNavigator<Boolean>) {
         mainVM.hideBottomBar()
     }
 
-    SideEffect {
-        Log.d("RECOMPS", "LoginScreen recomposition occurred")
-    }
-
     when (state.processingState) {
         is ProcessingState.WelcomeStep -> {
             Column(
@@ -78,7 +74,7 @@ fun LoginScreen(resultNavigator: ResultBackNavigator<Boolean>) {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Welcome to libremesh",
+                    text = stringResource(R.string.login_screen_welcome_to_libremesh),
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.padding(8.dp)
                 )
@@ -97,9 +93,9 @@ fun LoginScreen(resultNavigator: ResultBackNavigator<Boolean>) {
                     TopAppBar(
                         title = {
                             Column {
-                                Text(text = wvState.pageTitle ?: "Loading...", maxLines = 1)
+                                Text(text = wvState.pageTitle ?: stringResource(R.string.login_screen_webview_loading), maxLines = 1)
                                 Text(
-                                    text = wvState.lastLoadedUrl ?: "Loading...",
+                                    text = wvState.lastLoadedUrl ?: stringResource(R.string.login_screen_webview_loading),
                                     style = MaterialTheme.typography.titleMedium,
                                     maxLines = 1
                                 )
@@ -147,7 +143,7 @@ fun LoginScreen(resultNavigator: ResultBackNavigator<Boolean>) {
             ) {
                 CircularProgressIndicator()
                 Text(
-                    text = "Processing oauth code",
+                    text = stringResource(R.string.login_screen_processing_oauth_code),
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier.padding(6.dp)
                 )
@@ -157,7 +153,7 @@ fun LoginScreen(resultNavigator: ResultBackNavigator<Boolean>) {
         is ProcessingState.Error -> {
             Column {
                 Text(
-                    text = "Error occurred: ${state.processingState.message}",
+                    text = "${stringResource(R.string.error_occurred)}: ${state.processingState.message}",
                     modifier = Modifier
                         .fillMaxSize()
                         .align(Alignment.CenterHorizontally),

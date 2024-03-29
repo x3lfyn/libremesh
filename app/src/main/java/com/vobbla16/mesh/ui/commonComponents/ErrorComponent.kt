@@ -12,9 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.vobbla16.mesh.R
 import com.vobbla16.mesh.common.toText
 
 @Composable
@@ -34,7 +36,7 @@ fun ErrorComponent(
         modifier = modifier.fillMaxSize()
     ) {
         Text(
-            text = "Произошла ошибка",
+            text = stringResource(id = R.string.error_occurred),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.error,
             modifier = Modifier.padding(4.dp)
@@ -46,7 +48,7 @@ fun ErrorComponent(
             textAlign = TextAlign.Center
         )
         Button(onClick = onRetry, modifier = Modifier.padding(6.dp)) {
-            Text(text = "Повторить")
+            Text(text = stringResource(R.string.error_component_retry_btn))
         }
     }
 }

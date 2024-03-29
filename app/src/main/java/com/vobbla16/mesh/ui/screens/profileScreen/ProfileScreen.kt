@@ -29,11 +29,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vobbla16.mesh.LocalMainVM
+import com.vobbla16.mesh.R
 import com.vobbla16.mesh.ui.commonComponents.SpoilerText
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
 import com.vobbla16.mesh.ui.screens.destinations.LoginScreenDestination
@@ -66,14 +68,14 @@ fun ProfileScreen(navigator: DestinationsNavigator) {
                 Icon(imageVector = Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "exit icon")
             },
             title = {
-                Text(text = "Выйти")
+                Text(text = stringResource(R.string.profile_screen_logout_title))
             },
             text = {
-                Text(text = "Будет произведён выход из аккаунта. После необходимо будет заново произвести авторизацию")
+                Text(text = stringResource(R.string.profile_screen_logout_description))
             },
             confirmButton = {
                 TextButton(onClick = { vm.requestLogOut() }) {
-                    Text(text = "Подтвердить")
+                    Text(text = stringResource(R.string.profile_screen_logout_confirm))
                 }
             },
             dismissButton = {
@@ -81,7 +83,7 @@ fun ProfileScreen(navigator: DestinationsNavigator) {
                     onClick = { vm.updatedDialogOpened(false) },
                     enabled = !state.isLoggingOut
                 ) {
-                    Text(text = "Отклонить")
+                    Text(text = stringResource(R.string.profile_screen_logout_cancel))
                 }
             },
             properties = DialogProperties(usePlatformDefaultWidth = true)
@@ -111,7 +113,7 @@ fun ProfileScreen(navigator: DestinationsNavigator) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Profile screen") },
+                title = { Text(text = stringResource(R.string.profile_screen_title)) },
                 actions = {
                     IconButton(
                         onClick = {
@@ -177,15 +179,15 @@ fun ProfileScreen(navigator: DestinationsNavigator) {
                         .padding(0.dp, 4.dp)
                 ) {
                     Text(
-                        text = "Общая информация",
+                        text = stringResource(R.string.profile_screen_section_common_info),
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(4.dp, 2.dp)
                     )
                     Column(Modifier.padding(4.dp, 1.dp, 2.dp, 4.dp)) {
-                        OneLineData(first = "Класс:", second = profile.className)
-                        OneLineData(first = "Электропочта:", second = profile.email, true)
-                        OneLineData(first = "Телефон:", second = profile.phone, true)
-                        OneLineData(first = "СНИЛС:", second = profile.snils, true)
+                        OneLineData(first = stringResource(R.string.profile_screen_classname), second = profile.className)
+                        OneLineData(first = stringResource(R.string.profile_screen_email), second = profile.email, true)
+                        OneLineData(first = stringResource(R.string.profile_screen_telephone), second = profile.phone, true)
+                        OneLineData(first = stringResource(R.string.profile_screen_snils), second = profile.snils, true)
                     }
                 }
 
@@ -195,7 +197,7 @@ fun ProfileScreen(navigator: DestinationsNavigator) {
                         .padding(0.dp, 4.dp)
                 ) {
                     Text(
-                        text = "Школа",
+                        text = stringResource(R.string.profile_screen_section_school),
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(4.dp, 2.dp)
                     )
@@ -211,8 +213,8 @@ fun ProfileScreen(navigator: DestinationsNavigator) {
                             modifier = Modifier.padding(4.dp, 1.dp)
                         )
                         Spacer(modifier = Modifier.height(2.dp))
-                        OneLineData(first = "Директор:", second = profile.school.principal)
-                        OneLineData(first = "Телефон:", second = profile.school.phone)
+                        OneLineData(first = stringResource(R.string.profile_screen_school_head), second = profile.school.principal)
+                        OneLineData(first = stringResource(R.string.profile_screen_school_telephone), second = profile.school.phone)
                     }
                 }
 
@@ -222,7 +224,7 @@ fun ProfileScreen(navigator: DestinationsNavigator) {
                         .padding(0.dp, 4.dp)
                 ) {
                     Text(
-                        text = "Секции",
+                        text = stringResource(R.string.profile_screen_section_sections),
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(4.dp, 2.dp)
                     )

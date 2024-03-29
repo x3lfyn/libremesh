@@ -12,6 +12,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.navigation.navigate
 import com.vobbla16.mesh.ui.NavBarItems
@@ -38,7 +39,7 @@ fun MainScaffold(
                         val selected = currentDestination == item.screen
                         NavigationBarItem(
                             selected = selected,
-                            label = { Text(text = item.label) },
+                            label = { Text(text = item.label(LocalContext.current)) },
                             onClick = {
                                 navController.navigate(item.screen) {
                                     launchSingleTop = true

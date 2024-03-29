@@ -15,7 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.vobbla16.mesh.R
 import com.vobbla16.mesh.ui.screens.marksScreen.MarksScreenViewModel
 import com.vobbla16.mesh.ui.screens.marksScreen.components.SingleDayCard
 import kotlinx.coroutines.launch
@@ -36,7 +38,7 @@ fun ShowByDate(vm: MarksScreenViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Нет оценок",
+                    text = stringResource(R.string.no_marks),
                     style = MaterialTheme.typography.headlineSmall
                 )
             }

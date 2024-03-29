@@ -17,11 +17,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.vobbla16.mesh.R
 import com.vobbla16.mesh.domain.model.schedule.Activity
 import com.vobbla16.mesh.domain.model.schedule.LessonType
 import com.vobbla16.mesh.ui.screens.marksScreen.components.MarkDefault
@@ -87,7 +89,7 @@ fun ScheduleLessonItem(
                 LessonType.AE -> {
                     Spacer(Modifier.height(6.dp))
                     Text(
-                        text = "дополнительное образование",
+                        text = stringResource(R.string.lesson_type_ae),
                         fontStyle = FontStyle.Italic,
                         style = MaterialTheme.typography.labelSmall
                     )
@@ -96,7 +98,7 @@ fun ScheduleLessonItem(
                 LessonType.EC -> {
                     Spacer(Modifier.height(6.dp))
                     Text(
-                        text = "внеурочная деятельность",
+                        text = stringResource(R.string.lesson_type_ec),
                         fontStyle = FontStyle.Italic,
                         style = MaterialTheme.typography.labelSmall
                     )

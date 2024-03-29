@@ -8,7 +8,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.vobbla16.mesh.R
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
 import com.vobbla16.mesh.ui.screens.marksScreen.MarksScreenViewModel
 import com.vobbla16.mesh.ui.screens.marksScreen.components.ClassRatingItemCard
@@ -25,7 +27,7 @@ fun ShowRating(vm: MarksScreenViewModel) {
     ) { rating ->
         LazyColumn {
             item {
-                Text(text = "Рейтинг класса", style = MaterialTheme.typography.headlineSmall, modifier = Modifier.padding(6.dp))
+                Text(text = stringResource(R.string.marks_screen_class_rating_title), style = MaterialTheme.typography.headlineSmall, modifier = Modifier.padding(6.dp))
             }
             items(rating) {
                 ClassRatingItemCard(

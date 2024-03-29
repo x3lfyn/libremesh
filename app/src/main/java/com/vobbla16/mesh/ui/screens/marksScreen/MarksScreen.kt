@@ -30,7 +30,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vobbla16.mesh.LocalMainVM
@@ -53,6 +55,8 @@ fun MarksScreen(navigator: DestinationsNavigator) {
     val vm: MarksScreenViewModel = koinViewModel()
     val state = vm.viewState.value
 
+    val context = LocalContext.current
+
     LaunchedEffect(key1 = null) {
         mainVM.showBottomBar()
     }
@@ -67,7 +71,9 @@ fun MarksScreen(navigator: DestinationsNavigator) {
                     }
 
                     MarksScreenAction.FailedToOpenInfo -> {
-                        mainVM.viewState.value.snackbarHostState.showSnackbar("Failed to get information")
+                        mainVM.viewState.value.snackbarHostState.showSnackbar(
+                            context.getString(R.string.marks_screen_failed_to_open_lesson)
+                        )
                     }
 
                     is MarksScreenAction.OpenMarkInfo -> {
@@ -95,7 +101,7 @@ fun MarksScreen(navigator: DestinationsNavigator) {
         topBar = {
             TopAppBar(title = {
                 Text(
-                    text = "Marks"
+                    text = stringResource(R.string.marks_screen_title)
                 )
             }, actions = {
                 if (pagerState.currentPage == 2) {
@@ -125,13 +131,13 @@ fun MarksScreen(navigator: DestinationsNavigator) {
 
                 DropdownMenu(expanded = menuExpanded, onDismissRequest = { menuExpanded = false }) {
                     DropdownMenuItem(
-                        text = { Text(text = "Arrange by") },
+                        text = { Text(text = stringResource(R.string.marks_screen_dropdown_arrange_by)) },
                         onClick = {},
                         enabled = false
                     )
                     DropdownMenuItem(
                         text = {
-                            Text(text = "By date")
+                            Text(text = stringResource(R.string.marks_screen_dropdown_by_date))
                         },
                         trailingIcon = {
                             if (pagerState.currentPage == 0)
@@ -150,7 +156,7 @@ fun MarksScreen(navigator: DestinationsNavigator) {
                     )
                     DropdownMenuItem(
                         text = {
-                            Text(text = "By subject")
+                            Text(text = stringResource(R.string.marks_screen_dropdown_by_subject))
                         },
                         trailingIcon = {
                             if (pagerState.currentPage == 1)
@@ -169,7 +175,7 @@ fun MarksScreen(navigator: DestinationsNavigator) {
                     )
                     DropdownMenuItem(
                         text = {
-                            Text(text = "Rating")
+                            Text(text = stringResource(R.string.marks_screen_dropdown_rating))
                         },
                         trailingIcon = {
                             if (pagerState.currentPage == 2)
@@ -193,26 +199,6 @@ fun MarksScreen(navigator: DestinationsNavigator) {
         contentWindowInsets = WindowInsets.statusBars
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
-            //        TabRow(
-            //            selectedTabIndex = pagerState.currentPage,
-            //            tabs = {
-            //                Tabs.values().forEachIndexed { index, tab ->
-            //                    Tab(
-            //                        selected = index == pagerState.currentPage,
-            //                        onClick = {
-            //                            scope.launch {
-            //                                pagerState.animateScrollToPage(index)
-            //                            }
-            //                        },
-            //                        icon = tab.icon,
-            //                        text = { Text(text = tab.title) }
-            //                    )
-            //                }
-            //            },
-            //            indicator = {
-            //                TabRowDefaults.Indicator(Modifier.tabIndicatorOffset(it[pagerState.currentPage]))
-            //            }
-            //        )
             GenericHolderContainer(
                 holder = state.marksData,
                 onRefresh = { vm.refreshData() },
