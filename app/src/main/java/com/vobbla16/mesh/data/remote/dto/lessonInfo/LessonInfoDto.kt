@@ -7,6 +7,7 @@ import com.vobbla16.mesh.data.remote.dto.schedule.Mark
 import com.vobbla16.mesh.domain.model.lessonInfo.Homework
 import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
 import kotlinx.datetime.toLocalDate
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.util.UUID
@@ -106,7 +107,10 @@ fun LessonInfoDto.toDomain() = LessonInfoModel(
             comment = if (mark.commentExists) mark.comment else null,
             controlForm = mark.controlFormName,
             isPoint = mark.isPoint,
-            pointDate = mark.pointDate?.toLocalDate()
+            pointDate = mark.pointDate?.toLocalDate(),
+            isExam = mark.isExam,
+            createdAt = mark.createdAt.toLocalDateTime(),
+            updatedAt = mark.updatedAt.toLocalDateTime()
         )
     },
     isMissed = isMissedLesson,

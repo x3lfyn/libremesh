@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vobbla16.mesh.R
+import com.vobbla16.mesh.common.structures.toHumanStr
 import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
 import com.vobbla16.mesh.domain.model.lessonInfo.Mark
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
@@ -50,57 +51,80 @@ fun MarksTabUI(state: LessonScreenState, onRetry: () -> Unit, onRefresh: () -> U
         onRetry = onRetry,
         modifier = Modifier.padding(4.dp)
     ) { model ->
-        model.marks.forEachIndexed { index, mark ->
-            Column(modifier = Modifier.padding(2.dp)) {
-                Row(
-                    modifier = Modifier.padding(2.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    MarkDefault(mark = mark.toMarkDefaultValue(), modifier = Modifier.padding(2.dp))
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(6.dp, 0.dp)
+        model.marks.forEach { mark ->
+            Card(modifier = Modifier.padding(1.dp, 2.dp)) {
+                Column(Modifier.padding(5.dp)) {
+                    Row(
+                        modifier = Modifier.padding(2.dp, 0.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        mark.controlForm?.let {
-                            Text(text = it, style = MaterialTheme.typography.labelMedium)
+                        MarkDefault(
+                            mark = mark.toMarkDefaultValue(),
+                            modifier = Modifier.padding(2.dp)
+                        )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(6.dp, 0.dp)
+                        ) {
+                            mark.controlForm?.let {
+                                Text(text = it, style = MaterialTheme.typography.labelLarge)
+                            }
+                            if (mark.isExam) {
+                                Text(
+                                    text = stringResource(R.string.lesson_screen_mark_exam),
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            }
+                            mark.pointDate?.let { pointDate ->
+                                Text(
+                                    text = "${stringResource(R.string.lesson_screen_point_until)} ${pointDate.dayOfMonth}.${pointDate.monthNumber}.${pointDate.year}",
+                                    style = MaterialTheme.typography.labelMedium
+                                )
+                            }
                         }
                     }
-                }
-                mark.comment?.let {
+                    mark.comment?.let {
+                        Text(
+                            text = buildAnnotatedString {
+                                appendInlineContent("quotes")
+                                append(it)
+                            }, inlineContent = mapOf("quotes" to InlineTextContent(
+                                Placeholder(
+                                    20.sp,
+                                    18.sp,
+                                    PlaceholderVerticalAlign.AboveBaseline
+                                )
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.format_quote),
+                                    contentDescription = "quotes icon",
+                                    modifier = Modifier.scale(0.9f)
+                                )
+                            }),
+                            style = MaterialTheme.typography.labelLarge,
+                            modifier = Modifier.padding(4.dp, 4.dp)
+                        )
+                    }
                     Text(
-                        text = buildAnnotatedString {
-                            appendInlineContent("quotes")
-                            append(it)
-                        }, inlineContent = mapOf("quotes" to InlineTextContent(
-                            Placeholder(
-                                20.sp,
-                                18.sp,
-                                PlaceholderVerticalAlign.AboveBaseline
-                            )
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.format_quote),
-                                contentDescription = "quotes icon",
-                                modifier = Modifier.scale(0.9f)
-                            )
-                        }),
-                        modifier = Modifier.padding(4.dp, 0.dp)
+                        text = "${stringResource(R.string.lesson_screen_mark_created_at)} ${mark.createdAt.toHumanStr()}",
+                        style = MaterialTheme.typography.labelMedium
                     )
+                    if (mark.createdAt != mark.updatedAt) {
+                        Text(
+                            text = "${stringResource(R.string.lesson_screen_mark_updated_at)} ${mark.updatedAt.toHumanStr()}",
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
                 }
-                mark.pointDate?.let {pointDate ->
-                    Text(
-                        text = "${stringResource(R.string.lesson_screen_point_until)} ${pointDate.dayOfMonth}.${pointDate.monthNumber}.${pointDate.year}",
-                        modifier = Modifier.padding(6.dp, 0.dp)
-                    )
-                }
-            }
-            if (index != model.marks.size - 1) {
-                HorizontalDivider(modifier = Modifier.padding(6.dp, 4.dp))
             }
         }
         if (model.marks.isEmpty()) {
-            Text(text = stringResource(id = R.string.no_marks), style = MaterialTheme.typography.titleLarge)
+            Text(
+                text = stringResource(id = R.string.no_marks),
+                style = MaterialTheme.typography.titleLarge
+            )
         }
     }
 }
@@ -123,24 +147,45 @@ val baseSample = LessonInfoModel(
 private fun MarksTabPreview1() {
     Surface {
         MarksTabUI(state = LessonScreenState(
-            lessonInfo = GenericHolder(data = baseSample.copy(marks = listOf(
-                Mark(
-                    value = 5,
-                    comment = null,
-                    weight = 1,
-                    isPoint = false,
-                    controlForm = "Самостоятельная работа",
-                    pointDate = null
-                ),
-                Mark(
-                    value = 4,
-                    comment = "комментарий к оценке от учителя",
-                    weight = 2,
-                    isPoint = true,
-                    controlForm = "Контрольная работа",
-                    pointDate = LocalDate(2022, 12, 12)
+            lessonInfo = GenericHolder(
+                data = baseSample.copy(
+                    marks = listOf(
+                        Mark(
+                            value = 5,
+                            comment = null,
+                            weight = 1,
+                            isPoint = false,
+                            controlForm = "Самостоятельная работа",
+                            pointDate = null,
+                            isExam = true,
+                            createdAt = LocalDateTime(2022, 12, 12, 12, 12, 12),
+                            updatedAt = LocalDateTime(2022, 12, 12, 13, 13, 12)
+                        ),
+                        Mark(
+                            value = 4,
+                            comment = "комментарий к оценке от учителя",
+                            weight = 2,
+                            isPoint = true,
+                            controlForm = "Контрольная работа",
+                            pointDate = LocalDate(2022, 12, 12),
+                            isExam = false,
+                            createdAt = LocalDateTime(2022, 12, 12, 12, 12, 12),
+                            updatedAt = LocalDateTime(2022, 12, 12, 12, 12, 12)
+                        ),
+                        Mark(
+                            value = 5,
+                            comment = "meow",
+                            weight = 1,
+                            isPoint = true,
+                            controlForm = "Самостоятельная работа",
+                            pointDate = LocalDate(2022, 12, 12),
+                            isExam = true,
+                            createdAt = LocalDateTime(2022, 12, 12, 12, 12, 12),
+                            updatedAt = LocalDateTime(2022, 12, 12, 13, 13, 12)
+                        ),
+                    )
                 )
-            ))),
+            ),
             selectedLesson = null,
             currentTab = Tabs.Description
         ), onRetry = {}, onRefresh = {})

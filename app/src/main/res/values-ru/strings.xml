@@ -49,4 +49,7 @@
     <string name="homework_screen_title">Домашняя работа</string>
     <string name="error_component_retry_btn">Повторить</string>
     <string name="lesson_screen_point_until">Точка до</string>
+    <string name="lesson_screen_mark_created_at">Создана:</string>
+    <string name="lesson_screen_mark_updated_at">Обновлена:</string>
+    <string name="lesson_screen_mark_exam">Экзамен</string>
 </resources>

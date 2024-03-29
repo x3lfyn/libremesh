@@ -49,4 +49,7 @@
     <string name="error_component_retry_btn">Retry</string>
     <string name="profile_screen_snils" translatable="false">СНИЛС:</string>
     <string name="lesson_screen_point_until">Point until</string>
+    <string name="lesson_screen_mark_created_at">Created at:</string>
+    <string name="lesson_screen_mark_updated_at">Updated at:</string>
+    <string name="lesson_screen_mark_exam">Exam</string>
 </resources>
