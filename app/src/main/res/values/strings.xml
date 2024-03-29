@@ -48,4 +48,5 @@
     <string name="homework_screen_title">Homework</string>
     <string name="error_component_retry_btn">Retry</string>
     <string name="profile_screen_snils" translatable="false">СНИЛС:</string>
+    <string name="lesson_screen_point_until">Point until</string>
 </resources>

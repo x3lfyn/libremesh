@@ -32,6 +32,7 @@ import com.vobbla16.mesh.ui.screens.lessonScreen.LessonScreenState
 import com.vobbla16.mesh.ui.screens.lessonScreen.LessonScreenViewModel
 import com.vobbla16.mesh.ui.screens.lessonScreen.Tabs
 import com.vobbla16.mesh.ui.screens.marksScreen.components.MarkDefault
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 
 @Composable
@@ -87,6 +88,12 @@ fun MarksTabUI(state: LessonScreenState, onRetry: () -> Unit, onRefresh: () -> U
                         modifier = Modifier.padding(4.dp, 0.dp)
                     )
                 }
+                mark.pointDate?.let {pointDate ->
+                    Text(
+                        text = "${stringResource(R.string.lesson_screen_point_until)} ${pointDate.dayOfMonth}.${pointDate.monthNumber}.${pointDate.year}",
+                        modifier = Modifier.padding(6.dp, 0.dp)
+                    )
+                }
             }
             if (index != model.marks.size - 1) {
                 HorizontalDivider(modifier = Modifier.padding(6.dp, 4.dp))
@@ -122,14 +129,16 @@ private fun MarksTabPreview1() {
                     comment = null,
                     weight = 1,
                     isPoint = false,
-                    controlForm = "Самостоятельная работа"
+                    controlForm = "Самостоятельная работа",
+                    pointDate = null
                 ),
                 Mark(
                     value = 4,
                     comment = "комментарий к оценке от учителя",
                     weight = 2,
                     isPoint = true,
-                    controlForm = "Контрольная работа"
+                    controlForm = "Контрольная работа",
+                    pointDate = LocalDate(2022, 12, 12)
                 )
             ))),
             selectedLesson = null,
