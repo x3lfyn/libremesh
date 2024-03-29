@@ -1,5 +1,7 @@
 package com.vobbla16.mesh.ui.screens.lessonScreen.subscreens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,6 +53,7 @@ fun HomeworkTabUI(
     snackbarHostState: SnackbarHostState
 ) {
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     GenericHolderContainer(
         holder = state.lessonInfo,
@@ -76,7 +80,7 @@ fun HomeworkTabUI(
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween,
-                                modifier = Modifier.padding(8.dp, 2.dp)
+                                modifier = Modifier.padding(8.dp, 0.dp)
                             ) {
                                 Text(
                                     text = material.title,
@@ -84,7 +88,10 @@ fun HomeworkTabUI(
                                     modifier = Modifier.weight(1f)
                                 )
                                 IconButton(onClick = {
-                                    scope.launch { snackbarHostState.showSnackbar("Not yet implemented") }
+                                    scope.launch {
+                                        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(material.links.first()))
+                                        context.startActivity(browserIntent)
+                                    }
                                 }) {
                                     Icon(
                                         painter = painterResource(id = R.drawable.download),
@@ -118,7 +125,10 @@ private fun HomeworkTabPreview1() {
             Homework(
                 name = "длинное название длинное название длинное название длинное название длинное название длинное название длинное название длинное название длинное название длинное название длинное название",
                 additionMaterials = listOf(
-                    AdditionalMaterial.Attachment(title = "приложение 1.pdf", links = listOf("https://ya.ru"))
+                    AdditionalMaterial.Attachment(
+                        title = "приложение 1.pdf",
+                        links = listOf("https://ya.ru")
+                    )
                 ),
                 isDone = false
             )
