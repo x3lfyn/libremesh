@@ -1,13 +1,6 @@
 package com.vobbla16.mesh.ui.screens.marksScreen.components
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -30,12 +23,17 @@ fun MarkDefault(
     size: MarkDefaultSize = MarkDefaultSize.Default
 ) {
     OutlinedCard(modifier) {
-        Box(Modifier.height(size.size).widthIn(size.size, Dp.Infinity)) {
+        Box(
+            Modifier
+                .height(size.size)
+                .widthIn(size.size, Dp.Infinity)) {
             Text(
                 text = mark.value.toString(),
-                modifier = Modifier.align(
-                    Alignment.Center,
-                ).padding(6.dp), style = MaterialTheme.typography.titleMedium
+                modifier = Modifier
+                    .align(
+                        Alignment.Center,
+                    )
+                    .padding(6.dp), style = MaterialTheme.typography.titleMedium
             )
             mark.weight?.let {
                 Text(
@@ -47,14 +45,23 @@ fun MarkDefault(
                 )
             }
             if (mark.isPoint) {
-                Icon(
-                    imageVector = Icons.Default.Star,
-                    contentDescription = "can be changed",
+//                Icon(
+//                    imageVector = Icons.Default.Star,
+//                    contentDescription = "can be changed",
+//                    modifier = Modifier
+//                        .align(Alignment.TopStart)
+//                        .scale(0.5f)
+//                        .offset((-3).dp, (-3).dp),
+//                    tint = MaterialTheme.colorScheme.error
+//                )
+                Text(
+                    text = "·",
                     modifier = Modifier
                         .align(Alignment.TopStart)
-                        .scale(0.5f)
-                        .offset((-3).dp, (-3).dp),
-                    tint = MaterialTheme.colorScheme.error
+                        .scale(3f)
+                        .padding(4.dp)
+                        .offset((1.5).dp, (-1).dp),
+                    color = MaterialTheme.colorScheme.error
                 )
             }
         }
@@ -94,8 +101,7 @@ fun MarkDefaultPreview1() {
 }
 
 @Preview(
-    showBackground = true,
-    device = "spec:width=128px,height=128px,dpi=440"
+    showBackground = true, device = "spec:width=1080px,height=2340px,dpi=160"
 )
 @Composable
 fun MarkDefaultPreview2() {
