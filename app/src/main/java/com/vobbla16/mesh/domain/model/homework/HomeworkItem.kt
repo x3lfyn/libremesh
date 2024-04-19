@@ -4,7 +4,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 
 data class HomeworkItem(
-//    val id: Long,
+    val id: Long,
     val isReady: Boolean,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime,

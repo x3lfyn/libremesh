@@ -5,6 +5,7 @@ import com.vobbla16.mesh.common.structures.Resource
 import com.vobbla16.mesh.domain.model.acadYears.AcademicYearItemModel
 import com.vobbla16.mesh.domain.model.classmates.ClassmateModel
 import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
+import com.vobbla16.mesh.domain.model.homeworkDone.HomeworkDoneModel
 import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
 import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel
 import com.vobbla16.mesh.domain.model.profile.ProfileModel
@@ -59,4 +60,12 @@ interface MeshRepository {
     suspend fun getScheduleItemIdFromMark(
         markId: Long
     ): Flow<OrLoading<Resource<Long>>>
+
+    suspend fun markHomeworkDone(
+        homeworkId: Long
+    ): Flow<OrLoading<Resource<HomeworkDoneModel>>>
+
+    suspend fun unmarkHomeworkDone(
+        homeworkId: Long
+    ): Flow<OrLoading<Resource<HomeworkDoneModel>>>
 }

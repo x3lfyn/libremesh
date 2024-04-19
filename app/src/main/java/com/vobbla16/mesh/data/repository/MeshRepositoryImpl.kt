@@ -6,6 +6,7 @@ import com.vobbla16.mesh.common.toStr
 import com.vobbla16.mesh.data.remote.MeshApi
 import com.vobbla16.mesh.domain.model.acadYears.AcademicYearItemModel
 import com.vobbla16.mesh.domain.model.classmates.ClassmateModel
+import com.vobbla16.mesh.domain.model.homeworkDone.HomeworkDoneModel
 import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
 import com.vobbla16.mesh.domain.model.ratingClass.anon.PersonRatingModel
 import com.vobbla16.mesh.domain.model.schedule.LessonType
@@ -75,4 +76,10 @@ class MeshRepositoryImpl : MeshRepository {
 
     override suspend fun getScheduleItemIdFromMark(markId: Long): Flow<OrLoading<Resource<Long>>> =
         meshApi.getMarkInfo(markId)
+
+    override suspend fun markHomeworkDone(homeworkId: Long): Flow<OrLoading<Resource<HomeworkDoneModel>>> =
+        meshApi.markHomeworkDone(homeworkId)
+
+    override suspend fun unmarkHomeworkDone(homeworkId: Long): Flow<OrLoading<Resource<HomeworkDoneModel>>> =
+        meshApi.unmarkHomeworkDone(homeworkId)
 }

@@ -21,6 +21,7 @@ import com.vobbla16.mesh.data.remote.dto.shortSchedule.ShortScheduleDto
 import com.vobbla16.mesh.domain.model.acadYears.AcademicYearItemModel
 import com.vobbla16.mesh.domain.model.classmates.ClassmateModel
 import com.vobbla16.mesh.domain.model.homework.HomeworkItemsForDateModel
+import com.vobbla16.mesh.domain.model.homeworkDone.HomeworkDoneModel
 import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
 import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel
 import com.vobbla16.mesh.domain.model.profile.ProfileModel
@@ -28,8 +29,7 @@ import com.vobbla16.mesh.domain.model.ratingClass.anon.PersonRatingModel
 import com.vobbla16.mesh.domain.model.schedule.ScheduleModel
 import com.vobbla16.mesh.domain.model.shortSchedule.Lesson
 import io.ktor.client.HttpClient
-import io.ktor.client.request.get
-import io.ktor.client.request.parameter
+import io.ktor.client.request.*
 import kotlinx.datetime.LocalDate
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -38,8 +38,7 @@ import java.util.UUID
 class MeshApi : KoinComponent {
     private val httpClient: HttpClient by inject()
     suspend fun getSchedule(
-        studentId: String,
-        date: String
+        studentId: String, date: String
     ) = wrapToResourceOrLoading<ScheduleDto, ScheduleModel>({ it.toDomain() }) {
         httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.SCHEDULE_ENDPOINT) {
             url {
@@ -49,10 +48,9 @@ class MeshApi : KoinComponent {
         }
     }
 
-    suspend fun getProfile() =
-        wrapToResourceOrLoading<ProfileDto, ProfileModel>({ it.toDomain() }) {
-            httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.PROFILE_ENDPOINT)
-        }
+    suspend fun getProfile() = wrapToResourceOrLoading<ProfileDto, ProfileModel>({ it.toDomain() }) {
+        httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.PROFILE_ENDPOINT)
+    }
 
     suspend fun getAcademicYears() =
         wrapToResourceOrLoading<List<AcademicYearsItemDto>, List<AcademicYearItemModel>>({ it.toDomain() }) {
@@ -60,32 +58,27 @@ class MeshApi : KoinComponent {
         }
 
     suspend fun getMarksReport(
-        studentId: String,
-        academicYearId: String
-    ) =
-        wrapToResourceOrLoading<List<MarksReportItemDto>, List<MarksSubjectModel>>({ it.toDomain() }) {
-            httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.MARKS_ENDPOINT) {
-                url {
-                    parameter("academic_year_id", academicYearId)
-                    parameter("student_profile_id", studentId)
-                }
+        studentId: String, academicYearId: String
+    ) = wrapToResourceOrLoading<List<MarksReportItemDto>, List<MarksSubjectModel>>({ it.toDomain() }) {
+        httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.MARKS_ENDPOINT) {
+            url {
+                parameter("academic_year_id", academicYearId)
+                parameter("student_profile_id", studentId)
             }
         }
+    }
 
     suspend fun getHomework(
-        studentId: Long,
-        beginDate: String,
-        endDate: String
-    ) =
-        wrapToResourceOrLoading<List<HomeworkItemDto>, List<HomeworkItemsForDateModel>>({ it.toDomain() }) {
-            httpClient.get(Constants.MESH_API_BASE_DOMAIN_DNEVNIK + "/core/api/student_homeworks") {
-                url {
-                    parameter("student_profile_id", studentId)
-                    parameter("begin_prepared_date", beginDate)
-                    parameter("end_prepared_date", endDate)
-                }
+        studentId: Long, beginDate: String, endDate: String
+    ) = wrapToResourceOrLoading<List<HomeworkItemDto>, List<HomeworkItemsForDateModel>>({ it.toDomain() }) {
+        httpClient.get(Constants.MESH_API_BASE_DOMAIN_DNEVNIK + "/core/api/student_homeworks") {
+            url {
+                parameter("student_profile_id", studentId)
+                parameter("begin_prepared_date", beginDate)
+                parameter("end_prepared_date", endDate)
             }
         }
+    }
 
     suspend fun getLessonInfo(studentId: Long, scheduleItemId: Long, type: String) =
         wrapToResourceOrLoading<LessonInfoDto, LessonInfoModel>({ it.toDomain() }) {
@@ -109,8 +102,7 @@ class MeshApi : KoinComponent {
         }
 
     suspend fun getRatingClass(
-        personId: UUID,
-        date: LocalDate
+        personId: UUID, date: LocalDate
     ) = wrapToResourceOrLoading<List<PersonRatingDto>, List<PersonRatingModel>>({ it.map { it.toDomain() } }) {
         httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.RATING_CLASS_ENDPOINT) {
             url {
@@ -121,8 +113,7 @@ class MeshApi : KoinComponent {
     }
 
     suspend fun getShortSchedule(
-        studentId: Long,
-        dates: List<LocalDate>
+        studentId: Long, dates: List<LocalDate>
     ) = wrapToResourceOrLoading<ShortScheduleDto, Map<LocalDate, List<Lesson>>>({ it.toDomain() }) {
         httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.SHORT_SCHEDULE_ENDPOINT) {
             url {
@@ -140,5 +131,17 @@ class MeshApi : KoinComponent {
                 parameter("markId", markId.toString())
             }
         }
+    }
+
+    suspend fun markHomeworkDone(
+        homeworkId: Long
+    ) = wrapToResourceOrLoading<HomeworkDoneModel, HomeworkDoneModel>({ it }) {
+        httpClient.post(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.HOMEWORK_DONE_ENDPOINT + homeworkId.toString() + Constants.HOMEWORK_DONE_ENDPOINT_END)
+    }
+
+    suspend fun unmarkHomeworkDone(
+        homeworkId: Long
+    ) = wrapToResourceOrLoading<HomeworkDoneModel, HomeworkDoneModel>({ it }) {
+        httpClient.delete(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.HOMEWORK_DONE_ENDPOINT + homeworkId.toString() + Constants.HOMEWORK_DONE_ENDPOINT_END)
     }
 }

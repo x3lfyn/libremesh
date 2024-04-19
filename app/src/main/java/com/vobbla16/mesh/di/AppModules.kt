@@ -7,20 +7,7 @@ import com.vobbla16.mesh.data.repository.MeshRepositoryImpl
 import com.vobbla16.mesh.data.settingsStore.SettingsRepositoryImpl
 import com.vobbla16.mesh.domain.repository.MeshRepository
 import com.vobbla16.mesh.domain.repository.SettingsRepository
-import com.vobbla16.mesh.domain.use_case.GetClassmatesUseCase
-import com.vobbla16.mesh.domain.use_case.GetHomeworkUseCase
-import com.vobbla16.mesh.domain.use_case.GetHomeworkWithLessonUseCase
-import com.vobbla16.mesh.domain.use_case.GetLessonInfoUseCase
-import com.vobbla16.mesh.domain.use_case.GetMarksReportUseCase
-import com.vobbla16.mesh.domain.use_case.GetRatingClassDeanonUseCase
-import com.vobbla16.mesh.domain.use_case.GetRatingClassUseCase
-import com.vobbla16.mesh.domain.use_case.GetScheduleItemIdFromMarkUseCase
-import com.vobbla16.mesh.domain.use_case.GetScheduleUseCase
-import com.vobbla16.mesh.domain.use_case.GetShortScheduleUseCase
-import com.vobbla16.mesh.domain.use_case.GetStudentUseCase
-import com.vobbla16.mesh.domain.use_case.GetTokenUseCase
-import com.vobbla16.mesh.domain.use_case.LogOutUseCase
-import com.vobbla16.mesh.domain.use_case.OauthCodeToTokenUseCase
+import com.vobbla16.mesh.domain.use_case.*
 import com.vobbla16.mesh.ui.screens.homeworkScreen.HomeworkScreenViewModel
 import com.vobbla16.mesh.ui.screens.lessonScreen.LessonScreenViewModel
 import com.vobbla16.mesh.ui.screens.loginScreen.LoginScreenViewModel
@@ -68,6 +55,7 @@ val appModule = module {
     single { GetShortScheduleUseCase(get()) }
     single { GetHomeworkWithLessonUseCase(get(), get()) }
     single { GetScheduleItemIdFromMarkUseCase(get()) }
+    single { MarkHomeworkDoneUseCase(get()) }
 
     viewModel {
         ScheduleScreenViewModel(get())
@@ -82,7 +70,7 @@ val appModule = module {
         ProfileScreenViewModel(get(), get())
     }
     viewModel {
-        HomeworkScreenViewModel(get())
+        HomeworkScreenViewModel(get(), get())
     }
     viewModel {
         MainActivityViewModel()

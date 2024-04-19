@@ -41,6 +41,7 @@ data class HomeworkItemDto(
 )
 
 fun HomeworkItemDto.toDomain() = HomeworkItem(
+    id = this.id,
     isReady = this.isReady,
     createdAt = fromMeshStr2LocalDT(this.createdAt),
     updatedAt = fromMeshStr2LocalDT(this.updatedAt),

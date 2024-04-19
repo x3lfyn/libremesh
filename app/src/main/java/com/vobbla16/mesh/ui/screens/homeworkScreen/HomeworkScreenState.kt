@@ -5,5 +5,6 @@ import com.vobbla16.mesh.ui.ViewState
 import com.vobbla16.mesh.ui.genericHolder.GenericHolder
 
 data class HomeworkScreenState(
-    val homeworkData: GenericHolder<List<HomeworkItemsForDateWithLessonModel>>
+    val homeworkData: GenericHolder<List<HomeworkItemsForDateWithLessonModel>>,
+    val loadingDoneIds: List<Long>
 ) :ViewState

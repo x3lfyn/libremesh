@@ -21,4 +21,6 @@ object Constants {
     const val RATING_CLASS_ENDPOINT = "/api/ej/rating/v1/rank/class"
     const val SHORT_SCHEDULE_ENDPOINT = "/api/family/web/v1/schedule/short"
     const val MARK_INFO_ENDPOINT = "/api/family/web/v1/marks/"
+    const val HOMEWORK_DONE_ENDPOINT = "/api/family/web/v1/homeworks/"
+    const val HOMEWORK_DONE_ENDPOINT_END = "/done"
 }
