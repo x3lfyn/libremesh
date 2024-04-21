@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
@@ -20,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vobbla16.mesh.LocalMainVM
@@ -89,7 +91,10 @@ fun HomeworkTabUI(
                                 )
                                 IconButton(onClick = {
                                     scope.launch {
-                                        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(material.links.first()))
+                                        val browserIntent = Intent(
+                                            Intent.ACTION_VIEW,
+                                            Uri.parse(material.links.first())
+                                        )
                                         context.startActivity(browserIntent)
                                     }
                                 }) {
@@ -107,6 +112,18 @@ fun HomeworkTabUI(
                 if (index != model.homeworks.size - 1) {
                     HorizontalDivider(modifier = Modifier.padding(6.dp, 2.dp))
                 }
+            }
+        }
+        if (model.homeworks.isEmpty()) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = stringResource(R.string.lesson_screen_no_homework),
+                    style = MaterialTheme.typography.titleLarge
+                )
             }
         }
     }

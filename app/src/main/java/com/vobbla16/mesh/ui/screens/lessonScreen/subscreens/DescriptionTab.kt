@@ -1,7 +1,5 @@
 package com.vobbla16.mesh.ui.screens.lessonScreen.subscreens
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,7 +15,6 @@ import com.vobbla16.mesh.domain.model.schedule.LessonType
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
 import com.vobbla16.mesh.ui.screens.lessonScreen.LessonScreenViewModel
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DescriptionTab(vm: LessonScreenViewModel) {
     val state = vm.viewState.value

@@ -1,6 +1,7 @@
 package com.vobbla16.mesh.ui.screens.loginScreen
 
 import android.annotation.SuppressLint
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -117,10 +118,10 @@ fun LoginScreen(resultNavigator: ResultBackNavigator<Boolean>) {
                         object : AccompanistWebViewClient() {
                             override fun shouldOverrideUrlLoading(
                                 view: WebView?,
-                                url: String?
+                                request: WebResourceRequest
                             ): Boolean {
-                                if (url != null && url.startsWith(Constants.OAUTH_CALLBACK_PREFIX)) {
-                                    vm.processCode(url.removePrefix(Constants.OAUTH_CALLBACK_PREFIX))
+                                if (request.url != null && request.url.toString().startsWith(Constants.OAUTH_CALLBACK_PREFIX)) {
+                                    vm.processCode(request.url.toString().removePrefix(Constants.OAUTH_CALLBACK_PREFIX))
                                     return true
                                 }
                                 return false

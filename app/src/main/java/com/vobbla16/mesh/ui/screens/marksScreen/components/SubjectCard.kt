@@ -1,7 +1,5 @@
 package com.vobbla16.mesh.ui.screens.marksScreen.components
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -34,7 +32,6 @@ import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel
 import com.vobbla16.mesh.domain.model.marks.Period
 import kotlinx.datetime.LocalDate
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SubjectCard(
@@ -121,7 +118,6 @@ fun SubjectCard(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun SubjectCardPreview1() {
@@ -268,7 +264,6 @@ fun SubjectCardPreview1() {
     SubjectCard(subject = subj, opened = false, onClick = {}, modifier = Modifier.padding(8.dp), onClickMark = {})
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun SubjectCardPreview2() {
@@ -415,7 +410,6 @@ fun SubjectCardPreview2() {
     SubjectCard(subject = subj, opened = true, onClick = {}, modifier = Modifier.padding(8.dp), onClickMark = {})
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun SubjectCardPreview3() {
@@ -430,7 +424,6 @@ fun SubjectCardPreview3() {
     SubjectCard(subject = subj, opened = true, onClick = {}, modifier = Modifier.padding(8.dp), onClickMark = {})
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun SubjectCardPreview4() {

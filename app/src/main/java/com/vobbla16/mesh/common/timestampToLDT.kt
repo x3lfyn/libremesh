@@ -10,6 +10,3 @@ fun msToLocalDateTime(ms: Long, tz: TimeZone = TimeZone.currentSystemDefault()) 
 
 fun secsToLocalDateTime(secs: Long, tz: TimeZone = TimeZone.currentSystemDefault()) =
     msToLocalDateTime(secs * 1000, tz)
-
-fun secsToLocalDateTime(secs: Double, tz: TimeZone = TimeZone.currentSystemDefault()) =
-    msToLocalDateTime((secs * 1000).toLong(), tz)

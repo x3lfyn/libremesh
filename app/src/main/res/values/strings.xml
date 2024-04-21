@@ -2,7 +2,6 @@
     <string name="app_name" translatable="false">libremesh</string>
     <string name="no_lessons_today">No lessons today</string>
     <string name="no_lessons_that_day">No lessons that day</string>
-    <string name="date_picker_button_text_placeholder">Date</string>
     <string name="bottom_bar_marks_screen">Marks</string>
     <string name="bottom_bar_schedule_screen">Schedule</string>
     <string name="bottom_bar_homework_screen">Homework</string>
@@ -52,4 +51,6 @@
     <string name="lesson_screen_mark_created_at">Created at:</string>
     <string name="lesson_screen_mark_updated_at">Updated at:</string>
     <string name="lesson_screen_mark_exam">Exam</string>
+    <string name="lesson_screen_no_homework">No homework</string>
+    <string name="date_picker_button_text_placeholder">Date</string>
 </resources>

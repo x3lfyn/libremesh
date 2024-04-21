@@ -29,7 +29,10 @@ import com.vobbla16.mesh.domain.model.ratingClass.anon.PersonRatingModel
 import com.vobbla16.mesh.domain.model.schedule.ScheduleModel
 import com.vobbla16.mesh.domain.model.shortSchedule.Lesson
 import io.ktor.client.HttpClient
-import io.ktor.client.request.*
+import io.ktor.client.request.delete
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import io.ktor.client.request.post
 import kotlinx.datetime.LocalDate
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -91,7 +94,7 @@ class MeshApi : KoinComponent {
         }
 
     suspend fun getClassmates(classUnitId: Long) =
-        wrapToResourceOrLoading<List<ClassmateDto>, List<ClassmateModel>>({ it.map { it.toDomain() } }) {
+        wrapToResourceOrLoading<List<ClassmateDto>, List<ClassmateModel>>({ it.map { classmate -> classmate.toDomain() } }) {
             httpClient.get(Constants.MESH_API_BASE_DOMAIN_DNEVNIK + Constants.CLASSMATES_ENDPOINT) {
                 url {
                     parameter("class_unit_id", classUnitId)
@@ -103,7 +106,7 @@ class MeshApi : KoinComponent {
 
     suspend fun getRatingClass(
         personId: UUID, date: LocalDate
-    ) = wrapToResourceOrLoading<List<PersonRatingDto>, List<PersonRatingModel>>({ it.map { it.toDomain() } }) {
+    ) = wrapToResourceOrLoading<List<PersonRatingDto>, List<PersonRatingModel>>({ it.map { personRating -> personRating.toDomain() } }) {
         httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.RATING_CLASS_ENDPOINT) {
             url {
                 parameter("personId", personId.toString())

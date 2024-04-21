@@ -1,7 +1,5 @@
 package com.vobbla16.mesh.ui.screens.marksScreen.components
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -28,7 +26,6 @@ import com.vobbla16.mesh.domain.model.marks.Period
 import kotlinx.datetime.LocalDate
 
 @OptIn(ExperimentalLayoutApi::class)
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PeriodCard(period: Period, onClick: (Long) -> Unit, modifier: Modifier = Modifier) {
     val configuration = LocalConfiguration.current
@@ -92,7 +89,6 @@ fun PeriodCard(period: Period, onClick: (Long) -> Unit, modifier: Modifier = Mod
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun PeriodCardPreview1() {

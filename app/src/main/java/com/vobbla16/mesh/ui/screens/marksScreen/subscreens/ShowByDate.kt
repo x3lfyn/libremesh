@@ -1,7 +1,5 @@
 package com.vobbla16.mesh.ui.screens.marksScreen.subscreens
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,7 +21,6 @@ import com.vobbla16.mesh.ui.screens.marksScreen.components.SingleDayCard
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ShowByDate(vm: MarksScreenViewModel) {
     val state = vm.viewState.value

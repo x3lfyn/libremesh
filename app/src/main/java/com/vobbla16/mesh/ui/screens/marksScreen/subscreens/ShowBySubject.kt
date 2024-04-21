@@ -1,7 +1,5 @@
 package com.vobbla16.mesh.ui.screens.marksScreen.subscreens
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,7 +13,6 @@ import com.vobbla16.mesh.ui.screens.marksScreen.components.SubjectCard
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ShowBySubject(vm: MarksScreenViewModel) {
     val state = vm.viewState.value

@@ -1,7 +1,5 @@
 package com.vobbla16.mesh.ui.screens.scheduleScreen
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -63,7 +61,6 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import org.koin.androidx.compose.koinViewModel
 
-@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @RootNavGraph(start = true)

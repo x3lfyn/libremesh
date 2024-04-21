@@ -1,8 +1,6 @@
 package com.vobbla16.mesh.ui.screens.marksScreen.components
 
 import android.annotation.SuppressLint
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,7 +25,6 @@ import com.vobbla16.mesh.ui.screens.marksScreen.localState.MarkWithSubject
 import com.vobbla16.mesh.ui.screens.marksScreen.localState.SingleDayReport
 import kotlinx.datetime.LocalDate
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SingleDayCard(report: SingleDayReport, onClick: (Long) -> Unit, modifier: Modifier = Modifier) {
     val config = LocalConfiguration.current
