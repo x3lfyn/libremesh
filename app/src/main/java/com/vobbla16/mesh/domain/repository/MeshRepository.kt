@@ -13,6 +13,7 @@ import com.vobbla16.mesh.domain.model.ratingClass.anon.PersonRatingModel
 import com.vobbla16.mesh.domain.model.schedule.LessonType
 import com.vobbla16.mesh.domain.model.schedule.ScheduleModel
 import com.vobbla16.mesh.domain.model.shortSchedule.ShortScheduleModel
+import com.vobbla16.mesh.domain.model.subjectMarks.SubjectMarksModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.LocalDate
 import java.util.UUID
@@ -68,4 +69,9 @@ interface MeshRepository {
     suspend fun unmarkHomeworkDone(
         homeworkId: Long
     ): Flow<OrLoading<Resource<HomeworkDoneModel>>>
+
+    suspend fun getMarksForSubject(
+        studentId: Long,
+        subjectId: Long
+    ): Flow<OrLoading<Resource<SubjectMarksModel>>>
 }

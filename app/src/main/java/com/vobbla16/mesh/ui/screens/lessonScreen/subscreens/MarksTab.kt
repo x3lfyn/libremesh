@@ -159,6 +159,7 @@ private fun MarksTabPreview1() {
                 data = baseSample.copy(
                     marks = listOf(
                         Mark(
+                            id = 0,
                             value = 5,
                             comment = null,
                             weight = 1,
@@ -170,6 +171,7 @@ private fun MarksTabPreview1() {
                             updatedAt = LocalDateTime(2022, 12, 12, 13, 13, 12)
                         ),
                         Mark(
+                            id = 0,
                             value = 4,
                             comment = "комментарий к оценке от учителя",
                             weight = 2,
@@ -181,6 +183,7 @@ private fun MarksTabPreview1() {
                             updatedAt = LocalDateTime(2022, 12, 12, 12, 12, 12)
                         ),
                         Mark(
+                            id = 0,
                             value = 5,
                             comment = "meow",
                             weight = 1,

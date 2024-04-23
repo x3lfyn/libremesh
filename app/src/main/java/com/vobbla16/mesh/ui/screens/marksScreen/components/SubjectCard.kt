@@ -122,6 +122,7 @@ fun SubjectCard(
 @Composable
 fun SubjectCardPreview1() {
     val subj = MarksSubjectModel(
+        subjectId = 0,
         subjectName = "Физика",
         average = MarkValue(fiveScale = 4.51f, hundredScale = 90.0f),
         yearMark = 4,
@@ -268,6 +269,7 @@ fun SubjectCardPreview1() {
 @Composable
 fun SubjectCardPreview2() {
     val subj = MarksSubjectModel(
+        subjectId = 0,
         subjectName = "Основы духовно-нравственной культуры народов России",
         average = MarkValue(fiveScale = 4.51f, hundredScale = 90.0f),
         yearMark = 4,
@@ -419,7 +421,8 @@ fun SubjectCardPreview3() {
         yearMark = 4,
         examMark = 5,
         attestationMark = 5,
-        periods = emptyList()
+        periods = emptyList(),
+        subjectId = 0
     )
     SubjectCard(subject = subj, opened = true, onClick = {}, modifier = Modifier.padding(8.dp), onClickMark = {})
 }
@@ -433,6 +436,7 @@ fun SubjectCardPreview4() {
         yearMark = null,
         examMark = null,
         attestationMark = null,
+        subjectId = 0,
         periods = listOf(
             Period(
                 name = "I триместр",

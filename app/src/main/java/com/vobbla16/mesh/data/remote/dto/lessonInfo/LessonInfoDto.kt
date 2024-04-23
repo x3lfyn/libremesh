@@ -102,6 +102,7 @@ fun LessonInfoDto.toDomain() = LessonInfoModel(
     subjectName = subjectName,
     marks = marks.map { mark ->
         com.vobbla16.mesh.domain.model.lessonInfo.Mark(
+            id = mark.id,
             value = mark.value.toInt(),
             weight = mark.weight,
             comment = if (mark.commentExists) mark.comment else null,

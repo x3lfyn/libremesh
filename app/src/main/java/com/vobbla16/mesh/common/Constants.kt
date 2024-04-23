@@ -23,4 +23,5 @@ object Constants {
     const val MARK_INFO_ENDPOINT = "/api/family/web/v1/marks/"
     const val HOMEWORK_DONE_ENDPOINT = "/api/family/web/v1/homeworks/"
     const val HOMEWORK_DONE_ENDPOINT_END = "/done"
+    const val MARKS_FOR_SUBJECT_ENDPOINT = "/api/family/web/v1/subject_marks/for_subject"
 }

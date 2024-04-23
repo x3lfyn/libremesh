@@ -12,6 +12,7 @@ import kotlinx.datetime.toLocalDate
 
 fun List<MarksReportItemDto>.toDomain(): List<MarksSubjectModel> = this.map { subj ->
     MarksSubjectModel(
+        subjectId = subj.subjectId,
         subjectName = subj.subjectName,
         average = MarkValue(subj.avgFive.toFloat(), subj.avgHundred.toFloat()),
         yearMark = subj.yearMark?.toInt(),

@@ -1,8 +1,7 @@
-package com.vobbla16.mesh.domain.model.lessonInfo
+package com.vobbla16.mesh.domain.model.subjectMarks
 
 import com.vobbla16.mesh.ui.screens.marksScreen.components.MarkDefaultValue
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 
 data class Mark(
     val id: Long,
@@ -12,9 +11,7 @@ data class Mark(
     val controlForm: String?,
     val isPoint: Boolean,
     val pointDate: LocalDate?,
-    val isExam: Boolean,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime
+    val isExam: Boolean
 ) {
     fun toMarkDefaultValue() = MarkDefaultValue(
         value, weight, isPoint

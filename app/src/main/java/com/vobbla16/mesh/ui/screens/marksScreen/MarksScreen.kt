@@ -207,7 +207,7 @@ fun MarksScreen(navigator: DestinationsNavigator) {
                 onRetry = { vm.retryOnError() }
             ) {
                 HorizontalPager(state = pagerState) { page ->
-                    Tabs.entries[page].subscreen(vm)
+                    Tabs.entries[page].subscreen(vm, navigator)
                 }
             }
         }

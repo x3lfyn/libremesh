@@ -8,13 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.vobbla16.mesh.ui.screens.destinations.SubjectScreenDestination
 import com.vobbla16.mesh.ui.screens.marksScreen.MarksScreenViewModel
 import com.vobbla16.mesh.ui.screens.marksScreen.components.SubjectCard
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ShowBySubject(vm: MarksScreenViewModel) {
+fun ShowBySubject(vm: MarksScreenViewModel, navigator: DestinationsNavigator) {
     val state = vm.viewState.value
 
     val scope = rememberCoroutineScope()
@@ -27,6 +29,7 @@ fun ShowBySubject(vm: MarksScreenViewModel) {
                     opened = index in state.openedSubjectsIndices,
                     onClick = {
                         vm.toggleSubject(index)
+                        navigator.navigate(SubjectScreenDestination(subjects[index].subjectId))
                     },
                     modifier = Modifier.padding(4.dp, 2.dp),
                     onClickMark = {
