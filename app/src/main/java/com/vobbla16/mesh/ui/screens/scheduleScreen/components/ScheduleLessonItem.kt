@@ -106,6 +106,13 @@ fun ScheduleLessonItem(
 
                 else -> {}
             }
+            if (activity.isMissed) {
+                Text(
+                    text = stringResource(R.string.lesson_skipped),
+                    fontStyle = FontStyle.Italic,
+                    style = MaterialTheme.typography.labelSmall
+                )
+            }
 
             if (activity.marks.isNotEmpty()) {
                 FlowRow(
@@ -136,7 +143,8 @@ private fun ScheduleLessonItemPreview1() {
             teacher = "Иванкова Алла Борисовна",
             marks = listOf(),
             homework = "Учебник страница 123, номер 123,412,1345(б)\nрабочая тетрадь стр 234, номер 412",
-            lessonType = LessonType.OO
+            lessonType = LessonType.OO,
+            isMissed = false
         ),
         onClick = {}
     )
@@ -156,7 +164,8 @@ private fun ScheduleLessonItemPreview2() {
             teacher = "Оченьдлиннов Сергейййййй Иваноооович",
             marks = listOf(),
             homework = "Учебник страница 123, номер 123,412,1345(б)\nрабочая тетрадь стр 234, номер 412 и ещё 200000000 номер череез неделю сдать и ещё раз ляляляляляляляляляляляляляллялялялляллялялляялляял",
-            lessonType = LessonType.OO
+            lessonType = LessonType.OO,
+            isMissed = true
         ),
         onClick = {}
     )
@@ -176,7 +185,8 @@ private fun ScheduleLessonItemPreview3() {
             teacher = null,
             marks = listOf(),
             homework = "Учебник страница 123, номер 123,412,1345(б)\nрабочая тетрадь стр 234, номер 412",
-            lessonType = LessonType.AE
+            lessonType = LessonType.AE,
+            isMissed = false
         ),
         onClick = {}
     )
@@ -196,7 +206,8 @@ private fun ScheduleLessonItemPreview4() {
             teacher = "Оченьдлиннов Сергейййййй Иваноооович",
             marks = listOf(),
             homework = "Учебник страница 123, номер 123,412,1345(б)\nрабочая тетрадь стр 234, номер 412 и ещё 200000000 номер череез неделю сдать и ещё раз ляляляляляляляляляляляляляллялялялляллялялляялляял",
-            lessonType = LessonType.EC
+            lessonType = LessonType.EC,
+            isMissed = true
         ),
         onClick = {}
     )

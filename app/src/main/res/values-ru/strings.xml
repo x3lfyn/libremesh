@@ -45,7 +45,7 @@
     <string name="lesson_screen_description_tab">Описание</string>
     <string name="lesson_screen_marks_tab">Оценки</string>
     <string name="lesson_screen_homework_tab">Домашняя работа</string>
-    <string name="lesson_screen_skipped">пропущен</string>
+    <string name="lesson_skipped">пропущен</string>
     <string name="homework_screen_title">Домашняя работа</string>
     <string name="error_component_retry_btn">Повторить</string>
     <string name="lesson_screen_point_until">Точка до</string>

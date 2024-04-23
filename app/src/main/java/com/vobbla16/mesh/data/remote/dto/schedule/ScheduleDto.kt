@@ -33,6 +33,7 @@ fun ScheduleDto.toDomain(): com.vobbla16.mesh.domain.model.schedule.ScheduleMode
             return@map when (act) {
                 is LessonActivity -> {
                     com.vobbla16.mesh.domain.model.schedule.Activity.Lesson(
+                        isMissed = act.lesson.isMissedLesson,
                         info = act.info.orDefault(),
                         beginTime = act.beginTime.toLocalTime(),
                         endTime = act.endTime.toLocalTime(),

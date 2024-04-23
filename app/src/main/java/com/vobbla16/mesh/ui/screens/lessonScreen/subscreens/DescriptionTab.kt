@@ -57,7 +57,7 @@ fun DescriptionTab(vm: LessonScreenViewModel) {
 
             if (model.isMissed) {
                 Text(
-                    text = stringResource(R.string.lesson_screen_skipped),
+                    text = stringResource(R.string.lesson_skipped),
                     style = MaterialTheme.typography.labelLarge,
                     fontStyle = FontStyle.Italic
                 )

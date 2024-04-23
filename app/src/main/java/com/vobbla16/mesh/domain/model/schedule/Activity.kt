@@ -15,7 +15,8 @@ sealed class Activity {
         val teacher: String?,
         val marks: List<Mark>,
         val homework: String,
-        val lessonType: LessonType
+        val lessonType: LessonType,
+        val isMissed: Boolean
     ) : Activity()
 
     data class Break(
