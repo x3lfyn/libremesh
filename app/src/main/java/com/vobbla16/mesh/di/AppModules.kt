@@ -67,7 +67,7 @@ val appModule = module {
     single { GetLessonInfoUseCase(get()) }
     single { GetClassmatesUseCase(get(), get()) }
     single { GetRatingClassUseCase(get(), get()) }
-    single { GetRatingClassDeanonUseCase(get(), get(), get()) }
+    single { GetRatingClassDeanonUseCase(get(), get()) }
     single { GetShortScheduleUseCase(get()) }
     single { GetHomeworkWithLessonUseCase(get(), get()) }
     single { GetScheduleItemIdFromMarkUseCase(get()) }
