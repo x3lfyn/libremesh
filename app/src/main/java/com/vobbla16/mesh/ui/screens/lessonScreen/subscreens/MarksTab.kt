@@ -198,7 +198,8 @@ private fun MarksTabPreview1() {
                 )
             ),
             selectedLesson = null,
-            currentTab = Tabs.Description
+            currentTab = Tabs.Description,
+            loadingMarkHomeworkIds = emptyList()
         ), onRetry = {}, onRefresh = {})
     }
 }

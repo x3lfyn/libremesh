@@ -53,4 +53,6 @@
     <string name="lesson_screen_mark_exam">Exam</string>
     <string name="lesson_screen_no_homework">No homework</string>
     <string name="date_picker_button_text_placeholder">Date</string>
+    <string name="failed_to_mark_homework_done">Failed to mark homework done: %1$s</string>
+    <string name="failed_to_mark_homework_undone">Failed to mark homework undone: %1$s</string>
 </resources>

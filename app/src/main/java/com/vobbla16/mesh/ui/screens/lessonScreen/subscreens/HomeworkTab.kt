@@ -7,24 +7,25 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.vobbla16.mesh.LocalMainVM
 import com.vobbla16.mesh.R
 import com.vobbla16.mesh.domain.model.lessonInfo.AdditionalMaterial
 import com.vobbla16.mesh.domain.model.lessonInfo.Homework
@@ -43,7 +44,7 @@ fun HomeworkTab(vm: LessonScreenViewModel) {
         state = state,
         onRefresh = { vm.refresh() },
         onRetry = { vm.retry() },
-        LocalMainVM.current.viewState.value.snackbarHostState
+        onToggleDone = { vm.toggleDone(it) },
     )
 }
 
@@ -52,7 +53,7 @@ fun HomeworkTabUI(
     state: LessonScreenState,
     onRefresh: () -> Unit,
     onRetry: () -> Unit,
-    snackbarHostState: SnackbarHostState
+    onToggleDone: (Homework) -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -68,12 +69,16 @@ fun HomeworkTabUI(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Checkbox(
-                        checked = homework.isDone,
-                        onCheckedChange = {
-                            scope.launch { snackbarHostState.showSnackbar("Not yet implemented") }
-                        }
-                    )
+                    if(homework.id in state.loadingMarkHomeworkIds){
+                        CircularProgressIndicator(modifier = Modifier.scale(0.6f).size(48.dp))
+                    } else {
+                        Checkbox(
+                            checked = homework.isDone,
+                            onCheckedChange = {
+                                onToggleDone(homework)
+                            }
+                        )
+                    }
                     Text(text = homework.name)
                 }
                 homework.additionMaterials.forEach { material ->
@@ -110,7 +115,7 @@ fun HomeworkTabUI(
                     }
                 }
                 if (index != model.homeworks.size - 1) {
-                    HorizontalDivider(modifier = Modifier.padding(6.dp, 2.dp))
+                    HorizontalDivider(modifier = Modifier.padding(3.dp, 2.dp))
                 }
             }
         }
@@ -137,7 +142,8 @@ private fun HomeworkTabPreview1() {
             Homework(
                 name = "домашнее задание 1",
                 isDone = true,
-                additionMaterials = emptyList()
+                additionMaterials = emptyList(),
+                id = 1
             ),
             Homework(
                 name = "длинное название длинное название длинное название длинное название длинное название длинное название длинное название длинное название длинное название длинное название длинное название",
@@ -147,7 +153,8 @@ private fun HomeworkTabPreview1() {
                         links = listOf("https://ya.ru")
                     )
                 ),
-                isDone = false
+                isDone = false,
+                id = 1
             )
         )
     )
@@ -156,8 +163,9 @@ private fun HomeworkTabPreview1() {
         HomeworkTabUI(state = LessonScreenState(
             lessonInfo = GenericHolder(data = sample),
             selectedLesson = null,
-            currentTab = Tabs.Description
-        ), onRefresh = {}, onRetry = {}, snackbarHostState = SnackbarHostState()
+            currentTab = Tabs.Description,
+            loadingMarkHomeworkIds = emptyList()
+        ), onRefresh = {}, onRetry = {}, onToggleDone = {}
         )
     }
 }

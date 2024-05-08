@@ -93,7 +93,7 @@ val appModule = module {
         MainActivityViewModel()
     }
     viewModel {
-        LessonScreenViewModel(get())
+        LessonScreenViewModel(get(), get())
     }
     viewModel {
         SubjectScreenViewModel(get())

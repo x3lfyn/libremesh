@@ -53,4 +53,6 @@
     <string name="lesson_screen_mark_updated_at">Обновлена:</string>
     <string name="lesson_screen_mark_exam">Экзамен</string>
     <string name="lesson_screen_no_homework">Нет задания</string>
+    <string name="failed_to_mark_homework_done">"Невозможно пометить Д/З выполненным: %1$s "</string>
+    <string name="failed_to_mark_homework_undone">"Невозможно пометить Д/З невыполненным: %1$s "</string>
 </resources>

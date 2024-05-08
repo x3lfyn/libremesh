@@ -7,6 +7,7 @@ import com.vobbla16.mesh.ui.genericHolder.GenericHolder
 
 data class LessonScreenState(
     val lessonInfo: GenericHolder<LessonInfoModel>,
+    val loadingMarkHomeworkIds: List<Long>,
     val selectedLesson: LessonSelector?,
     val currentTab: Tabs
 ): ViewState

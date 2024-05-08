@@ -26,10 +26,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
@@ -42,6 +44,10 @@ import com.vobbla16.mesh.LocalMainVM
 import com.vobbla16.mesh.R
 import com.vobbla16.mesh.common.toHumanStr
 import com.vobbla16.mesh.domain.model.common.LessonSelector
+import com.vobbla16.mesh.ui.screens.destinations.LoginScreenDestination
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -55,11 +61,43 @@ fun LessonScreen(
     val mainVM = LocalMainVM.current
     val vm: LessonScreenViewModel = koinViewModel()
     val state = vm.viewState.value
+    val ctx = LocalContext.current
 
     LaunchedEffect(key1 = Unit) {
         mainVM.showBottomBar()
         vm.setSelectedLesson(lessonSelector)
         vm.changeTab(openTab.tab)
+    }
+
+    val vmActionsScope = rememberCoroutineScope()
+    LaunchedEffect(key1 = vm.action) {
+        vmActionsScope.launch {
+            vm.action.onEach { action ->
+                when (action) {
+                    is LessonScreenAction.NavigateToLoginScreen -> {
+                        navigator.navigate(LoginScreenDestination)
+                    }
+
+                    is LessonScreenAction.ErrorHomeworkMarkDone -> {
+                        mainVM.viewState.value.snackbarHostState.showSnackbar(
+                            ctx.getString(
+                                R.string.failed_to_mark_homework_done,
+                                action.err
+                            )
+                        )
+                    }
+
+                    is LessonScreenAction.ErrorHomeworkMarkUndone -> {
+                        mainVM.viewState.value.snackbarHostState.showSnackbar(
+                            ctx.getString(
+                                R.string.failed_to_mark_homework_undone,
+                                action.err
+                            )
+                        )
+                    }
+                }
+            }.collect()
+        }
     }
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()

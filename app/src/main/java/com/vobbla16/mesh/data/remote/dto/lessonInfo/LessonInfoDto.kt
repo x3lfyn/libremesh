@@ -64,6 +64,7 @@ fun LessonInfoDto.toDomain() = LessonInfoModel(
     teacher = teacher?.let { "${it.lastName} ${it.firstName} ${it.middleName}" },
     homeworks = lessonHomeworks.map { homework ->
         Homework(
+            id = homework.homeworkEntryStudentId,
             name = homework.homework,
             isDone = homework.isDone,
             additionMaterials = homework.additionalMaterials.map {material ->
