@@ -65,7 +65,7 @@ fun LessonInfoDto.toDomain() = LessonInfoModel(
     homeworks = lessonHomeworks.map { homework ->
         Homework(
             id = homework.homeworkEntryStudentId,
-            name = homework.homework,
+            name = homework.homework.trim(),
             isDone = homework.isDone,
             additionMaterials = homework.additionalMaterials.map {material ->
                 when(material) {
