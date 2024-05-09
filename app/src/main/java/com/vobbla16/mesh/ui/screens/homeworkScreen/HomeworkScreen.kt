@@ -5,7 +5,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -77,7 +81,7 @@ fun HomeworkScreen(
             onRetry = { vm.retryOnError() },
             modifier = Modifier.padding(paddingValues)
         ) {
-            HomeworkScreenUI(it, state.loadingDoneIds, mainVM.viewState.value.snackbarHostState, navigator) { homeworkItem ->
+            HomeworkScreenUI(it, state.loadingDoneIds, navigator) { homeworkItem ->
                 vm.toggleDone(homeworkItem)
             }
         }
@@ -88,7 +92,6 @@ fun HomeworkScreen(
 fun HomeworkScreenUI(
     data: List<HomeworkItemsForDateWithLessonModel>,
     loadingDoneIds: List<Long>,
-    snackbarHostState: SnackbarHostState,
     navigator: DestinationsNavigator,
     onCheckDone: (HomeworkItem) -> Unit
 ) {
@@ -97,7 +100,6 @@ fun HomeworkScreenUI(
             HomeworkItemsForDateCard(
                 data = item,
                 modifier = Modifier.padding(4.dp),
-                snackbarHostState = snackbarHostState,
                 onClick = {
                     navigator.navigate(
                         LessonScreenDestination(

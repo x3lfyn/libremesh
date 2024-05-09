@@ -3,7 +3,7 @@ package com.vobbla16.mesh.data.remote.dto.schedule
 
 import com.vobbla16.mesh.common.Constants
 import com.vobbla16.mesh.common.orDefault
-import com.vobbla16.mesh.common.secsToLocalTime
+import com.vobbla16.mesh.common.secsToLocalDateTime
 import com.vobbla16.mesh.domain.model.schedule.LessonType
 import com.vobbla16.mesh.domain.model.schedule.Mark
 import kotlinx.datetime.toLocalDate
@@ -62,8 +62,8 @@ fun ScheduleDto.toDomain(): com.vobbla16.mesh.domain.model.schedule.ScheduleMode
                 is BreakActivity -> {
                     com.vobbla16.mesh.domain.model.schedule.Activity.Break(
                         info = act.info ?: Constants.DEFAULT_STRING,
-                        beginTime = act.beginUtc.secsToLocalTime().time,
-                        endTime = act.endUtc.secsToLocalTime().time,
+                        beginTime = secsToLocalDateTime(act.beginUtc).time,
+                        endTime = secsToLocalDateTime(act.endUtc).time,
                         duration = act.duration.toDuration(DurationUnit.SECONDS)
                     )
                 }

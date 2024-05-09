@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vobbla16.mesh.R
-import com.vobbla16.mesh.common.structures.toHumanStr
+import com.vobbla16.mesh.common.toStr
 import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
 import com.vobbla16.mesh.domain.model.lessonInfo.Mark
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
@@ -81,7 +81,7 @@ fun MarksTabUI(state: LessonScreenState, onRetry: () -> Unit, onRefresh: () -> U
                             }
                             mark.pointDate?.let { pointDate ->
                                 Text(
-                                    text = "${stringResource(R.string.lesson_screen_point_until)} ${pointDate.dayOfMonth}.${pointDate.monthNumber}.${pointDate.year}",
+                                    text = "${stringResource(R.string.lesson_screen_point_until)} ${pointDate.toStr()}",
                                     style = MaterialTheme.typography.labelMedium
                                 )
                             }
@@ -110,12 +110,12 @@ fun MarksTabUI(state: LessonScreenState, onRetry: () -> Unit, onRefresh: () -> U
                         )
                     }
                     Text(
-                        text = "${stringResource(R.string.lesson_screen_mark_created_at)} ${mark.createdAt.toHumanStr()}",
+                        text = "${stringResource(R.string.lesson_screen_mark_created_at)} ${mark.createdAt.toStr()}",
                         style = MaterialTheme.typography.labelMedium
                     )
                     if (mark.createdAt != mark.updatedAt) {
                         Text(
-                            text = "${stringResource(R.string.lesson_screen_mark_updated_at)} ${mark.updatedAt.toHumanStr()}",
+                            text = "${stringResource(R.string.lesson_screen_mark_updated_at)} ${mark.updatedAt.toStr()}",
                             style = MaterialTheme.typography.labelMedium
                         )
                     }

@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vobbla16.mesh.common.Constants
-import com.vobbla16.mesh.common.toHumanStr
+import com.vobbla16.mesh.common.toShortLocalizedStr
 import com.vobbla16.mesh.domain.model.marks.GradeType
 import com.vobbla16.mesh.domain.model.marks.Mark
 import com.vobbla16.mesh.domain.model.marks.MarkValue
@@ -31,7 +31,7 @@ fun SingleDayCard(report: SingleDayReport, onClick: (Long) -> Unit, modifier: Mo
 
     Card(modifier) {
         Text(
-            text = report.date.toHumanStr(config),
+            text = report.date.toShortLocalizedStr(config),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(6.dp)
         )

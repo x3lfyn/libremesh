@@ -42,7 +42,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.vobbla16.mesh.LocalMainVM
 import com.vobbla16.mesh.R
-import com.vobbla16.mesh.common.toHumanStr
+import com.vobbla16.mesh.common.toShortLocalizedStr
 import com.vobbla16.mesh.domain.model.common.LessonSelector
 import com.vobbla16.mesh.ui.screens.destinations.LoginScreenDestination
 import kotlinx.coroutines.flow.collect
@@ -130,7 +130,7 @@ fun LessonScreen(
         ) {
             state.lessonInfo.data?.let { model ->
                 Text(
-                    text = model.beginTime.date.toHumanStr(LocalConfiguration.current),
+                    text = model.beginTime.date.toShortLocalizedStr(LocalConfiguration.current),
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )

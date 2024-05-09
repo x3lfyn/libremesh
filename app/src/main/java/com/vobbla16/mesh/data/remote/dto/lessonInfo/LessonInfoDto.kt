@@ -2,7 +2,7 @@ package com.vobbla16.mesh.data.remote.dto.lessonInfo
 
 
 import com.vobbla16.mesh.common.orDefault
-import com.vobbla16.mesh.common.secsToLocalTime
+import com.vobbla16.mesh.common.secsToLocalDateTime
 import com.vobbla16.mesh.data.remote.dto.schedule.Mark
 import com.vobbla16.mesh.domain.model.lessonInfo.Homework
 import com.vobbla16.mesh.domain.model.lessonInfo.LessonInfoModel
@@ -58,8 +58,8 @@ data class LessonInfoDto(
 
 fun LessonInfoDto.toDomain() = LessonInfoModel(
     id = id,
-    beginTime =  beginUtc.secsToLocalTime(),
-    endTime = endUtc.secsToLocalTime(),
+    beginTime =  secsToLocalDateTime(beginUtc),
+    endTime = secsToLocalDateTime(endUtc),
     subjectId = subjectId,
     teacher = teacher?.let { "${it.lastName} ${it.firstName} ${it.middleName}" },
     homeworks = lessonHomeworks.map { homework ->

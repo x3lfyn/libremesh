@@ -43,9 +43,9 @@ import com.ramcosta.composedestinations.result.ResultRecipient
 import com.vobbla16.mesh.LocalMainVM
 import com.vobbla16.mesh.R
 import com.vobbla16.mesh.common.localDateTimeNow
-import com.vobbla16.mesh.common.secsToLocalTime
+import com.vobbla16.mesh.common.secsToLocalDateTime
 import com.vobbla16.mesh.common.toEpochSecond
-import com.vobbla16.mesh.common.toHumanStr
+import com.vobbla16.mesh.common.toShortLocalizedStr
 import com.vobbla16.mesh.domain.model.schedule.Activity
 import com.vobbla16.mesh.domain.model.schedule.toLessonSelector
 import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolderContainer
@@ -115,7 +115,7 @@ fun ScheduleScreen(
         topBar = {
             TopAppBar(title = {
                 Text(
-                    text = state.selectedDate.toHumanStr(
+                    text = state.selectedDate.toShortLocalizedStr(
                         LocalConfiguration.current
                     )
                 )
@@ -160,7 +160,7 @@ fun ScheduleScreen(
                         TextButton(
                             onClick = {
                                 vm.updateDate(
-                                    (datePickerState.selectedDateMillis!! / 1000).secsToLocalTime().date
+                                    secsToLocalDateTime(datePickerState.selectedDateMillis!! / 1000).date
                                 )
                                 vm.updateDatePickerOpened(false)
                             }, enabled = confirmEnabled.value

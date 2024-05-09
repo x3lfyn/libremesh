@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vobbla16.mesh.R
-import com.vobbla16.mesh.common.toHumanStr
+import com.vobbla16.mesh.common.toShortLocalizedStr
 import com.vobbla16.mesh.domain.model.marks.GradeType
 import com.vobbla16.mesh.domain.model.marks.Mark
 import com.vobbla16.mesh.domain.model.marks.MarkValue
@@ -42,8 +42,8 @@ fun PeriodCard(period: Period, onClick: (Long) -> Unit, modifier: Modifier = Mod
 
             Text(
                 text =
-                "${period.startDate.toHumanStr(configuration)} - " +
-                        period.endDate.toHumanStr(configuration)
+                "${period.startDate.toShortLocalizedStr(configuration)} - " +
+                        period.endDate.toShortLocalizedStr(configuration)
             )
         }
 
