@@ -37,7 +37,9 @@ fun ShowRating(vm: MarksScreenViewModel) {
 
                 val uriHandler = LocalUriHandler.current
                 val banner = buildAnnotatedString {
-                    append("Currently, deanonymization feature is broken. See ")
+                    withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.onSurface)) {
+                        append("Currently, deanonymization feature is broken. See ")
+                    }
                     pushStringAnnotation("issue", "https://github.com/x3lfyn/libremesh/issues/18")
                     withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
                         append("issue#18")
@@ -50,7 +52,7 @@ fun ShowRating(vm: MarksScreenViewModel) {
                     banner.getStringAnnotations("issue", it, it).firstOrNull()?.let { stringAnnotation ->
                         uriHandler.openUri(stringAnnotation.item)
                     }
-                }, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(4.dp).fillMaxWidth())
+                }, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(8.dp, 4.dp).fillMaxWidth())
             }
             items(rating) {
                 ClassRatingItemCard(

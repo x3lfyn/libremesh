@@ -1,9 +1,6 @@
 package com.vobbla16.mesh.ui.screens.marksScreen.components
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -17,10 +14,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,9 +31,7 @@ import kotlinx.datetime.LocalDate
 @Composable
 fun SubjectCard(
     subject: MarksSubjectModel,
-    opened: Boolean,
     onClick: () -> Unit,
-    onClickMark: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     OutlinedCard(modifier = modifier.fillMaxWidth(), onClick = onClick) {
@@ -86,14 +79,9 @@ fun SubjectCard(
             }
 
             if (subject.periods.isNotEmpty()) {
-                val rotationDegree: Float by animateFloatAsState(
-                    if (opened) 90f else 0f, label = "is opened indicator"
-                )
-
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = "arrow icon",
-                    modifier = Modifier.rotate(rotationDegree)
+                    contentDescription = "arrow icon"
                 )
             } else {
                 Text(
@@ -101,18 +89,6 @@ fun SubjectCard(
                     style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier.padding(4.dp, 0.dp)
                 )
-            }
-        }
-
-
-        AnimatedVisibility(visible = opened) {
-            Column {
-                subject.periods.reversed().forEach { period ->
-                    PeriodCard(
-                        period = period, modifier = Modifier.padding(4.dp),
-                        onClick = onClickMark
-                    )
-                }
             }
         }
     }
@@ -262,7 +238,7 @@ fun SubjectCardPreview1() {
             )
         )
     )
-    SubjectCard(subject = subj, opened = false, onClick = {}, modifier = Modifier.padding(8.dp), onClickMark = {})
+    SubjectCard(subject = subj, onClick = {}, modifier = Modifier.padding(8.dp))
 }
 
 @Preview(showBackground = true)
@@ -409,7 +385,7 @@ fun SubjectCardPreview2() {
             )
         )
     )
-    SubjectCard(subject = subj, opened = true, onClick = {}, modifier = Modifier.padding(8.dp), onClickMark = {})
+    SubjectCard(subject = subj, onClick = {}, modifier = Modifier.padding(8.dp))
 }
 
 @Preview(showBackground = true)
@@ -424,7 +400,7 @@ fun SubjectCardPreview3() {
         periods = emptyList(),
         subjectId = 0
     )
-    SubjectCard(subject = subj, opened = true, onClick = {}, modifier = Modifier.padding(8.dp), onClickMark = {})
+    SubjectCard(subject = subj, onClick = {}, modifier = Modifier.padding(8.dp))
 }
 
 @Preview(showBackground = true)
@@ -506,5 +482,5 @@ fun SubjectCardPreview4() {
             )
         )
     )
-    SubjectCard(subject = subj, opened = false, onClick = {}, modifier = Modifier.padding(8.dp), onClickMark = {})
+    SubjectCard(subject = subj, onClick = {}, modifier = Modifier.padding(8.dp))
 }

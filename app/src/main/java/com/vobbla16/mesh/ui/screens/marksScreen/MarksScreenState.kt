@@ -17,7 +17,6 @@ data class MarksScreenState(
     val ratingClass: GenericHolder<RatingClass>,
 
     val selectedTabIndex: Int,
-    val openedSubjectsIndices: List<Int>,
     val dataGroupedByDate: List<SingleDayReport>?,
 
     val anonymousRating: Boolean

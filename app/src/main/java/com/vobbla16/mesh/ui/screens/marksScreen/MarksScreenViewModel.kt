@@ -25,7 +25,6 @@ class MarksScreenViewModel(
     override fun setInitialState(): MarksScreenState = MarksScreenState(
         marksData = GenericHolder(),
         selectedTabIndex = 0,
-        openedSubjectsIndices = emptyList(),
         dataGroupedByDate = null,
         ratingClass = GenericHolder(),
         anonymousRating = true
@@ -34,32 +33,6 @@ class MarksScreenViewModel(
     init {
         getMarksReport(false)
         getRatingClass()
-    }
-
-//    fun switchTab(selectedTabIndex: Int) {
-//        setState { reduceOtherState { copy(selectedTabIndex = selectedTabIndex) } }
-//    }
-
-    fun toggleSubject(tabIndex: Int) {
-        if (tabIndex in viewState.value.openedSubjectsIndices) {
-            setState {
-                copy(
-                    openedSubjectsIndices = viewState.value.openedSubjectsIndices.minus(
-                        tabIndex
-                    )
-                )
-
-            }
-        } else {
-            setState {
-                copy(
-                    openedSubjectsIndices = viewState.value.openedSubjectsIndices.plus(
-                        tabIndex
-                    )
-                )
-
-            }
-        }
     }
 
     fun refreshData() = getMarksReport(true)
