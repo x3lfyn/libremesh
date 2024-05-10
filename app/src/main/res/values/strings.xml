@@ -25,7 +25,7 @@
     <string name="profile_screen_school_head">Principal</string>
     <string name="profile_screen_school_telephone">Telephone:</string>
     <string name="profile_screen_section_sections">Sections</string>
-    <string name="marks_screen_failed_to_open_lesson">Cannot open lesson</string>
+    <string name="failed_to_open_lesson">Cannot open lesson</string>
     <string name="marks_screen_title">Marks</string>
     <string name="marks_screen_dropdown_arrange_by">Arrange by</string>
     <string name="marks_screen_dropdown_by_date">Date</string>

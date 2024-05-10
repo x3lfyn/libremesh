@@ -73,7 +73,7 @@ fun MarksScreen(navigator: DestinationsNavigator) {
 
                     MarksScreenAction.FailedToOpenInfo -> {
                         mainVM.viewState.value.snackbarHostState.showSnackbar(
-                            context.getString(R.string.marks_screen_failed_to_open_lesson)
+                            context.getString(R.string.failed_to_open_lesson)
                         )
                     }
 

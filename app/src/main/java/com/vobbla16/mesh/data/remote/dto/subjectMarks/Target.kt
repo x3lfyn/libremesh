@@ -11,7 +11,7 @@ data class Target(
     @SerialName("remain")
     val remain: Int,
     @SerialName("round")
-    val round: String,
+    val round: String? = null,
     @SerialName("value")
     val value: Int
 )
