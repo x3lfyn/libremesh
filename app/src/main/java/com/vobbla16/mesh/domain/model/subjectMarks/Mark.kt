@@ -14,6 +14,6 @@ data class Mark(
     val isExam: Boolean
 ) {
     fun toMarkDefaultValue() = MarkDefaultValue(
-        value, weight, isPoint
+        value, weight, isPoint, !comment.isNullOrEmpty()
     )
 }

@@ -17,6 +17,6 @@ data class Mark(
     val updatedAt: LocalDateTime
 ) {
     fun toMarkDefaultValue() = MarkDefaultValue(
-        value, weight, isPoint
+        value, weight, isPoint, !comment.isNullOrEmpty()
     )
 }

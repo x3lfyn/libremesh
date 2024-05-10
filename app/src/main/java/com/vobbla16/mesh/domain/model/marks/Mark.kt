@@ -19,6 +19,7 @@ data class Mark(
     fun toMarkDefaultValue() = MarkDefaultValue(
         value = value.fiveScale.toInt(),
         weight = weight,
-        isPoint = isPoint
+        isPoint = isPoint,
+        commentExists = !comment.isNullOrEmpty()
     )
 }

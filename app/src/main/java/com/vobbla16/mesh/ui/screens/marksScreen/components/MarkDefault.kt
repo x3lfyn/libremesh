@@ -1,6 +1,7 @@
 package com.vobbla16.mesh.ui.screens.marksScreen.components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -8,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -15,6 +17,7 @@ import com.vobbla16.mesh.domain.model.marks.GradeType
 import com.vobbla16.mesh.domain.model.marks.Mark
 import com.vobbla16.mesh.domain.model.marks.MarkValue
 import kotlinx.datetime.LocalDate
+import com.vobbla16.mesh.R
 
 @Composable
 fun MarkDefault(
@@ -26,7 +29,8 @@ fun MarkDefault(
         Box(
             Modifier
                 .height(size.size)
-                .widthIn(size.size, Dp.Infinity)) {
+                .widthIn(size.size, Dp.Infinity)
+        ) {
             Text(
                 text = mark.value.toString(),
                 modifier = Modifier
@@ -64,19 +68,29 @@ fun MarkDefault(
                     color = MaterialTheme.colorScheme.error
                 )
             }
+            if (mark.commentExists) {
+                val offX = ((-13).dp) + if(size == MarkDefaultSize.Default) 4.dp else 0.dp
+                val offY = (size.size / 2f) + if(size == MarkDefaultSize.Default) 4.dp else 0.dp
+                Icon(
+                    painterResource(id = R.drawable.comment_24dp),
+                    contentDescription = "comment exists",
+                    modifier = Modifier.scale(0.45f).offset(offX, offY)
+                )
+            }
         }
     }
 }
 
 enum class MarkDefaultSize(val size: Dp) {
     Default(48.dp),
-    Small(38.dp)
+    Small(40.dp)
 }
 
 data class MarkDefaultValue(
     val value: Number,
     val weight: Int?,
-    val isPoint: Boolean
+    val isPoint: Boolean,
+    val commentExists: Boolean = false
 )
 
 @Preview(
@@ -86,7 +100,7 @@ data class MarkDefaultValue(
 @Composable
 fun MarkDefaultPreview1() {
     val mark = Mark(
-        comment = null,
+        comment = "1234",
         controlFormName = "Самостоятельная работа",
         date = LocalDate(2022, 12, 28),
         gradeType = GradeType.Five,
@@ -101,12 +115,12 @@ fun MarkDefaultPreview1() {
 }
 
 @Preview(
-    showBackground = true, device = "spec:width=1080px,height=2340px,dpi=160"
+    showBackground = true, device = "spec:width=1080px,height=2340px,dpi=440"
 )
 @Composable
 fun MarkDefaultPreview2() {
     val mark = Mark(
-        comment = null,
+        comment = "123",
         controlFormName = "Самостоятельная работа",
         date = LocalDate(2022, 12, 28),
         gradeType = GradeType.Five,
@@ -126,8 +140,9 @@ fun MarkDefaultPreview2() {
 )
 @Composable
 fun MarkDefaultPreview3() {
-    MarkDefault(mark = MarkDefaultValue(
-        4.66, null, false
-    ), size = MarkDefaultSize.Small
+    MarkDefault(
+        mark = MarkDefaultValue(
+            4.66, null, false
+        ), size = MarkDefaultSize.Small
     )
 }

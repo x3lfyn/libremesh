@@ -6,10 +6,11 @@ data class Mark(
     val id: Long,
     val value: String,
     val weight: Int,
-    val isPoint: Boolean
+    val isPoint: Boolean,
+    val comment: String?
 ) {
     fun toMarkDefaultValue() = MarkDefaultValue(
         value.toInt(),
-        weight, isPoint
+        weight, isPoint, !comment.isNullOrEmpty()
     )
 }
