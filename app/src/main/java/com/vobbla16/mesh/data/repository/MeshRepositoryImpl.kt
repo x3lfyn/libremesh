@@ -61,11 +61,12 @@ class MeshRepositoryImpl : MeshRepository {
         classUnitId
     )
 
-    override suspend fun getRatingClass(
+    override suspend fun getClassRating(
         personId: UUID,
-        date: LocalDate
-    ): Flow<OrLoading<Resource<List<PersonRatingModel>>>> = meshApi.getRatingClass(
-        personId, date
+        date: LocalDate,
+        subjectId: Long?
+    ): Flow<OrLoading<Resource<List<PersonRatingModel>>>> = meshApi.getClassRating(
+        personId, date, subjectId
     )
 
     override suspend fun getShortSchedule(

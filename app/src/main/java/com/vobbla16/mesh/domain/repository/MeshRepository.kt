@@ -48,9 +48,10 @@ interface MeshRepository {
         classUnitId: Long
     ): Flow<OrLoading<Resource<List<ClassmateModel>>>>
 
-    suspend fun getRatingClass(
+    suspend fun getClassRating(
         personId: UUID,
-        date: LocalDate
+        date: LocalDate,
+        subjectId: Long? = null
     ): Flow<OrLoading<Resource<List<PersonRatingModel>>>>
 
     suspend fun getShortSchedule(

@@ -25,6 +25,7 @@ data class SubjectMarksDto(
     val yearMark: String? = null
 ) {
     fun toDomain() = SubjectMarksModel(
+        subjectId = subjectId,
         subjectName = subjectName,
         periods = periods.map { period ->
             com.vobbla16.mesh.domain.model.subjectMarks.Period(

@@ -13,12 +13,14 @@ import com.vobbla16.mesh.domain.use_case.GetHomeworkWithLessonUseCase
 import com.vobbla16.mesh.domain.use_case.GetLessonInfoUseCase
 import com.vobbla16.mesh.domain.use_case.GetMarksForSubjectUseCase
 import com.vobbla16.mesh.domain.use_case.GetMarksReportUseCase
-import com.vobbla16.mesh.domain.use_case.GetRatingClassDeanonUseCase
-import com.vobbla16.mesh.domain.use_case.GetRatingClassUseCase
+import com.vobbla16.mesh.domain.use_case.GetOverallRatingDeanonUseCase
+import com.vobbla16.mesh.domain.use_case.GetOverallRatingUseCase
 import com.vobbla16.mesh.domain.use_case.GetScheduleItemIdFromMarkUseCase
 import com.vobbla16.mesh.domain.use_case.GetScheduleUseCase
 import com.vobbla16.mesh.domain.use_case.GetShortScheduleUseCase
 import com.vobbla16.mesh.domain.use_case.GetStudentUseCase
+import com.vobbla16.mesh.domain.use_case.GetSubjectRatingDeanonUseCase
+import com.vobbla16.mesh.domain.use_case.GetSubjectRatingUseCase
 import com.vobbla16.mesh.domain.use_case.GetTokenUseCase
 import com.vobbla16.mesh.domain.use_case.LogOutUseCase
 import com.vobbla16.mesh.domain.use_case.MarkHomeworkDoneUseCase
@@ -66,13 +68,15 @@ val appModule = module {
     single { GetStudentUseCase(get()) }
     single { GetLessonInfoUseCase(get()) }
     single { GetClassmatesUseCase(get(), get()) }
-    single { GetRatingClassUseCase(get(), get()) }
-    single { GetRatingClassDeanonUseCase(get(), get()) }
+    single { GetOverallRatingUseCase(get(), get()) }
+    single { GetOverallRatingDeanonUseCase(get(), get()) }
     single { GetShortScheduleUseCase(get()) }
     single { GetHomeworkWithLessonUseCase(get(), get()) }
     single { GetScheduleItemIdFromMarkUseCase(get()) }
     single { MarkHomeworkDoneUseCase(get()) }
     single { GetMarksForSubjectUseCase(get()) }
+    single { GetSubjectRatingUseCase(get(), get()) }
+    single { GetSubjectRatingDeanonUseCase(get(), get()) }
 
     viewModel {
         ScheduleScreenViewModel(get())
@@ -96,6 +100,6 @@ val appModule = module {
         LessonScreenViewModel(get(), get())
     }
     viewModel {
-        SubjectScreenViewModel(get(), get())
+        SubjectScreenViewModel(get(), get(), get())
     }
 }

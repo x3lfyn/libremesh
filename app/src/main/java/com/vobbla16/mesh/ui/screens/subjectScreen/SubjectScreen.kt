@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
@@ -36,6 +38,7 @@ import com.vobbla16.mesh.ui.commonComponents.genericHolderContainer.GenericHolde
 import com.vobbla16.mesh.ui.screens.destinations.LessonScreenDestination
 import com.vobbla16.mesh.ui.screens.destinations.LoginScreenDestination
 import com.vobbla16.mesh.ui.screens.lessonScreen.OpenTab
+import com.vobbla16.mesh.ui.screens.marksScreen.components.ClassRatingItemCard
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -145,7 +148,20 @@ fun SubjectScreen(
                 HorizontalPager(state = pagerState) { page ->
                     when {
                         page == data.periods.size -> {
-                            Text(text = "rating goes here")
+                            GenericHolderContainer(
+                                holder = state.rating,
+                                onRefresh = { vm.onRefresh() },
+                                onRetry = { vm.onRetry() }
+                            ) { rating->
+                                LazyColumn {
+                                    items(rating) { personRating ->
+                                        ClassRatingItemCard(
+                                            item = personRating,
+                                            modifier = Modifier.padding(6.dp)
+                                        )
+                                    }
+                                }
+                            }
                         }
 
                         else -> {

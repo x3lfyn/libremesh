@@ -5,8 +5,8 @@ import com.vobbla16.mesh.common.mergeIfOk
 import com.vobbla16.mesh.domain.model.classmates.ClassmateModel
 import java.util.UUID
 
-class GetRatingClassDeanonUseCase(
-    private val getRatingClassUseCase: GetRatingClassUseCase,
+class GetOverallRatingDeanonUseCase(
+    private val getOverallRatingUseCase: GetOverallRatingUseCase,
     private val getStudentUseCase: GetStudentUseCase
 ) {
 //    suspend operator fun invoke() =
@@ -29,7 +29,7 @@ class GetRatingClassDeanonUseCase(
 //        }
     suspend operator fun invoke() =
         mergeIfOk(getStudentUseCase()) { currentStudent ->
-            getRatingClassUseCase().mapIfOk { rating ->
+            getOverallRatingUseCase().mapIfOk { rating ->
                 rating.map {
                     Triple(it, ClassmateModel(UUID.randomUUID(), firstName = "Unknown", lastName = "Unknown", middleName = "Unknown"), it.personId == currentStudent.children[0].contingentGuid)
                 }

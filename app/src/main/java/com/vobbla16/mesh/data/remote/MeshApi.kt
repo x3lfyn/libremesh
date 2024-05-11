@@ -106,13 +106,16 @@ class MeshApi : KoinComponent {
             }
         }
 
-    suspend fun getRatingClass(
-        personId: UUID, date: LocalDate
+    suspend fun getClassRating(
+        personId: UUID, date: LocalDate, subjectId: Long?
     ) = wrapToResourceOrLoading<List<PersonRatingDto>, List<PersonRatingModel>>({ it.map { personRating -> personRating.toDomain() } }) {
         httpClient.get(Constants.MESH_API_BASE_DOMAIN_SCHOOL + Constants.RATING_CLASS_ENDPOINT) {
             url {
                 parameter("personId", personId.toString())
                 parameter("date", date.toString())
+                if (subjectId != null) {
+                    parameter("subjectId", subjectId.toString())
+                }
             }
         }
     }

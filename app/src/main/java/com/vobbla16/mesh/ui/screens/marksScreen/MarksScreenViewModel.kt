@@ -7,7 +7,7 @@ import com.vobbla16.mesh.common.structures.Resource
 import com.vobbla16.mesh.domain.model.common.LessonSelector
 import com.vobbla16.mesh.domain.model.schedule.LessonType
 import com.vobbla16.mesh.domain.use_case.GetMarksReportUseCase
-import com.vobbla16.mesh.domain.use_case.GetRatingClassDeanonUseCase
+import com.vobbla16.mesh.domain.use_case.GetOverallRatingDeanonUseCase
 import com.vobbla16.mesh.domain.use_case.GetScheduleItemIdFromMarkUseCase
 import com.vobbla16.mesh.ui.BaseViewModel
 import com.vobbla16.mesh.ui.genericHolder.GenericHolder
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 @ExperimentalFoundationApi
 class MarksScreenViewModel(
     private val getMarksReportUseCase: GetMarksReportUseCase,
-    private val getRatingClassDeanonUseCase: GetRatingClassDeanonUseCase,
+    private val getOverallRatingDeanonUseCase: GetOverallRatingDeanonUseCase,
     private val getScheduleItemIdFromMarkUseCase: GetScheduleItemIdFromMarkUseCase
 ) : BaseViewModel<MarksScreenState, MarksScreenAction>() {
     override fun setInitialState(): MarksScreenState = MarksScreenState(
@@ -50,7 +50,7 @@ class MarksScreenViewModel(
 
     fun getRatingClass(refresh: Boolean = false) = viewModelScope.launch {
         processDataFromUseCase(
-            useCase = getRatingClassDeanonUseCase(),
+            useCase = getOverallRatingDeanonUseCase(),
             resultReducer = { this },
             loadingType = LoadingState.fromBool(refresh),
             onNotLoggedIn = { setAction { MarksScreenAction.NavigateToLoginScreen } },
