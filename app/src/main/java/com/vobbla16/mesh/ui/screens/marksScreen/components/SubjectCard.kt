@@ -1,8 +1,7 @@
 package com.vobbla16.mesh.ui.screens.marksScreen.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,7 +26,6 @@ import com.vobbla16.mesh.domain.model.marks.MarksSubjectModel
 import com.vobbla16.mesh.domain.model.marks.Period
 import kotlinx.datetime.LocalDate
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SubjectCard(
     subject: MarksSubjectModel,
@@ -39,8 +37,7 @@ fun SubjectCard(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            FlowRow(
-                horizontalArrangement = Arrangement.SpaceBetween,
+            Column(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .weight(1f)
@@ -87,7 +84,7 @@ fun SubjectCard(
                 Text(
                     text = stringResource(id = R.string.no_marks),
                     style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.padding(4.dp, 0.dp)
+                    modifier = Modifier.padding(8.dp, 0.dp)
                 )
             }
         }
