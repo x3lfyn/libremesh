@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
@@ -65,58 +67,60 @@ fun HomeworkTabUI(
         onRetry = onRetry,
         modifier = Modifier.padding(4.dp)
     ) { model ->
-        model.homeworks.forEachIndexed { index, homework ->
-            Column {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    if(homework.id in state.loadingMarkHomeworkIds){
-                        CircularProgressIndicator(modifier = Modifier.scale(0.6f).size(48.dp))
-                    } else {
-                        Checkbox(
-                            checked = homework.isDone,
-                            onCheckedChange = {
-                                onToggleDone(homework)
-                            }
-                        )
+        LazyColumn {
+            itemsIndexed(model.homeworks) { index, homework ->
+                Column {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        if (homework.id in state.loadingMarkHomeworkIds) {
+                            CircularProgressIndicator(modifier = Modifier.scale(0.6f).size(48.dp))
+                        } else {
+                            Checkbox(
+                                checked = homework.isDone,
+                                onCheckedChange = {
+                                    onToggleDone(homework)
+                                }
+                            )
+                        }
+                        Text(text = homework.name)
                     }
-                    Text(text = homework.name)
-                }
-                homework.additionMaterials.forEach { material ->
-                    when (material) {
-                        is AdditionalMaterial.Attachment -> {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                modifier = Modifier.padding(8.dp, 0.dp).offset(0.dp, (-10).dp)
-                            ) {
-                                Text(
-                                    text = material.title,
-                                    style = MaterialTheme.typography.labelMedium,
-                                    modifier = Modifier.weight(1f)
-                                )
-                                IconButton(onClick = {
-                                    scope.launch {
-                                        val browserIntent = Intent(
-                                            Intent.ACTION_VIEW,
-                                            Uri.parse(material.links.first())
-                                        )
-                                        context.startActivity(browserIntent)
-                                    }
-                                }) {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.download),
-                                        contentDescription = "download icon"
+                    homework.additionMaterials.forEach { material ->
+                        when (material) {
+                            is AdditionalMaterial.Attachment -> {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    modifier = Modifier.padding(8.dp, 0.dp).offset(0.dp, (-10).dp)
+                                ) {
+                                    Text(
+                                        text = material.title,
+                                        style = MaterialTheme.typography.labelMedium,
+                                        modifier = Modifier.weight(1f)
                                     )
+                                    IconButton(onClick = {
+                                        scope.launch {
+                                            val browserIntent = Intent(
+                                                Intent.ACTION_VIEW,
+                                                Uri.parse(material.links.first())
+                                            )
+                                            context.startActivity(browserIntent)
+                                        }
+                                    }) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.download),
+                                            contentDescription = "download icon"
+                                        )
+                                    }
                                 }
                             }
-                        }
 
-                        else -> {}
+                            else -> {}
+                        }
                     }
-                }
-                if (index != model.homeworks.size - 1) {
-                    HorizontalDivider(modifier = Modifier.padding(3.dp, 2.dp))
+                    if (index != model.homeworks.size - 1) {
+                        HorizontalDivider(modifier = Modifier.padding(3.dp, 2.dp))
+                    }
                 }
             }
         }

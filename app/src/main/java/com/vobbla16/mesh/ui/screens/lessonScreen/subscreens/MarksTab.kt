@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material3.Card
@@ -53,71 +55,73 @@ fun MarksTabUI(state: LessonScreenState, onRetry: () -> Unit, onRefresh: () -> U
         onRetry = onRetry,
         modifier = Modifier.padding(4.dp)
     ) { model ->
-        model.marks.forEach { mark ->
-            Card(modifier = Modifier.padding(1.dp, 2.dp)) {
-                Column(Modifier.padding(5.dp)) {
-                    Row(
-                        modifier = Modifier.padding(2.dp, 0.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        MarkDefault(
-                            mark = mark.toMarkDefaultValue(),
-                            modifier = Modifier.padding(2.dp)
-                        )
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(6.dp, 0.dp)
+        LazyColumn {
+            items(model.marks) { mark ->
+                Card(modifier = Modifier.padding(1.dp, 2.dp)) {
+                    Column(Modifier.padding(5.dp)) {
+                        Row(
+                            modifier = Modifier.padding(2.dp, 0.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            mark.controlForm?.let {
-                                Text(text = it, style = MaterialTheme.typography.labelLarge)
-                            }
-                            if (mark.isExam) {
-                                Text(
-                                    text = stringResource(R.string.lesson_screen_mark_exam),
-                                    style = MaterialTheme.typography.labelMedium,
-                                    color = MaterialTheme.colorScheme.error
-                                )
-                            }
-                            mark.pointDate?.let { pointDate ->
-                                Text(
-                                    text = "${stringResource(R.string.lesson_screen_point_until)} ${pointDate.toStr()}",
-                                    style = MaterialTheme.typography.labelMedium
-                                )
+                            MarkDefault(
+                                mark = mark.toMarkDefaultValue(),
+                                modifier = Modifier.padding(2.dp)
+                            )
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(6.dp, 0.dp)
+                            ) {
+                                mark.controlForm?.let {
+                                    Text(text = it, style = MaterialTheme.typography.labelLarge)
+                                }
+                                if (mark.isExam) {
+                                    Text(
+                                        text = stringResource(R.string.lesson_screen_mark_exam),
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = MaterialTheme.colorScheme.error
+                                    )
+                                }
+                                mark.pointDate?.let { pointDate ->
+                                    Text(
+                                        text = "${stringResource(R.string.lesson_screen_point_until)} ${pointDate.toStr()}",
+                                        style = MaterialTheme.typography.labelMedium
+                                    )
+                                }
                             }
                         }
-                    }
-                    mark.comment?.let {
+                        mark.comment?.let {
+                            Text(
+                                text = buildAnnotatedString {
+                                    appendInlineContent("quotes")
+                                    append(it)
+                                }, inlineContent = mapOf("quotes" to InlineTextContent(
+                                    Placeholder(
+                                        20.sp,
+                                        18.sp,
+                                        PlaceholderVerticalAlign.AboveBaseline
+                                    )
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.format_quote),
+                                        contentDescription = "quotes icon",
+                                        modifier = Modifier.scale(0.9f)
+                                    )
+                                }),
+                                style = MaterialTheme.typography.labelLarge,
+                                modifier = Modifier.padding(4.dp, 4.dp)
+                            )
+                        }
                         Text(
-                            text = buildAnnotatedString {
-                                appendInlineContent("quotes")
-                                append(it)
-                            }, inlineContent = mapOf("quotes" to InlineTextContent(
-                                Placeholder(
-                                    20.sp,
-                                    18.sp,
-                                    PlaceholderVerticalAlign.AboveBaseline
-                                )
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.format_quote),
-                                    contentDescription = "quotes icon",
-                                    modifier = Modifier.scale(0.9f)
-                                )
-                            }),
-                            style = MaterialTheme.typography.labelLarge,
-                            modifier = Modifier.padding(4.dp, 4.dp)
-                        )
-                    }
-                    Text(
-                        text = "${stringResource(R.string.lesson_screen_mark_created_at)} ${mark.createdAt.toStr()}",
-                        style = MaterialTheme.typography.labelMedium
-                    )
-                    if (mark.createdAt != mark.updatedAt) {
-                        Text(
-                            text = "${stringResource(R.string.lesson_screen_mark_updated_at)} ${mark.updatedAt.toStr()}",
+                            text = "${stringResource(R.string.lesson_screen_mark_created_at)} ${mark.createdAt.toStr()}",
                             style = MaterialTheme.typography.labelMedium
                         )
+                        if (mark.createdAt != mark.updatedAt) {
+                            Text(
+                                text = "${stringResource(R.string.lesson_screen_mark_updated_at)} ${mark.updatedAt.toStr()}",
+                                style = MaterialTheme.typography.labelMedium
+                            )
+                        }
                     }
                 }
             }

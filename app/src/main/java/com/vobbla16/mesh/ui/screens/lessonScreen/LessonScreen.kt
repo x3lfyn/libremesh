@@ -13,17 +13,22 @@ import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -45,6 +50,7 @@ import com.vobbla16.mesh.R
 import com.vobbla16.mesh.common.toShortLocalizedStr
 import com.vobbla16.mesh.domain.model.common.LessonSelector
 import com.vobbla16.mesh.ui.screens.destinations.LoginScreenDestination
+import com.vobbla16.mesh.ui.screens.destinations.SubjectScreenDestination
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -81,8 +87,7 @@ fun LessonScreen(
                     is LessonScreenAction.ErrorHomeworkMarkDone -> {
                         mainVM.viewState.value.snackbarHostState.showSnackbar(
                             ctx.getString(
-                                R.string.failed_to_mark_homework_done,
-                                action.err
+                                R.string.failed_to_mark_homework_done, action.err
                             )
                         )
                     }
@@ -90,8 +95,7 @@ fun LessonScreen(
                     is LessonScreenAction.ErrorHomeworkMarkUndone -> {
                         mainVM.viewState.value.snackbarHostState.showSnackbar(
                             ctx.getString(
-                                R.string.failed_to_mark_homework_undone,
-                                action.err
+                                R.string.failed_to_mark_homework_undone, action.err
                             )
                         )
                     }
@@ -103,21 +107,43 @@ fun LessonScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    state.lessonInfo.data?.subjectName?.let { subjName ->
-                        Text(text = subjName, modifier = Modifier.basicMarquee())
-                    }
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navigator.navigateUp() }) {
+            TopAppBar(title = {
+                state.lessonInfo.data?.subjectName?.let { subjName ->
+                    Text(text = subjName, modifier = Modifier.basicMarquee())
+                }
+            }, navigationIcon = {
+                IconButton(onClick = { navigator.navigateUp() }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "go back"
+                    )
+                }
+            }, actions = {
+                TooltipBox(
+                    positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                    tooltip = {
+                        PlainTooltip {
+                            Text(stringResource(R.string.lesson_screen_all_marks_for_this_subject))
+                        }
+                    },
+                    state = rememberTooltipState()
+                ) {
+                    IconButton(onClick = {
+                        state.lessonInfo.data?.subjectId?.let {
+                            navigator.navigate(
+                                SubjectScreenDestination(
+                                    subjectId = it
+                                )
+                            )
+                        }
+                    }) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "go back"
+                            imageVector = Icons.Filled.CheckCircle,
+                            contentDescription = stringResource(R.string.lesson_screen_all_marks_for_this_subject)
                         )
                     }
-                },
-                scrollBehavior = scrollBehavior
+                }
+            }, scrollBehavior = scrollBehavior
             )
         },
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),

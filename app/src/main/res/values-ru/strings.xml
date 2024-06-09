@@ -55,4 +55,7 @@
     <string name="lesson_screen_no_homework">Нет задания</string>
     <string name="failed_to_mark_homework_done">"Невозможно пометить Д/З выполненным: %1$s "</string>
     <string name="failed_to_mark_homework_undone">"Невозможно пометить Д/З невыполненным: %1$s "</string>
+    <string name="subject_screen_no_rating">Нет рейтинга</string>
+    <string name="lesson_screen_all_marks_for_this_subject">Все оценки по этому предмету</string>
+    <string name="schedule_screen_select_day">Выбрать день</string>
 </resources>

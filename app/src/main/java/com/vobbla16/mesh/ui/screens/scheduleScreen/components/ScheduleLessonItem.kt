@@ -118,10 +118,13 @@ fun ScheduleLessonItem(
                 FlowRow(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(2.dp, 6.dp, 2.dp, 2.dp)
                 ) {
                     activity.marks.forEach { mark ->
-                        MarkDefault(mark = mark.toMarkDefaultValue(), size = MarkDefaultSize.Small)
+                        MarkDefault(
+                            mark = mark.toMarkDefaultValue(),
+                            size = MarkDefaultSize.Small,
+                            modifier = Modifier.padding(4.dp, 2.dp)
+                        )
                     }
                 }
             }
